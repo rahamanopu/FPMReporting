@@ -376,4 +376,4 @@ $config['img'] =  $config['base_url'].APPPATH.'assets/images';
 /* Location: ./application/config/config.php */
 
 /* from email */
-$config['softwarename'] = 'FME Reporting';
+$config['softwarename'] = 'FPM Reporting';
