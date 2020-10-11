@@ -238,13 +238,14 @@ CLASS Setup extends MY_Controller {
         $setupModel = new SetupModel();     
         if (!empty($_POST)) {
             $productCode =  trim($this->input->post('ExistingProductCode'));
+            $newProductCode = trim($this->input->post('ProductCode'));
 
-            if($productCode !='' && !empty($setupModel->getProductByCode)) {
-                setFlashMsg("Product Already Exist with this Product Code: ".$productCode,'error');
+            if($productCode =='' && !empty($setupModel->getProductByCode($newProductCode))) {
+                setFlashMsg("Product Already Exist with this Product Code: ".$newProductCode,'error');
                 return redirect('setup/product-add');
                 
             }
-            $dataToAdd['ProductCode'] = trim($this->input->post('ProductCode'));
+            $dataToAdd['ProductCode'] = $newProductCode;
             $dataToAdd['ProductCodeSystem'] = trim($this->input->post('ProductCodeSystem'));
             $dataToAdd['SMSCODE'] = trim($this->input->post('SMSCODE'));
             $dataToAdd['ProductName'] = trim($this->input->post('ProductName'));

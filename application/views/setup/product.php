@@ -9,7 +9,8 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading panel-heading-transparent">
-                        <strong>Product List</strong>
+                        <strong>Product List1</strong>
+                        <a href="<?php echo base_url().'setup/product-add'?>" class="btn btn-danger btn-sm" style="float: right;">Add Product</a>
                     </div>
                     <?php echo getFlashMsg(); ?>
 
