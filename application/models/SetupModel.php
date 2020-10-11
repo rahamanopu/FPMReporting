@@ -70,6 +70,37 @@ class SetupModel extends CI_Model {
 
         return $this->fetchData($sql);
     }
+
+    public function getProductByCode($productCode) {
+        $sql = "select P.*  
+                    from Product P
+                    join Business B on B.Business = p.Business
+                    join ProdBrand PB on P.BrandCode = PB.BrandCode
+                    where ProductCode='$productCode'";
+        $query =  $this->db->query($sql);
+        if($query && !empty($result = $query->result_array())) {
+            return $result[0];
+        }
+        return [];
+    }
+    public function getProductBrand(){
+        $sql = "select * from ProdBrand";
+        $query =  $this->db->query($sql);
+        if($query){
+            return $query->result_array();
+        }
+        return [];
+    }
+    
+    public function getBusiness(){
+        $sql = "select * from Business";
+        $query =  $this->db->query($sql);
+        if($query){
+            return $query->result_array();
+        }
+        return [];
+    }
+
     public function getProductList()
     {
         $sql = "select P.ProductCode, P.SMSCODE, P.ProductName,	P.Capacity,	P.BrandCode, P.PakageRetailerUnitPrice, P.PakageRetailerVAT, P.PakageMRP,PB.BrandName  

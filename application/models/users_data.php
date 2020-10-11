@@ -48,7 +48,7 @@ class Users_data extends CI_Model {
                         ON M.MenuId = U.MenuId
                 WHERE M.Active = 'Y'    
                     AND U.UserId = '$userid'
-                ORDER BY MenuName, MenuOrder
+                ORDER BY MenuOrder
                 ";    
                      //echo $sql; exit(); // ORDER BY 2    exit();
 

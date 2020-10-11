@@ -47,6 +47,7 @@ $route["setup/distributor"] = "Setup/distributor";
 $route["setup/distributor-data"] = "Setup/distributorData";
 $route["setup/product"] = "Setup/product";
 $route["setup/product-data"] = "Setup/productData";
+$route["setup/product-add(/:any)?"] = "Setup/addProduct$1";
 // Plant
 $route["setup/plant(:num?)"] = "Setup/plant$1";
 $route["setup/plant-data"] = "Setup/plantData";

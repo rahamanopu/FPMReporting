@@ -11,6 +11,7 @@
                     <div class="panel-heading panel-heading-transparent">
                         <strong>Product List</strong>
                     </div>
+                    <?php echo getFlashMsg(); ?>
 
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -26,6 +27,7 @@
                                     <th>VAT</th>
                                     <th>MRP</th>
                                     <th>Brand Name</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>

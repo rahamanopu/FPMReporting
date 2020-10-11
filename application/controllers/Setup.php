@@ -182,7 +182,11 @@ CLASS Setup extends MY_Controller {
             // dynamically add column
             foreach ($row as $key) {
                 $subArray[] = $key;
-            }
+            }            
+            $subArray[] = "<a href='".base_url()."setup/product-add/".$row['ProductCode']."' class='btn btn-sm btn-info'><i class='fa fa-edit'> Edit</a>";
+
+        
+
             $data[] = $subArray;
         }
         echo json_encode($this->prepareDataTableOutput($data,$result['count']));
@@ -227,6 +231,83 @@ CLASS Setup extends MY_Controller {
         }
         echo json_encode($this->prepareDataTableOutput($data,$result['count']));
     }
+
+    // To add Product
+
+    public function addProduct($productCode='') {   
+        $setupModel = new SetupModel();     
+        if (!empty($_POST)) {
+            $productCode =  trim($this->input->post('ExistingProductCode'));
+
+            if($productCode !='' && !empty($setupModel->getProductByCode)) {
+                setFlashMsg("Product Already Exist with this Product Code: ".$productCode,'error');
+                return redirect('setup/product-add');
+                
+            }
+            $dataToAdd['ProductCode'] = trim($this->input->post('ProductCode'));
+            $dataToAdd['ProductCodeSystem'] = trim($this->input->post('ProductCodeSystem'));
+            $dataToAdd['SMSCODE'] = trim($this->input->post('SMSCODE'));
+            $dataToAdd['ProductName'] = trim($this->input->post('ProductName'));
+            $dataToAdd['Capacity'] = trim($this->input->post('Capacity'));
+            $dataToAdd['BrandCode'] = trim($this->input->post('BrandCode'));
+            $dataToAdd['EmptyDealerUnitPrice'] = trim($this->input->post('EmptyDealerUnitPrice'));
+            $dataToAdd['EmptyDealerVAT'] = trim($this->input->post('EmptyDealerVAT'));
+            $dataToAdd['EmptyRetailerUnitPrice'] = trim($this->input->post('EmptyRetailerUnitPrice'));
+            $dataToAdd['EmptyRetailerVAT'] = trim($this->input->post('EmptyRetailerVAT'));
+            $dataToAdd['EmptyMRP'] = trim($this->input->post('EmptyMRP'));
+            $dataToAdd['PakageDealerUnitPrice'] = trim($this->input->post('PakageDealerUnitPrice'));
+            $dataToAdd['PakageDealerVAT'] = trim($this->input->post('PakageDealerVAT'));
+            $dataToAdd['PakageRetailerUnitPrice'] = trim($this->input->post('PakageRetailerUnitPrice'));
+            $dataToAdd['PakageRetailerVAT'] = trim($this->input->post('PakageRetailerVAT'));
+            $dataToAdd['PakageMRP'] = trim($this->input->post('PakageMRP'));
+            $dataToAdd['RefillDealerUnitPrice'] = trim($this->input->post('RefillDealerUnitPrice'));
+            $dataToAdd['RefillDealerVAT'] = trim($this->input->post('RefillDealerVAT'));
+            $dataToAdd['RefillRetailerUnitPrice'] = trim($this->input->post('RefillRetailerUnitPrice'));
+            $dataToAdd['RefillRetailerVAT'] = trim($this->input->post('RefillRetailerVAT'));
+            $dataToAdd['RefillMRP'] = trim($this->input->post('RefillMRP'));
+            $dataToAdd['Business'] = trim($this->input->post('Business'));
+            $dataToAdd['Active'] = trim($this->input->post('Active'));
+
+            if ($productCode !='') {
+                $dataToAdd['EditedBy']= $this->session->userdata('userid');
+                $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                $dataToAdd['EditedDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+                $status = $this->db->update('Product', $dataToAdd, ['ProductCode'=> $productCode]);
+                if ($status) {
+                    setFlashMsg("Updated Successfully");
+                    return redirect('setup/product');
+                }
+                setFlashMsg("Failed to Updated","error");
+                return redirect('setup/product-add/'.$productCode);
+            } else {
+                $dataToAdd['EntryBy']= $this->session->userdata('userid');
+                $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                $dataToAdd['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+                $status = $this->db->insert('Product', $dataToAdd);
+                if ($status) {
+                    setFlashMsg("Added Successfully");
+                }
+            }
+            return redirect('setup/product-add');
+            
+        }
+        $data = [];
+        $data['businesses'] = $setupModel->getBusiness();
+        $data['brands'] = $setupModel->getProductBrand();
+        // echo '<pre>',print_r($data['brands']);die();
+        $data['pageTitle'] = "Product Entry";
+        if($productCode!='') {
+            $data['product'] = $setupModel->getProductByCode($productCode);
+            $data['pageTitle'] = "Product Edit";
+        }
+
+        $this->loadView('setup/product_add',$data);
+    }
+
 
     public function addPlant() {
 //        echo "<pre>",print_r($_POST);die();
