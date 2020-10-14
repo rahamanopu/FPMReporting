@@ -71,6 +71,22 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
         }
     }
     ?>
+    
+    <li class="sarah-has-menu <?php if($segment == 'attendance'){ ?> active <?php } ?>">
+        <a href="javascript:void(0)">
+            <i class="fa fa-sitemap"></i>
+            <span class="menu-text">Report</span>
+            <span class="selected"></span>
+        </a>
+        <ul class="sarah-sub-menu">
+            <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>attendance/attendancereport">
+                    <span class="menu-text">Attendance Report</span>
+                    <span class="selected"></span>
+                </a>
+            </li> 
+        </ul>
+    </li>
 
     <li>
         <a href="<?php echo base_url(); ?>authenticate/logout">

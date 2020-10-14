@@ -38,6 +38,7 @@ class Authenticate extends CI_Controller {
             $this->session->set_userdata('emp_name',    $row['UserName']);
             $this->session->set_userdata('designition', $row['Designition']);
             $this->session->set_userdata('usertype',    $row['UserType']);
+            $this->session->set_userdata('levelCode',    $row['LevelCode']);
             //exit();
             //$this->session->set_userdata('menu', $usermenu);
             file_put_contents("assets/temp/usermenu_" . $userid . ".tmp", serialize($usermenu));
