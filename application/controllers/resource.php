@@ -13,20 +13,20 @@ CLASS Resource extends MY_Controller {
     }
     
     
-    public function loadregion(){
-        $subbusiness = 'Y';
-        $data['levelCode'] = $this->session->userdata('levelCode');
-        $data['designation'] = $this->session->userdata('designation');
-        $userlevel = getUserLevel($data['designation']);        
-        $regioninfo = $this->common_data->getUserRegion($subbusiness, $userlevel, $data['levelCode']);        
-        echo json_encode($regioninfo);
-    }
+    // public function loadregion(){
+    //     $subbusiness = 'Y';
+    //     $data['levelCode'] = $this->session->userdata('levelCode');
+    //     $data['designation'] = $this->session->userdata('designation');
+    //     $userlevel = getUserLevel($data['designation']);        
+    //     $regioninfo = $this->common_data->getUserRegion($subbusiness, $userlevel, $data['levelCode']);        
+    //     echo json_encode($regioninfo);
+    // }
     
     public function loadarea(){
         $regioninfo = $this->input->get_post('regioncode',true);
         $data['levelCode'] = $this->session->userdata('levelCode');
         $data['designation'] = $this->session->userdata('designation');
-        $userlevel = getUserLevel($data['designation']);    
+        $userlevel = $this->session->userdata('userLevel');    
         $areainfo = $this->common_data->getUserArea($regioninfo, $userlevel, $data['levelCode']);        
         echo json_encode($areainfo);
     }
@@ -34,7 +34,7 @@ CLASS Resource extends MY_Controller {
     public function loadterritory(){
         $data['levelCode'] = $this->session->userdata('levelCode');
         $data['designation'] = $this->session->userdata('designation');
-        $userlevel = getUserLevel($data['designation']);    
+        $userlevel = $this->session->userdata('userLevel');
         $areacode = $this->input->get_post('areacode',true);
         $territoryinfo = $this->common_data->getUserTerritory($areacode, $userlevel, $data['levelCode']);        
         echo json_encode($territoryinfo);

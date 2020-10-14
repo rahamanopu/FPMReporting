@@ -22,7 +22,7 @@ CLASS Attendance extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');
         $data['pagetitel'] = 'Attendance Summary Report';
-        $userlevel = getUserLevel($data['designation']);
+        $userlevel = $this->session->userdata('userLevel');;
         $data['postperiod'] = date('F y');
         
         $commonData = new Common_data();
