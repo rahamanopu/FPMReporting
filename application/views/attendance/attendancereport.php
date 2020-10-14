@@ -100,8 +100,8 @@ if (!empty($periodformat)) {
                                             foreach ($fmelist AS $row){
                                         ?>
                                             <option 
-                                                <?php if(!empty($_POST['fmecode']) AND $row['Level1'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['Level1']; ?>"><?php echo $row['Level1'].' '.$row['Level1Name']; ?></option>
+                                                <?php if(!empty($_POST['fmecode']) AND $row['Level1StaffID'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
+                                                value="<?php echo $row['Level1StaffID']; ?>"><?php echo $row['Level1Name']; ?></option>
                                         <?php 
                                             }
                                         }  

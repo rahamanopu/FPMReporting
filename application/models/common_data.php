@@ -40,13 +40,13 @@ class Common_data extends CI_Model {
             $sql = "SELECT 
                     DISTINCT Level2, Level2Name 
                 FROM ViewLevels 
-                WHERE Level2 IN (SELECT DISTINCT Level2 FROM ViewLevels WHERE (Level3 = '$regioncode')) 
+                WHERE Level2 IN (SELECT DISTINCT Level2 FROM ViewLevels WHERE Level3 = '$regioncode') 
                     AND Active = 'Y' ORDER BY Level2 ";
         }else{
             $sql = "SELECT 
                     DISTINCT Level2, Level2Name 
                 FROM ViewLevels 
-                WHERE Level2 IN (SELECT DISTINCT Level2 FROM ViewLevels WHERE (Level3 = '$regioncode') ) 
+                WHERE Level2 IN (SELECT DISTINCT Level2 FROM ViewLevels WHERE Level3 = '$regioncode') 
                         AND ($userlevel = '$levelCode')
                         AND Active = 'Y' ORDER BY Level2 ";
         }
@@ -62,17 +62,17 @@ class Common_data extends CI_Model {
     public function getUserTerritory($areacode, $userlevel, $salescode){
         if($userlevel == ''){
             $sql = "SELECT 
-                    DISTINCT Level1, Level1Name 
+                    DISTINCT Level1StaffID, Level1Name 
                 FROM ViewLevels 
                 WHERE Level1 IN (SELECT DISTINCT Level1 FROM ViewLevels WHERE Level2 = '$areacode') 
-                        AND Active = 'Y'  ORDER BY Level1 ";
+                        AND Active = 'Y'  ORDER BY Level1StaffID ";
         }else{
             $sql = "SELECT 
-                    DISTINCT Level1, Level1Name 
+                    DISTINCT Level1StaffID, Level1Name 
                 FROM ViewLevels 
                 WHERE Level1 IN (SELECT DISTINCT Level1 FROM ViewLevels WHERE Level2 = '$areacode') 
                         AND ($userlevel = '$salescode')
-                        AND Active = 'Y'  ORDER BY Level1  ";
+                        AND Active = 'Y'  ORDER BY Level1StaffID  ";
         }
             
         $result['success'] = false;

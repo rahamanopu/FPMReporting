@@ -13,7 +13,7 @@ class Attendance_data extends CI_Model {
     
     public function getUserMonthlyAttendanceDetails($period, $levelcode){                 
         $success = true;
-        $sql = " EXEC usp_doLoadAttendanceReport '$period','$levelcode' "; 
+        $sql = " EXEC usp_doLoadAttendanceReport '$period','$levelcode' ";         
         $query = $this->db->query($sql);  
         //echo "<pre />"; print_r($query->result_array()); exit();              
         $e = $this->db->_error_message();                

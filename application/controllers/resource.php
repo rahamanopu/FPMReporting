@@ -25,7 +25,6 @@ CLASS Resource extends MY_Controller {
     public function loadarea(){
         $regioninfo = $this->input->get_post('regioncode',true);
         $data['levelCode'] = $this->session->userdata('levelCode');
-        $data['designation'] = $this->session->userdata('designation');
         $userlevel = $this->session->userdata('userLevel');    
         $areainfo = $this->common_data->getUserArea($regioninfo, $userlevel, $data['levelCode']);        
         echo json_encode($areainfo);

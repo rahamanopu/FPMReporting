@@ -43,7 +43,7 @@ CLASS Attendance extends MY_Controller {
             $datas = $this->attendance_data->getUserMonthlyAttendanceDetails(
                         $data['periodformat'], $data['fmecode']);
                 $data['summary']        = $datas['summary'];
-                $data['detailsdata']    = $datas['detailsdata'];
+                $data['detailsdata']    = $datas['detailsdata'];                
         }
 
         $this->loadView('attendance/attendancereport',$data);
