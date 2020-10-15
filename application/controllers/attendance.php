@@ -10,8 +10,6 @@ CLASS Attendance extends MY_Controller {
         $this->load->helper('ri');
         $this->load->model('common_data');
         $this->load->model('attendance_data');
-        $designation = $this->session->userdata('designation');
-        $this->userlevel = getUserLevel($designation);
     }
 
     function attendancereport() {

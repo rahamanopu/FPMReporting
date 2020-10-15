@@ -377,3 +377,5 @@ $config['img'] =  $config['base_url'].APPPATH.'assets/images';
 
 /* from email */
 $config['softwarename'] = 'FPM Reporting';
+
+$config['app_image_base_url'] ='http://apps.acibd.com/apps/tsi/';

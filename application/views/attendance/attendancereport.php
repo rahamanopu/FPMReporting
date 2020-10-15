@@ -19,7 +19,6 @@
 </script>
 
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
-<!-- <script src="<?php echo base_url(); ?>assets/js/myplan.js"></script> -->
 
 <?php
 $segment3 = $this->uri->segment(2);
@@ -61,7 +60,7 @@ if (!empty($periodformat)) {
                                         ?>
                                             <option 
                                                 <?php if(!empty($_POST['regioncode']) AND $row['Level3'] == $_POST['regioncode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['Level3']; ?>"><?php echo $row['Level3Name']; ?></option>
+                                                value="<?php echo $row['Level3']; ?>"><?php echo $row['Level3'].' - '.$row['Level3Name']; ?></option>
                                         <?php 
                                             }
                                         } 
@@ -81,7 +80,7 @@ if (!empty($periodformat)) {
                                         ?>
                                             <option 
                                                 <?php if(!empty($_POST['areacode']) AND $row['Level2'] == $_POST['areacode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['Level2']; ?>"><?php echo $row['Level2'].' '.$row['Level2Name']; ?></option>
+                                                value="<?php echo $row['Level2']; ?>"><?php echo $row['Level2'].' - '.$row['Level2Name']; ?></option>
                                         <?php 
                                             }
                                         }  
@@ -101,7 +100,7 @@ if (!empty($periodformat)) {
                                         ?>
                                             <option 
                                                 <?php if(!empty($_POST['fmecode']) AND $row['Level1'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['Level1']; ?>"><?php echo $row['Level1Name']; ?></option>
+                                                value="<?php echo $row['Level1']; ?>"><?php echo $row['Level1'].' - '.$row['Level1Name']; ?></option>
                                         <?php 
                                             }
                                         }  
@@ -187,7 +186,15 @@ if (!empty($periodformat)) {
                                             }
 
                                         }else{ 
-                                            echo "<td>" . $value."</td>"; 
+
+                                            if(($j==5 || $j==6)) {
+                                                ?>
+                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px"></td>
+                                                <?php
+                                            } else {
+                                                echo "<td>" . $value."</td>"; 
+                                            }
+                                            
                                         }
                                     } 
                                 ?>
@@ -219,7 +226,7 @@ if (!empty($periodformat)) {
                                                     <td><?php echo $row['AttendanceTime']; ?></td>
                                                     <td><?php echo $row['AttendanceType']; ?></td>
                                                     <td><?php echo $row['Location']; ?></td>
-                                                    <td><?php echo $row['ImageFile']; ?></td>
+                                                    <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$row['ImageFile']; ?>" alt="attendance img" style="height:200px"></td>
                                                 </tr>
                                                 <?php
                                                 }
