@@ -51,7 +51,7 @@ function doChangeTerritory(areacode){
                 $("#fmecode").append(new Option('', ''));
             }
             for(i = 0; i < response.length; i++){
-                $("#fmecode").append(new Option(response[i]['Level1StaffID'] + ' - ' + response[i]['Level1Name'], response[i]['Level1StaffID']));
+                $("#fmecode").append(new Option(response[i]['Level1'] + ' - ' + response[i]['Level1Name'], response[i]['Level1']));
             }          
            
         },

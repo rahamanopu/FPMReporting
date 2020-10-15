@@ -62,17 +62,17 @@ class Common_data extends CI_Model {
     public function getUserTerritory($areacode, $userlevel, $salescode){
         if($userlevel == ''){
             $sql = "SELECT 
-                    DISTINCT Level1StaffID, Level1Name 
+                    DISTINCT Level1, Level1Name 
                 FROM ViewLevels 
                 WHERE Level1 IN (SELECT DISTINCT Level1 FROM ViewLevels WHERE Level2 = '$areacode') 
-                        AND Active = 'Y'  ORDER BY Level1StaffID ";
+                        AND Active = 'Y'  ORDER BY Level1";
         }else{
             $sql = "SELECT 
-                    DISTINCT Level1StaffID, Level1Name 
+                    DISTINCT Level1, Level1Name 
                 FROM ViewLevels 
                 WHERE Level1 IN (SELECT DISTINCT Level1 FROM ViewLevels WHERE Level2 = '$areacode') 
                         AND ($userlevel = '$salescode')
-                        AND Active = 'Y'  ORDER BY Level1StaffID  ";
+                        AND Active = 'Y'  ORDER BY Level1";
         }
             
         $result['success'] = false;

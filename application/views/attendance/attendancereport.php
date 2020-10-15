@@ -18,7 +18,7 @@
     }
 </script>
 
-<script src="<?php echo base_url(); ?>assets/js/callbusiness.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
 <!-- <script src="<?php echo base_url(); ?>assets/js/myplan.js"></script> -->
 
 <?php
@@ -100,8 +100,8 @@ if (!empty($periodformat)) {
                                             foreach ($fmelist AS $row){
                                         ?>
                                             <option 
-                                                <?php if(!empty($_POST['fmecode']) AND $row['Level1StaffID'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['Level1StaffID']; ?>"><?php echo $row['Level1Name']; ?></option>
+                                                <?php if(!empty($_POST['fmecode']) AND $row['Level1'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
+                                                value="<?php echo $row['Level1']; ?>"><?php echo $row['Level1Name']; ?></option>
                                         <?php 
                                             }
                                         }  
