@@ -160,6 +160,26 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/common_report',$data);
     }
 
+    public function userLocation() {
+        $level = $this->input->get('level');
+        $date = $this->input->get('date');
+        $locationData =  $datas = $this->report_data->getUserLocation($level,$date);
+        $markersOnMap = [];
+
+        foreach($locationData as $locData){
+            $markersOnMap[] = [
+                'placeName'=> '',
+                'LatLng'=> [
+                    [
+                        'lat'=> floatval($locData['Latitude']),
+                        'lng'=> floatval($locData['Longitude'])
+                    ]
+                ],                                                   
+            ];                        
+        }
+        echo json_encode($markersOnMap);
+    }
+
 }
 
 ?>

@@ -59,5 +59,21 @@ class Report_data extends CI_Model {
         }       
         return $data;
     }
+    public function getUserLocation($level1,$date){                 
+        $sql = "SELECT U.* 
+            FROM UserLocation U
+            INNER JOIN ViewLevels L
+                ON U.UserId = L.Level1StaffID
+            WHERE ServerTime BETWEEN '$date' AND '$date 23:59:59.000'
+                AND (L.Level1 = '$level1')";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
       
 }

@@ -181,8 +181,12 @@ if (!empty($periodformat)) {
                                         style="cursor: pointer;"
                                         src="<?php echo base_url(); ?>assets/icon/details_open.png"></td>
                                 <?php
+                                $date = '';
                                 for ($j = 0; $j < count($index); $j++) {
-                                    $value = $arrayvalue[$j];                                        
+                                    $value = $arrayvalue[$j];   
+                                    if($date=='') {
+                                        $date =$arrayvalue[0];                                   
+                                    }
                                         if (is_numeric($value)) { 
                                             if($j > 11){
                                                 echo "<td style='text-align: right;'>" . number_format($value,1)."</td>"; 
@@ -203,7 +207,7 @@ if (!empty($periodformat)) {
                                         }
                                     } 
                                 ?>
-                                <td><button type="button" data-btn_index="<?php echo $i;?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
+                                <td><button type="button" data-date="<?php echo date('Y-m-d',strtotime($date));?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
                             </tr>
                             <tr>
                                 <td colspan="10" style="display: none;" id="divhide<?php echo $count; ?>">
@@ -226,32 +230,16 @@ if (!empty($periodformat)) {
                                             $countin = 0;
                                             if(!empty($filterdata)){
                                                 $filterDataLength = count($filterdata);
-                                                $markersOnMap = [];
+                                               
                                                 foreach($filterdata as $row){ 
                                                     $countin++;
-                                                    // Making maps properties
-                                                $markersOnMap[] =
-                                                [
-                                                    'placeName'=> $row['Location'],
-                                                    'LatLng'=> [
-                                                        [
-                                                            'lat'=> floatval($row['Latitude']),
-                                                            'lng'=> floatval($row['Longitude'])
-                                                        ]
-                                                    ],                                                   
-                                                ];
 
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $countin; ?></td>
                                                     <td><?php echo $row['AttendanceTime']; ?></td>
                                                     <td><?php echo $row['AttendanceType']; ?></td>
-                                                    <td><?php echo $row['Location']; 
-                                                    if ($filterDataLength==$countin) {
-                                                        ?>
-                                                    <input type="hidden" value='<?php echo json_encode($markersOnMap); ?>'' name="markersOnMap_<?php echo $i?>" id="markersOnMap_<?php echo $i?>">
-                                                    <?php
-                                                    }?>
+                                                    <td><?php echo $row['Location']; ?>
                                                 </td>
                                                     
                                                     <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$row['ImageFile']; ?>" alt="attendance img" style="height:200px;height:100px"></td>
@@ -289,7 +277,7 @@ if (!empty($periodformat)) {
         <h4 class="modal-title">Attendance Location</h4>
       </div>
       <div class="modal-body">
-        <p>Attendnce in the following location</p>
+        <p id="mapLoadingText">Loading Map ...</p>
         <div id="map" style="width: 100%; height: 500px;"></div>
 
   
@@ -306,22 +294,50 @@ if (!empty($periodformat)) {
 
 <script type="text/javascript">
 $(document).ready(function() {
+    var markersOnMap = '';
+    var centerCords = '';
     $(".googleMapLocation").on('click',function() {
-        var buttonSL = $(this).attr('data-btn_index');
-        var markersOnMap = JSON.parse($("#markersOnMap_"+buttonSL).val());
-        // markersOnMap = JSON.parse(markersOnMap);
-        console.log(markersOnMap,markersOnMap.length);
-        
+        var date = $(this).attr('data-date');
+        // var date = '2020-10-15';
+        var level= $("#fmecode").val();
+        var level= 'D1';
         $("#map").html("");
-        var centerCords = markersOnMap[0].LatLng[0];
-        console.log(centerCords);
+        $.ajax({
+            url: base_url + "report/userLocation/",
+            type: "get",
+            data: {
+                'level': level,
+                'date' : date
+            },
+            beforeSend: function(){
+            },               
+            success: function (response) {
+                markersOnMap = JSON.parse(response);               
+                if(markersOnMap.length == 0){
+                    return false;
+                }
+                var centerPoint = parseInt(markersOnMap.length/2);
+                centerCords = markersOnMap[centerPoint].LatLng[0];
+                
+                initMap();
+            },
+            complete: function() {
+                $("#mapLoadingText").hide();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            } 
+        });
+        
+        
+       
 
         var map;    
         var InforObj = [];        
 
         function addMarkerInfo() {               
             for (var i = 0; i < markersOnMap.length; i++) {
-                var contentString = '<div id="content"><p>' + markersOnMap[i].placeName +'</p></div>';
+                // var contentString = '<div id="content"><p>' + markersOnMap[i].placeName +'</p></div>';
 
                 const marker = new google.maps.Marker({
                     position: markersOnMap[i].LatLng[0],
@@ -329,7 +345,7 @@ $(document).ready(function() {
                 });
 
                 const infowindow = new google.maps.InfoWindow({
-                    content: contentString,
+                    // content: contentString,
                     maxWidth: 200
                 });
 
@@ -354,7 +370,7 @@ $(document).ready(function() {
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
+                zoom: 8,
                 center: centerCords
             });
             addMarkerInfo();
@@ -375,10 +391,7 @@ $(document).ready(function() {
         // Shows any markers currently in the array.
         function showMarkers() {
         setMapOnAll(map);
-        }
-
-
-        initMap();
+        }        
 
     });
 });
