@@ -104,6 +104,26 @@ class CommonModel extends CI_Model {
         }
     }
 
+    public function getExpenseTypeHead(){         
+        $sql = "select * from ExpenseTypeHead";    
+        $query = $this->db->query($sql);
+        $data = [];
+        if ($query) {
+            $data = $query->result_array();
+        }
+        return $data;
+    }
+
+    public function getExpenseTypeSubHead(){         
+        $sql = "select * from ExpenseTypeSubHead";    
+        $query = $this->db->query($sql);
+        $data = [];
+        if ($query) {
+            $data = $query->result_array();
+        }
+        return $data;
+    }
+
 }
 
 ?>

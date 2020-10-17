@@ -72,7 +72,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
     }
     ?>
     
-    <li class="sarah-has-menu <?php if($segment == 'attendance'){ ?> active <?php } ?>">
+    <li class="sarah-has-menu <?php if($segment == 'attendance' || $segment == 'report'){ ?> active <?php } ?>">
         <a href="javascript:void(0)">
             <i class="fa fa-sitemap"></i>
             <span class="menu-text">Report</span>
@@ -82,6 +82,30 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>attendance/attendancereport">
                     <span class="menu-text">Attendance Report</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'tourplan'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/tourplan">
+                    <span class="menu-text">Tour Plan Report</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'distributorStock'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorStock">
+                    <span class="menu-text">Distributor Stock Report</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'distributorCompititorStock'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorCompititorStock">
+                    <span class="menu-text">Distributor Compititor Stock</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+             <li <?php if($segment2 == 'distributorExpense'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorExpense">
+                    <span class="menu-text">Distributor Expense</span>
                     <span class="selected"></span>
                 </a>
             </li> 
