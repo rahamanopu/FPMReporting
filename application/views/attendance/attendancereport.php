@@ -19,6 +19,10 @@
 </script>
 
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
+<script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
+</script>
+      
 
 <?php
 $segment3 = $this->uri->segment(2);
@@ -144,7 +148,7 @@ if (!empty($periodformat)) {
                                 <th colspan="2">Time</th>
                                 <th colspan="2">Location</th>
                                 <th colspan="2">Image</th>
-                                <th colspan="2">Tour plan</th>
+                                <th colspan="4">Tour plan</th>
                             </tr>
                             <tr>         
                                 <?php
@@ -154,6 +158,7 @@ if (!empty($periodformat)) {
                                     ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_','Per','Prac'), array(' ',' / ','Prac.'), $index[$i]); ?></th><?php
                                 }
                                 ?>
+                                <th>Location</th>
                             </tr>
                         </thead>
                         <?php
@@ -189,7 +194,7 @@ if (!empty($periodformat)) {
 
                                             if(($j==5 || $j==6)) {
                                                 ?>
-                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px"></td>
+                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px;height:100px"></td>
                                                 <?php
                                             } else {
                                                 echo "<td>" . $value."</td>"; 
@@ -198,6 +203,7 @@ if (!empty($periodformat)) {
                                         }
                                     } 
                                 ?>
+                                <td><button type="button" data-btn_index="<?php echo $i;?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
                             </tr>
                             <tr>
                                 <td colspan="10" style="display: none;" id="divhide<?php echo $count; ?>">
@@ -219,16 +225,38 @@ if (!empty($periodformat)) {
                                             //echo "<pre />"; print_r($filterdata);
                                             $countin = 0;
                                             if(!empty($filterdata)){
-                                                foreach($filterdata as $row){ $countin++;
+                                                $filterDataLength = count($filterdata);
+                                                $markersOnMap = [];
+                                                foreach($filterdata as $row){ 
+                                                    $countin++;
+                                                    // Making maps properties
+                                                $markersOnMap[] =
+                                                [
+                                                    'placeName'=> $row['Location'],
+                                                    'LatLng'=> [
+                                                        [
+                                                            'lat'=> floatval($row['Latitude']),
+                                                            'lng'=> floatval($row['Longitude'])
+                                                        ]
+                                                    ],                                                   
+                                                ];
+
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $countin; ?></td>
                                                     <td><?php echo $row['AttendanceTime']; ?></td>
                                                     <td><?php echo $row['AttendanceType']; ?></td>
-                                                    <td><?php echo $row['Location']; ?></td>
-                                                    <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$row['ImageFile']; ?>" alt="attendance img" style="height:200px"></td>
+                                                    <td><?php echo $row['Location']; 
+                                                    if ($filterDataLength==$countin) {
+                                                        ?>
+                                                    <input type="hidden" value='<?php echo json_encode($markersOnMap); ?>'' name="markersOnMap_<?php echo $i?>" id="markersOnMap_<?php echo $i?>">
+                                                    <?php
+                                                    }?>
+                                                </td>
+                                                    
+                                                    <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$row['ImageFile']; ?>" alt="attendance img" style="height:200px;height:100px"></td>
                                                 </tr>
-                                                <?php
+                                                <?php                                                
                                                 }
                                             }
                                             ?>
@@ -251,6 +279,111 @@ if (!empty($periodformat)) {
 
 </section>
 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Attendance Location</h4>
+      </div>
+      <div class="modal-body">
+        <p>Attendnce in the following location</p>
+        <div id="map" style="width: 100%; height: 500px;"></div>
+
+  
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".googleMapLocation").on('click',function() {
+        var buttonSL = $(this).attr('data-btn_index');
+        var markersOnMap = JSON.parse($("#markersOnMap_"+buttonSL).val());
+        // markersOnMap = JSON.parse(markersOnMap);
+        console.log(markersOnMap,markersOnMap.length);
+        
+        $("#map").html("");
+        var centerCords = markersOnMap[0].LatLng[0];
+        console.log(centerCords);
+
+        var map;    
+        var InforObj = [];        
+
+        function addMarkerInfo() {               
+            for (var i = 0; i < markersOnMap.length; i++) {
+                var contentString = '<div id="content"><p>' + markersOnMap[i].placeName +'</p></div>';
+
+                const marker = new google.maps.Marker({
+                    position: markersOnMap[i].LatLng[0],
+                    map: map
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    maxWidth: 200
+                });
+
+                marker.addListener('click', function () {
+                    closeOtherInfo();
+                    infowindow.open(marker.get('map'), marker);
+                    InforObj[0] = infowindow;
+                });
+            }
+        }
+
+        function closeOtherInfo() {
+            if (InforObj.length > 0) {
+                /* detach the info-window from the marker ... undocumented in the API docs */
+                InforObj[0].set("marker", null);
+                /* and close it */
+                InforObj[0].close();
+                /* blank the array */
+                InforObj.length = 0;
+            }
+        }
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: centerCords
+            });
+            addMarkerInfo();
+        }
+
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+        setMapOnAll(null);
+        }
+
+        // Shows any markers currently in the array.
+        function showMarkers() {
+        setMapOnAll(map);
+        }
+
+
+        initMap();
+
+    });
+});
+            
+  </script>
 
 
 <style>
@@ -267,5 +400,5 @@ table tr td{
 }
 </style>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css" />
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css" /> -->
+<!-- <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script> -->
