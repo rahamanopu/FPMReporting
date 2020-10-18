@@ -297,10 +297,10 @@ $(document).ready(function() {
     var markersOnMap = '';
     var centerCords = '';
     $(".googleMapLocation").on('click',function() {
-        var date = $(this).attr('data-date');
+        // var date = $(this).attr('data-date');
         // var date = '2020-10-15';
         var level= $("#fmecode").val();
-        var level= 'D1';
+        // var level= 'D1';
         $("#map").html("");
         $.ajax({
             url: base_url + "report/userLocation/",
