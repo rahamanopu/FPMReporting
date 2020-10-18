@@ -49,7 +49,7 @@ if (!empty($periodformat)) {
                  	
                 <div class="panel-body">
                     <fieldset>
-                        <form action="<?php echo base_url(); ?>attendance/attendancereport" method="post" >
+                        <form action="<?php echo base_url().$action; ?>" method="post" >
                             <div class="col-md-12">                       
 
                                 <div class="col-md-1">
@@ -93,7 +93,7 @@ if (!empty($periodformat)) {
                                 </div>
                             
                                 <div class="col-md-1">
-                                    FME
+                                    TSI
                                 </div>
                                 <div class="col-md-2">
                                     <select name="fmecode" id="fmecode" class="form-control" required="required">
@@ -139,6 +139,9 @@ if (!empty($periodformat)) {
                 <div class="panel-body">
                     
                     <?php if(!empty($summary)){ ?>
+                    <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?fmecode='.$fmecode.'&period='.$period.'&excel=yes'; ?>">
+                        Export To Excel
+                    </a>
                     <div class="exportallplantable table-responsive">    
                     <table class="table table-bordered table-hover  table-striped">
                         <thead>
@@ -297,7 +300,7 @@ $(document).ready(function() {
     var markersOnMap = '';
     var centerCords = '';
     $(".googleMapLocation").on('click',function() {
-        // var date = $(this).attr('data-date');
+        var date = $(this).attr('data-date');
         // var date = '2020-10-15';
         var level= $("#fmecode").val();
         // var level= 'D1';
@@ -313,17 +316,16 @@ $(document).ready(function() {
             },               
             success: function (response) {
                 markersOnMap = JSON.parse(response);               
-                if(markersOnMap.length == 0){
-                    return false;
+                if(markersOnMap.length != 0){
+                    var centerPoint = parseInt(markersOnMap.length/2);
+                    centerCords = markersOnMap[centerPoint].LatLng[0];                
+                    initMap();
+                    $("#mapLoadingText").hide();
+                } else {
+                    $("#mapLoadingText").text('No Location Found to show in Map').addClass('text-danger');
                 }
-                var centerPoint = parseInt(markersOnMap.length/2);
-                centerCords = markersOnMap[centerPoint].LatLng[0];
                 
-                initMap();
-            },
-            complete: function() {
-                $("#mapLoadingText").hide();
-            },
+            },            
             error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
             } 
@@ -370,7 +372,7 @@ $(document).ready(function() {
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
+                zoom: 15,
                 center: centerCords
             });
             addMarkerInfo();

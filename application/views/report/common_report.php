@@ -73,7 +73,7 @@ $segment3 = $this->uri->segment(2);
                                 </div>
                             
                                 <div class="col-md-1">
-                                    FME
+                                    TSI
                                 </div>
                                 <div class="col-md-2">
                                     <select name="fmecode" id="fmecode" class="form-control" >
@@ -176,7 +176,17 @@ $segment3 = $this->uri->segment(2);
             <div id="panel-1" class="panel panel-default">
                 <div class="panel-body">
                     
-                    <?php if(!empty($priorityData)){ ?>
+                    <?php if(!empty($priorityData)){
+                        if(!isset($expenseTypeHead)) {
+                            $expenseTypeHead = '';
+                        }
+                        if(!isset($expenseTypeSubHead)) {
+                            $expenseTypeSubHead = '';
+                        }
+                         ?>
+                        <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&startDate='.$startDate.'&endDate='.$endDate.'&expenseTypeHead='.$expenseTypeHead.'&expenseTypeSubHead='.$expenseTypeSubHead.'&excel=yes'; ?>">
+                            Export To Excel
+                        </a>
                     <div class="exportallplantable table-responsive">    
                     <table class="table table-bordered table-hover  table-striped">
                         <thead>                            

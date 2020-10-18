@@ -10,11 +10,24 @@ class Report_data extends CI_Model {
         parent::__construct();
     }         
     
+    public function getUserMonthlyAttendanceDetails($period, $levelcode){                 
+        $success = true;
+        $sql = " EXEC usp_doLoadAttendanceReport '$period','$levelcode' ";         
+        $query = $this->db->query($sql);               
+        $e = $this->db->_error_message();                
+        if ($e == '') {
+            $data['summary'] = $query->result_array();
+            $data['detailsdata'] = $query->next_result();    
+                                 
+        } else {
+            $data['success'] = $e;
+        }        
+        return $data;
+    } 
     
     public function getTourplanReport($leve3,$level2,$level1,$startDate, $endDate){                 
         $sql = " EXEC usp_doLoadTourPlanReport  '$leve3','$level2','$level1','$startDate', '$endDate' ";        
         $query = $this->db->query($sql);  
-        //echo "<pre />"; print_r($query->result_array()); exit();              
         $e = $this->db->_error_message();   
         $data = [];             
         if ($e == '') {

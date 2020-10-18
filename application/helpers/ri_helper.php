@@ -202,3 +202,25 @@ function utf8ize($d) {
     return $d;
 }
 
+function exportexcel($result, $filename)
+{
+    for ($i = 0; $i < count($result); $i++) {
+        if (!isset($result[$i]['PageNo'])) {
+            break;
+        }
+        unset($result[$i]['PageNo']);
+    }
+    $arrayheading[0] = !empty($result) ? array_keys($result[0]) : [];
+    $result = array_merge($arrayheading, $result);
+
+    header("Content-Disposition: attachment; filename=\"{$filename}.xls\"");
+    header("Content-Type: application/vnd.ms-excel;");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    $out = fopen("php://output", 'w');
+    foreach ($result as $data) {
+        fputcsv($out, $data, "\t");
+    }
+    fclose($out);
+    exit();
+}

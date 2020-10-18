@@ -12,6 +12,46 @@ CLASS Report extends MY_Controller {
         $this->load->model('report_data');
     }
 
+    function attendancereport() {
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');
+        $data['pagetitel'] = 'Attendance Summary Report';
+        $data['action'] = 'report/attendancereport';
+        $userlevel = $this->session->userdata('userLevel');;
+        $data['postperiod'] = date('F y');
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {            
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);
+            $data['period'] = $this->input->get_post("period", TRUE);
+            $data['periodformat'] = date('Ym', strtotime($data['period']));
+
+            $data['monthname'] = date('M', strtotime($data['period']));
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $this->report_data->getUserMonthlyAttendanceDetails($data['periodformat'], $data['fmecode']);
+                exportexcel($datas['summary'],$filename = "Attendance_Summary_".time());
+            } else {
+                $datas = $this->report_data->getUserMonthlyAttendanceDetails($data['periodformat'], $data['fmecode']);
+                $data['summary']        = $datas['summary'];
+                $data['detailsdata']    = $datas['detailsdata']; 
+            }
+
+                                         
+        }
+
+        $this->loadView('report/attendancereport',$data);
+    }
+
+
     function tourplan() {
         
         $data['action'] = 'report/tourplan';
@@ -27,19 +67,25 @@ CLASS Report extends MY_Controller {
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         if (!empty($_POST) OR ! empty($_GET)) {  
-            $data['startDate'] = $this->input->post('startDate');;
-            $data['endDate'] = $this->input->post('endDate');;
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
 
-            $data['regioncode'] = $this->input->post("regioncode", TRUE);
-            $data['areacode'] = $this->input->post("areacode", TRUE);
-            $data['fmecode'] = $this->input->post("fmecode", TRUE);           
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
 
             $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
 
-            $datas = $this->report_data->getTourplanReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
-                $data['priorityData']        = $datas['priorityData'];   
+            // die("Okkk");
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $this->report_data->getTourplanReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);                
+                exportexcel($datas['priorityData'],$filename = "Tour_Plan_".time());
+            }else {
+                $datas = $this->report_data->getTourplanReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'], $data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
                                   
         }
 
@@ -61,19 +107,25 @@ CLASS Report extends MY_Controller {
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         if (!empty($_POST) OR ! empty($_GET)) {  
-            $data['startDate'] = $this->input->post('startDate');;
-            $data['endDate'] = $this->input->post('endDate');;
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
 
-            $data['regioncode'] = $this->input->post("regioncode", TRUE);
-            $data['areacode'] = $this->input->post("areacode", TRUE);
-            $data['fmecode'] = $this->input->post("fmecode", TRUE);           
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
 
             $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
 
-            $datas = $this->report_data->getDistributorStockReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
-                $data['priorityData']        = $datas['priorityData'];   
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $this->report_data->getDistributorStockReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Distributor_Stock_".time());
+            } else {
+                $datas = $this->report_data->getDistributorStockReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];   
+            }
+            
                                   
         }
 
@@ -95,20 +147,23 @@ CLASS Report extends MY_Controller {
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         if (!empty($_POST) OR ! empty($_GET)) {  
-            $data['startDate'] = $this->input->post('startDate');;
-            $data['endDate'] = $this->input->post('endDate');;
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
 
-            $data['regioncode'] = $this->input->post("regioncode", TRUE);
-            $data['areacode'] = $this->input->post("areacode", TRUE);
-            $data['fmecode'] = $this->input->post("fmecode", TRUE);           
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
 
             $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
-
-            $datas = $this->report_data->getdistributorCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
-                $data['priorityData']        = $datas['priorityData'];   
-                                  
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $this->report_data->getdistributorCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Tour_Plan_".time());
+            } else {
+                $datas = $this->report_data->getdistributorCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData']        = $datas['priorityData'];
+            }
         }
 
         $this->loadView('report/common_report',$data);
@@ -139,22 +194,25 @@ CLASS Report extends MY_Controller {
           
 
         if (!empty($_POST) OR ! empty($_GET)) {  
-            $data['expenseTypeHead'] = $this->input->post('expenseTypeHead');
-            $data['expenseTypeSubHead'] = $this->input->post('expenseTypeSubHead');
-            $data['startDate'] = $this->input->post('startDate');;
-            $data['endDate'] = $this->input->post('endDate');;
+            $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
+            $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
 
-            $data['regioncode'] = $this->input->post("regioncode", TRUE);
-            $data['areacode'] = $this->input->post("areacode", TRUE);
-            $data['fmecode'] = $this->input->post("fmecode", TRUE);           
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
 
             $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
-
-            $datas = $this->report_data->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
-                $data['priorityData']        = $datas['priorityData'];   
-                                  
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $this->report_data->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Distributor_Expense_".time());
+            } else {
+                $datas = $this->report_data->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];
+            }                                  
         }
 
         $this->loadView('report/common_report',$data);
