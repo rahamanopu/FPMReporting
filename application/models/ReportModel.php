@@ -85,13 +85,36 @@ class ReportModel extends CI_Model {
         return $data;
     }
 
-    public function getdistributorSecondaryProjection($leve3,$level2,$level1,$startDate, $endDate){                 
-        $sql = " EXEC usp_doLoadDistributorSecoundarySalesProjection  '$leve3','$level2','$level1','$startDate', '$endDate' ";        
+    public function getdistributorSecondaryProjection($level3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadDistributorSecoundarySalesProjection  '$level3','$level2','$level1','$startDate', '$endDate' ";        
         $query = $this->db->query($sql);           
         $e = $this->db->_error_message();   
         $data = [];             
         if ($e == '') {
             $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+    public function getDistributorRetailerLocation($level3, $level2, $level1,$category){                 
+        $sql = " EXEC usp_doLoadDistributorAndRetailerLocation   '$level3','$level2','$level1'";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['distributor'] = $query->result_array();   
+            $data['retailer'] = $query->next_result();
+                                 
+        }       
+        return $data;
+    }
+    public function getUserCurrentLocation(){                 
+        $sql = "EXEC usp_doLoadUserCurrentLoation";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data = $query->result_array();   
                                  
         }       
         return $data;

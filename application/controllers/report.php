@@ -296,7 +296,7 @@ CLASS Report extends MY_Controller {
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         if (!empty($_POST) OR ! empty($_GET)) {  
-            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');;
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
@@ -317,6 +317,119 @@ CLASS Report extends MY_Controller {
         }
 
         $this->loadView('report/common_report',$data);
+    }
+
+    function distributorAndRetailerLocation() {
+        $data['pageTitel'] = 'Distributor and Retailer Location';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        $this->loadView('report/distributor_retailer_location',$data);
+    }
+
+    public function getDistributorAndRetailerLocation() {  
+        $level1 = $this->input->post('level1');
+        $level2 = $this->input->post('level2');
+        $level3 = $this->input->post('level3');
+        $category = $this->input->post('category');   
+        $markersOnMap = [];     
+        $reportModel = new ReportModel();
+        $datas = $reportModel->getDistributorRetailerLocation($level3, $level2, $level1,$category);
+        // echo '<pre>',print_r($datas);die();
+        if($category == 'all') {
+            foreach($datas['distributor'] as $locData){
+                $markersOnMap[] = [
+                    'name'=> $locData['DistributorCode'].' - '.$locData['DistributorName'],
+                    'type'=> 'distributor',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            } 
+            
+            foreach($datas['retailer'] as $locData){
+                $markersOnMap[] = [
+                    'name'=> 'Retailer',
+                    'type'=> 'retailer',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            } 
+
+        } elseif($category == 'distributor') {
+            foreach($datas['distributor'] as $locData){
+                $markersOnMap[] = [
+                    'name'=> $locData['DistributorCode'].' - '.$locData['DistributorName'],
+                    'type'=> 'distributor',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            } 
+
+        }
+        elseif($category == 'retailer') {
+            foreach($datas['retailer'] as $locData){
+                $markersOnMap[] = [
+                    'name'=> 'Retailer',
+                    'type'=> 'retailer',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            } 
+            
+        }
+        
+        echo json_encode($markersOnMap);
+
+    }
+
+    function userCurrentLocation() {
+        $data['pageTitel'] = 'User Current Location';       
+
+        $this->loadView('report/user_current_location',$data);
+    }
+
+    public function getuserCurrentLocation() { 
+        
+        $markersOnMap = [];     
+        $reportModel = new ReportModel();
+        $locations = $reportModel->getUserCurrentLocation();
+        foreach($locations as $locData){
+            $markersOnMap[] = [
+                'name'=> $locData['TSI_ID'].' - '.$locData['TSI_Name'],                
+                'LatLng'=> [
+                    [
+                        'lat'=> floatval($locData['Latitude']),
+                        'lng'=> floatval($locData['Longitude'])
+                    ]
+                ],                                                   
+            ];                        
+        } 
+        
+        echo json_encode($markersOnMap);
+
     }
 
 

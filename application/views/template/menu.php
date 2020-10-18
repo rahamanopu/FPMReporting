@@ -120,6 +120,18 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="menu-text">Distibutor Secoundary Sales Projection</span>
                     <span class="selected"></span>
                 </a>
+            </li>
+            <li <?php if($segment2 == 'distributorAndRetailerLocation'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorAndRetailerLocation">
+                    <span class="menu-text">Distibutor and Retailer Location</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'userCurrentLocation'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/userCurrentLocation">
+                    <span class="menu-text">Users Current Location</span>
+                    <span class="selected"></span>
+                </a>
             </li> 
         </ul>
     </li>
