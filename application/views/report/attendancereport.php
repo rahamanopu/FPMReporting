@@ -113,7 +113,7 @@ if (!empty($periodformat)) {
                                 </div>
                                 
                                 <div class="col-md-1">
-                                    Date From
+                                    Month
                                 </div>
                                 <div class="col-md-2">
                                     <input type="month" name="period" 

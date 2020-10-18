@@ -190,7 +190,8 @@ $segment3 = $this->uri->segment(2);
                     <div class="exportallplantable table-responsive">    
                     <table class="table table-bordered table-hover  table-striped">
                         <thead>                            
-                            <tr>         
+                            <tr>
+                                <th>SL</th>         
                                 <?php
                                 $index = array_keys($priorityData[0]);
                                 $count = 0;
@@ -205,7 +206,8 @@ $segment3 = $this->uri->segment(2);
                         for ($i = 0; $i < count($priorityData); $i++) { $count++;
                             $arrayvalue = array_values($priorityData[$i]);
                             ?>
-                            <tr>    
+                            <tr>
+                                <td><?php echo ($i+1);?></td>    
                                 
                                 <?php
                                 for ($j = 0; $j < count($index); $j++) {

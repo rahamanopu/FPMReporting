@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Report_data extends CI_Model {
+class ReportModel extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
@@ -49,7 +49,7 @@ class Report_data extends CI_Model {
         return $data;
     }
     
-    public function getdistributorCompititorStock($leve3,$level2,$level1,$startDate, $endDate){                 
+    public function getDistributorCompititorStock($leve3,$level2,$level1,$startDate, $endDate){                 
         $sql = " EXEC usp_doLoadDistributorCompititorStock   '$leve3','$level2','$level1','$startDate', '$endDate' ";        
         $query = $this->db->query($sql);            
         $e = $this->db->_error_message();   
@@ -72,6 +72,31 @@ class Report_data extends CI_Model {
         }       
         return $data;
     }
+    
+    public function getDistributorSecondarySales($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadDistributorSecoundarySales  '$leve3','$level2','$level1','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+
+    public function getdistributorSecondaryProjection($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadDistributorSecoundarySalesProjection  '$leve3','$level2','$level1','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+
     public function getUserLocation($level1,$date){                 
         $sql = "SELECT U.* 
             FROM UserLocation U

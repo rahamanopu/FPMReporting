@@ -109,6 +109,18 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li> 
+            <li <?php if($segment2 == 'distributorSecondarySales'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorSecondarySales">
+                    <span class="menu-text">Distibutor Primary Sales EPGL</span>
+                    <span class="selected"></span>
+                </a>
+            </li> 
+            <li <?php if($segment2 == 'distributorSecondarySalesProjection'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorSecondarySalesProjection">
+                    <span class="menu-text">Distibutor Secoundary Sales Projection</span>
+                    <span class="selected"></span>
+                </a>
+            </li> 
         </ul>
     </li>
 
