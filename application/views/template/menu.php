@@ -105,7 +105,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             </li>
              <li <?php if($segment2 == 'distributorExpense'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/distributorExpense">
-                    <span class="menu-text">Distributor Expense</span>
+                    <span class="menu-text">TSI Expense</span>
                     <span class="selected"></span>
                 </a>
             </li> 

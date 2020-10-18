@@ -171,7 +171,7 @@ CLASS Report extends MY_Controller {
     
     function distributorExpense() {        
         $data['action'] = 'report/distributorExpense';
-        $data['pageTitel'] = 'Distributor Expense';
+        $data['pageTitel'] = 'TSI Expense';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
