@@ -58,10 +58,11 @@ CLASS Report extends MY_Controller {
         $reportModel = new ReportModel();
         $locationData = $reportModel->getUserLocation($level,$date);
         $markersOnMap = [];
+        
 
         foreach($locationData as $locData){
             $markersOnMap[] = [
-                'placeName'=> '',
+                'content'=> date('Y-m-d H:i A',strtotime($locData['ServerTime'])),
                 'LatLng'=> [
                     [
                         'lat'=> floatval($locData['Latitude']),
@@ -154,6 +155,46 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/common_report',$data);
     }
 
+    function retailerStock() {
+        
+        $data['action'] = 'report/retailerStock';
+        $data['pageTitel'] = 'Retailer Stock Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');;
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {  
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getRetailerStockReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Retailer_Stock_".time());
+            } else {
+                $datas = $reportModel->getRetailerStockReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];   
+            }
+            
+                                  
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+
     function distributorCompititorStock () {
         
         $data['action'] = 'report/distributorCompititorStock';
@@ -185,6 +226,44 @@ CLASS Report extends MY_Controller {
                 exportexcel($datas['priorityData'],$filename = "Tour_Plan_".time());
             } else {
                 $datas = $reportModel->getDistributorCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData']        = $datas['priorityData'];
+            }
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+
+    function retailerCompititorStock () {
+        
+        $data['action'] = 'report/retailerCompititorStock';
+        $data['pageTitel'] = 'Detailer Compititor Stock Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');;
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {  
+            $data['startDate'] = $this->input->get_post('startDate');;
+            $data['endDate'] = $this->input->get_post('endDate');;
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getRetailerCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Retailer_Compititor_Stock_".time());
+            } else {
+                $datas = $reportModel->getRetailerCompititorStock($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 $data['priorityData']        = $datas['priorityData'];
             }
         }
@@ -342,11 +421,12 @@ CLASS Report extends MY_Controller {
         $markersOnMap = [];     
         $reportModel = new ReportModel();
         $datas = $reportModel->getDistributorRetailerLocation($level3, $level2, $level1,$category);
-        // echo '<pre>',print_r($datas);die();
         if($category == 'all') {
             foreach($datas['distributor'] as $locData){
                 $markersOnMap[] = [
-                    'name'=> $locData['DistributorCode'].' - '.$locData['DistributorName'],
+                    'code'=> $locData['DistributorCode'],
+                    'name'=> $locData['DistributorName'],
+                    'location'=> $locData['DistributorPoint'],
                     'type'=> 'distributor',
                     'LatLng'=> [
                         [

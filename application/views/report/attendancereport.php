@@ -339,7 +339,7 @@ $(document).ready(function() {
 
         function addMarkerInfo() {               
             for (var i = 0; i < markersOnMap.length; i++) {
-                // var contentString = '<div id="content"><p>' + markersOnMap[i].placeName +'</p></div>';
+                var contentString = '<div id="content"> Time: <span style="font-weight:700">' + markersOnMap[i].content +'</span></div>';
 
                 const marker = new google.maps.Marker({
                     position: markersOnMap[i].LatLng[0],
@@ -347,7 +347,7 @@ $(document).ready(function() {
                 });
 
                 const infowindow = new google.maps.InfoWindow({
-                    // content: contentString,
+                    content: contentString,
                     maxWidth: 200
                 });
 

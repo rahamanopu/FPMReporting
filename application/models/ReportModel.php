@@ -126,7 +126,7 @@ class ReportModel extends CI_Model {
             INNER JOIN ViewLevels L
                 ON U.UserId = L.Level1StaffID
             WHERE ServerTime BETWEEN '$date' AND '$date 23:59:59.000'
-                AND (L.Level1 = '$level1')";        
+                AND (L.Level1 = '$level1')";
         $query = $this->db->query($sql);           
         $e = $this->db->_error_message();   
         $data = [];             
@@ -136,5 +136,29 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+
+    public function getRetailerStockReport($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadRetailerStock '$leve3','$level2','$level1','$startDate', '$endDate' "; 
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+
+    public function getRetailerCompititorStock($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadRetailerCompititorStock   '$leve3','$level2','$level1','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);            
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }  
       
 }

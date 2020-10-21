@@ -169,7 +169,7 @@ $segment3 = $this->uri->segment(2);
 
             function addMarkerInfo() {               
                 for (var i = 0; i < markersOnMap.length; i++) {
-                    var contentString = '<div id="content"><p>' + markersOnMap[i].name +'</p></div>';
+                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
                     let image= '';
                     if(markersOnMap[i].type == 'distributor') {
                         image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; 
