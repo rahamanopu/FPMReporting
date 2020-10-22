@@ -25,8 +25,17 @@ class Authenticate extends CI_Controller {
     }
 
     public function login() {
-        $userid     = $this->input->post('empcode', true);
-        $password   = $this->input->post('password', true);
+        if(isset($_GET['login_from_app']) && $_GET['login_from_app'] == true) {
+            $userid =  base64_decode($_GET['empcode']);
+            $password =  base64_decode($_GET['password']);
+            $passwordParts = explode('.',$password);
+            if(isset($passwordParts[0]) && $passwordParts[0] =='fpmreporting1234') {
+                $password = isset($passwordParts[1]) ? $passwordParts[1] : '';
+            }
+        } else {
+            $userid     = $this->input->post('empcode', true);
+            $password   = $this->input->post('password', true);
+        }
 
         $row = $this->Users_data->doUserLogin($userid, $password);
 
