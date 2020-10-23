@@ -25,9 +25,11 @@ class Authenticate extends CI_Controller {
     }
 
     public function login() {
-        if(isset($_GET['login_from_app']) && $_GET['login_from_app'] == true) {
+        
+        if(isset($_GET['login_from_app']) && $_GET['login_from_app'] == true) {            
             $userid =  base64_decode($_GET['empcode']);
-            $password =  base64_decode($_GET['password']);
+            $password =  base64_decode($_GET['password']);            
+            
             $passwordParts = explode('.',$password);
             if(isset($passwordParts[0]) && $passwordParts[0] =='fpmreporting1234') {
                 $password = isset($passwordParts[1]) ? $passwordParts[1] : '';
