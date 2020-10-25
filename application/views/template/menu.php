@@ -145,6 +145,18 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
+            <li <?php if($segment2 == 'retailers'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/retailers">
+                    <span class="menu-text">Retailer List</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'retailerOrder'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/retailerOrder">
+                    <span class="menu-text">Retailer Order</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
 
         </ul>
     </li>

@@ -204,7 +204,7 @@ $segment3 = $this->uri->segment(2);
                                 <?php
                                 $index = array_keys($priorityData[0]);
                                 $count = 0;
-                                for($i = 0; $i < count($index); $i++){
+                                for($i = 2; $i < count($index); $i++){
                                     ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th><?php
                                 }
                                 ?>
@@ -219,7 +219,7 @@ $segment3 = $this->uri->segment(2);
                                 <td><?php echo ($i+1);?></td>    
                                 
                                 <?php
-                                for ($j = 0; $j < count($index); $j++) {
+                                for ($j = 2; $j < count($index); $j++) {
                                     $value = $arrayvalue[$j];
                                     if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
                                         ?>
@@ -242,6 +242,16 @@ $segment3 = $this->uri->segment(2);
                         </table>
                     </div>
                     <?php } ?>
+
+                    <?php if(!empty($pagingData)){
+                            ?>
+                            <ul class="pagination">
+                                <?php foreach($pagingData AS $row){ ?>
+                                    <li <?php if(!empty($page) and $page == $row['PageNo']){ ?> class="active" <?php } ?>>
+                                        <a href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&pagelimit='.$pagelimit.'&page='.$row['PageNo']; ?>"><?php echo $row['PageNo']; ?></a></li>
+                                <?php } ?>
+                            </ul>
+                        <?php } ?>
 
                 </div>
             </div>
