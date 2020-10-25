@@ -35,7 +35,7 @@ $segment3 = $this->uri->segment(2);
                                 <div class="col-md-1">
                                     Region
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <select name="regioncode" id="regioncode" class="form-control" onchange="doChangeArea(this.value)">
                                         <option></option>
                                         <?php 
@@ -55,7 +55,7 @@ $segment3 = $this->uri->segment(2);
                                 <div class="col-md-1">
                                     Area
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <select name="areacode" id="areacode" class="form-control" onchange="doChangeTerritory(this.value)">
                                         <?php if(!empty($areainfo) && COUNT($areainfo) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
@@ -75,7 +75,7 @@ $segment3 = $this->uri->segment(2);
                                 <div class="col-md-1">
                                     TSI
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <select name="fmecode" id="fmecode" class="form-control" >
                                         <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
@@ -94,8 +94,8 @@ $segment3 = $this->uri->segment(2);
                                 <?php if(isset($expenseTypeHeadField) && $expenseTypeHeadField== true) {
                                     ?>
 
-                                <div class="col-md-1" style="margin-top:5px;"> Expense Type Head</div>
-                                <div class="col-md-2" style="margin-top:5px;">
+                                <div class="col-md-1" style="margin-top:5px;">Expense Head</div>
+                                <div class="col-md-3" style="margin-top:5px;">
                                     <select name="expenseTypeHead" id="expenseTypeHead" class="form-control" >
                                         <?php if(!empty($expenseTypeHeads) && COUNT($expenseTypeHeads) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
@@ -118,8 +118,8 @@ $segment3 = $this->uri->segment(2);
                                 <?php if(isset($expenseTypeSubHeadField) && $expenseTypeSubHeadField== true) {
                                     ?>
 
-                                <div class="col-md-1" style="margin-top:5px;"> Expense Type Sub Head</div>
-                                <div class="col-md-2" style="margin-top:5px;">
+                                <div class="col-md-1" style="margin-top:5px;">Sub Head</div>
+                                <div class="col-md-3" style="margin-top:5px;">
                                     <select name="expenseTypeSubHead" id="expenseTypeSubHead" class="form-control" >
                                         <?php if(!empty($expenseTypeSubHeads) && COUNT($expenseTypeSubHeads) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
@@ -143,7 +143,7 @@ $segment3 = $this->uri->segment(2);
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date From
                                 </div>
-                                <div class="col-md-2"  style="margin-top:5px;">
+                                <div class="col-md-3"  style="margin-top:5px;">
                                     <input type="text" name="startDate" autocomplete="off"
                                            id="" class="form-control datePicker" 
                                            required="required"
@@ -153,7 +153,7 @@ $segment3 = $this->uri->segment(2);
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date TO
                                 </div>
-                                <div class="col-md-2"  style="margin-top:5px;">
+                                <div class="col-md-3"  style="margin-top:5px;">
                                     <input type="text" name="endDate" autocomplete="off"
                                            id="" class="form-control datePicker" 
                                            required="required"
