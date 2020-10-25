@@ -144,7 +144,7 @@ $segment3 = $this->uri->segment(2);
                                     Date From
                                 </div>
                                 <div class="col-md-2"  style="margin-top:5px;">
-                                    <input type="text" name="startDate" 
+                                    <input type="text" name="startDate" autocomplete="off"
                                            id="" class="form-control datePicker" 
                                            required="required"
                                            value="<?php if(!empty($startDate)){echo $startDate;} ?>"
@@ -154,7 +154,7 @@ $segment3 = $this->uri->segment(2);
                                     Date TO
                                 </div>
                                 <div class="col-md-2"  style="margin-top:5px;">
-                                    <input type="text" name="endDate" 
+                                    <input type="text" name="endDate" autocomplete="off"
                                            id="" class="form-control datePicker" 
                                            required="required"
                                            value="<?php if(!empty($endDate)){echo $endDate;} ?>"
