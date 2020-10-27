@@ -24,6 +24,18 @@ class ReportModel extends CI_Model {
         }        
         return $data;
     } 
+
+    public function getDailyAttendanceReport($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadDayWiseAttendanceReport  '$leve3','$level2','$level1','$startDate', '$endDate' "; 
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
     
     public function getTourplanReport($leve3,$level2,$level1,$startDate, $endDate){                 
         $sql = " EXEC usp_doLoadTourPlanReport  '$leve3','$level2','$level1','$startDate', '$endDate' ";        

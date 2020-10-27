@@ -52,6 +52,47 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/attendancereport',$data);
     }
 
+    function dailyAttendanceReport() {
+        $data['action'] = 'report/dailyAttendanceReport';
+        $data['pageTitel'] = 'Daily Attendance Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/attendance/'; 
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getDailyAttendanceReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Distributor_Stock_".time());
+            } else {
+                $datas = $reportModel->getDailyAttendanceReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+            
+                                  
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+
+
     public function userLocation() {
         $level = $this->input->get('level');
         $date = $this->input->get('date');

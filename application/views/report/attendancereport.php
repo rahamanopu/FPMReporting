@@ -335,7 +335,8 @@ $(document).ready(function() {
        
 
         var map;    
-        var InforObj = [];        
+        var InforObj = [];   
+        var flightPlanCoordinates = [];     
 
         function addMarkerInfo() {               
             for (var i = 0; i < markersOnMap.length; i++) {
@@ -350,6 +351,8 @@ $(document).ready(function() {
                     content: contentString,
                     maxWidth: 200
                 });
+
+                flightPlanCoordinates.push(markersOnMap[i].LatLng[0]);
 
                 marker.addListener('click', function () {
                     closeOtherInfo();
@@ -376,6 +379,15 @@ $(document).ready(function() {
                 center: centerCords
             });
             addMarkerInfo();
+
+            const flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: "#008000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+            });
+            flightPath.setMap(map);
         }
 
         // Sets the map on all markers in the array.

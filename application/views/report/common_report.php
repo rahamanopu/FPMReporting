@@ -223,7 +223,7 @@ $segment3 = $this->uri->segment(2);
                                     $value = $arrayvalue[$j];
                                     if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
                                         ?>
-                                        <td><img style="width: 100px;height:150px;" src="<?php echo $this->config->item('app_image_base_url').'uploads/expense/'.$value ?>" alt=""></td>
+                                        <td><img style="width: 100px;height:150px;" src="<?php echo $this->config->item('app_image_base_url').$imageFolder.$value ?>" alt=""></td>
                                         <?php
 
                                     }  else {

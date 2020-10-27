@@ -85,6 +85,12 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
+            <li <?php if($segment2 == 'dailyAttendanceReport'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/dailyAttendanceReport">
+                    <span class="menu-text">Daily Attendance Report</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
             <li <?php if($segment2 == 'tourplan'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/tourplan">
                     <span class="menu-text">Tour Plan Report</span>
