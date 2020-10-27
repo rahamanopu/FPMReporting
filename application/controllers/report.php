@@ -544,10 +544,11 @@ CLASS Report extends MY_Controller {
         
         $markersOnMap = [];     
         $reportModel = new ReportModel();
-        $locations = $reportModel->getUserCurrentLocation();
+        $locations = $reportModel->getUserCurrentLocation();        
         foreach($locations as $locData){
             $markersOnMap[] = [
-                'name'=> $locData['TSI_ID'].' - '.$locData['TSI_Name'],                
+                'name'=> $locData['TSI_ID'].' - '.$locData['TSI_Name'], 
+                'time' => date('Y-m-d H:i A',strtotime($locData['Last_Updated'])),
                 'LatLng'=> [
                     [
                         'lat'=> floatval($locData['Latitude']),

@@ -68,7 +68,7 @@ $segment3 = $this->uri->segment(2);
 
         function addMarkerInfo() {               
             for (var i = 0; i < markersOnMap.length; i++) {
-                var contentString = '<div id="content"><p>' + markersOnMap[i].name +'</p></div>';
+                var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';
                 const image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
                 const marker = new google.maps.Marker({
