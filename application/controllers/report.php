@@ -60,6 +60,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -69,6 +72,7 @@ CLASS Report extends MY_Controller {
             $data['imageFolder'] = 'uploads/attendance/'; 
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -125,6 +129,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -133,6 +140,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -165,6 +173,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -173,6 +184,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -205,6 +217,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -213,6 +228,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -245,6 +261,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -253,6 +272,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -283,6 +303,8 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -291,6 +313,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -320,6 +343,8 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -342,6 +367,7 @@ CLASS Report extends MY_Controller {
             $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -373,6 +399,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -381,6 +410,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -411,6 +441,9 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
@@ -419,6 +452,7 @@ CLASS Report extends MY_Controller {
         if (!empty($_POST) OR ! empty($_GET)) {  
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -581,12 +615,11 @@ CLASS Report extends MY_Controller {
         }else{
             $data['page']       = 1;
         }
-        $data['removeDateFromField'] =false;
-        $data['removeDateToField'] =false;
 
         if (!empty($_POST) OR ! empty($_GET)) {
             $data['startDate'] = '';
             $data['endDate'] = '';
+            $data['period'] = '';
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
             $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
@@ -617,18 +650,16 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
        
         
         $commonData = new Common_data();
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
-        
-        // if(!empty($this->input->get("page", TRUE))){
-        //     $data['page']       = $this->input->get("page", TRUE);
-        // }else{
-        //     $data['page']       = 1;
-        // }
-
+    
         if (!empty($_POST) OR ! empty($_GET)) {
+            $data['period'] = '';
             $data['startDate'] = $this->input->get_post("startDate", TRUE);
             $data['endDate'] = $this->input->get_post("endDate", TRUE);
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
@@ -645,6 +676,84 @@ CLASS Report extends MY_Controller {
             } else {
                 $datas = $reportModel->getRetailerOrder($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];                
+            }
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+    
+    function expenseTopSheet() {
+        $data['action'] = 'report/expenseTopSheet';
+        $data['pageTitel'] = 'Expense Top Sheet';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');              
+        $userlevel = $this->session->userdata('userLevel');
+
+        $data['showPeriodField'] = true; 
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+    
+        if (!empty($_POST) OR ! empty($_GET)) {
+            $data['startDate'] = '';
+            $data['endDate'] = '';
+            $data['period'] = $this->input->get_post("period", TRUE);
+            $data['periodFormat'] = date('Ym',strtotime($this->input->get_post("period", TRUE)));
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getExpenseTopSheet($data['regioncode'], $data['areacode'], $data['fmecode'], $data['periodFormat']);
+                exportexcel($datas['priorityData'],$filename = "Expense_Top_Sheet_".time());
+            } else {
+                $datas = $reportModel->getExpenseTopSheet($data['regioncode'], $data['areacode'], $data['fmecode'], $data['periodFormat']);
+                $data['priorityData'] = $datas['priorityData'];         
+            }
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+
+    function tourPlanMissed() {
+        $data['action'] = 'report/tourPlanMissed';
+        $data['pageTitel'] = 'Tour Plan Missed Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');              
+        $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true; 
+        $data['showDateFromField'] = true; 
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+    
+        if (!empty($_POST) OR ! empty($_GET)) {
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getTourPlanMissed($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Tour_Plan_Missed_Report_".time());
+            } else {
+                $datas = $reportModel->getTourPlanMissed($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];         
             }
         }
 

@@ -198,5 +198,31 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+    
+    public function getExpenseTopSheet($leve3,$level2,$level1,$period){                 
+        $sql = " EXEC usp_doLoadExpenseTopSheet   '$leve3','$level2','$level1','$period'";
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+            // $data['pagingData'] = $query->next_result();          
+                                 
+        }       
+        return $data;
+    }
+    
+    public function getTourPlanMissed($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadTourPlanMissedReport   '$leve3','$level2','$level1','$startDate', '$endDate'";
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+            // $data['pagingData'] = $query->next_result();          
+                                 
+        }       
+        return $data;
+    }
       
 }

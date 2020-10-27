@@ -163,6 +163,18 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
+            <li <?php if($segment2 == 'expenseTopSheet'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/expenseTopSheet">
+                    <span class="menu-text">Expense Top Sheet</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li <?php if($segment2 == 'tourPlanMissed'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/tourPlanMissed">
+                    <span class="menu-text">Tour Plan Missed</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
 
         </ul>
     </li>

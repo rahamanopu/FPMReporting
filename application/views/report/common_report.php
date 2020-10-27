@@ -140,7 +140,7 @@ $segment3 = $this->uri->segment(2);
                                 }?>
                                 
                                 
-                                <?php if(!isset($removeDateFromField)){?>
+                                <?php if(isset($showDateFromField)){?>
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date From
                                 </div>
@@ -155,7 +155,7 @@ $segment3 = $this->uri->segment(2);
                                 </div>
                                 <?php }?>
 
-                                <?php if(!isset($removeDateToField)){?>
+                                <?php if(isset($showDateToField)){?>
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date TO
                                 </div>
@@ -165,6 +165,21 @@ $segment3 = $this->uri->segment(2);
                                            required="required"
                                            value="<?php if (!empty($endDate)) {
                                     echo $endDate;
+                                } ?>"
+                                           >
+                                </div>
+                                <?php }?>
+
+                                <?php if(isset($showPeriodField)){?>
+                                <div class="col-md-1"  style="margin-top:5px;">
+                                    Period
+                                </div>
+                                <div class="col-md-3"  style="margin-top:5px;">
+                                    <input type="month" name="period" autocomplete="off"
+                                           id="period" class="form-control datePicker" 
+                                           required="required"
+                                           value="<?php if (!empty($period)) {
+                                    echo $period;
                                 } ?>"
                                            >
                                 </div>
@@ -193,7 +208,7 @@ $segment3 = $this->uri->segment(2);
                             $expenseTypeSubHead = '';
                         }
                          ?>
-                        <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&startDate='.$startDate.'&endDate='.$endDate.'&expenseTypeHead='.$expenseTypeHead.'&expenseTypeSubHead='.$expenseTypeSubHead.'&excel=yes'; ?>">
+                        <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&startDate='.$startDate.'&endDate='.$endDate.'&expenseTypeHead='.$expenseTypeHead.'&expenseTypeSubHead='.$expenseTypeSubHead.'&period='.$period.'&excel=yes'; ?>">
                             Export To Excel
                         </a>
                     <div class="exportallplantable table-responsive">    
