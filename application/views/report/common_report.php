@@ -212,6 +212,9 @@ $segment3 = $this->uri->segment(2);
                         </thead>
                         <?php
                         $count = 0;
+                        if(!isset($imageFolder)) {
+                            $imageFolder = 'uploads/';
+                        }
                         for ($i = 0; $i < count($priorityData); $i++) { $count++;
                             $arrayvalue = array_values($priorityData[$i]);
                             ?>
