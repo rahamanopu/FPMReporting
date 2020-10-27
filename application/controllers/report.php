@@ -336,7 +336,8 @@ CLASS Report extends MY_Controller {
         $data['expenseTypeSubHead'] = '';
           
 
-        if (!empty($_POST) OR ! empty($_GET)) {  
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/expense/'; 
             $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
             $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
             $data['startDate'] = $this->input->get_post('startDate');
