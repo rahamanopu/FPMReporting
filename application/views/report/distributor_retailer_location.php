@@ -168,11 +168,15 @@ $segment3 = $this->uri->segment(2);
             var InforObj = [];        
 
             function addMarkerInfo() {               
-                for (var i = 0; i < markersOnMap.length; i++) {
-                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
+                for (var i = 0; i < markersOnMap.length; i++) {                    
                     let image= '';
                     if(markersOnMap[i].type == 'distributor') {
-                        image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'; 
+                        var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
+                        image = '';
+                    } else {
+                        var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].RetailerContactNumber+'</span> </div>';
+                        
+                        image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                     }
 
                     const marker = new google.maps.Marker({

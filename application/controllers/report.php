@@ -462,6 +462,7 @@ CLASS Report extends MY_Controller {
         $markersOnMap = [];     
         $reportModel = new ReportModel();
         $datas = $reportModel->getDistributorRetailerLocation($level3, $level2, $level1,$category);
+        // echo '<pre>',var_dump('Okkkkkk======',$datas);die();
         if($category == 'all') {
             foreach($datas['distributor'] as $locData){
                 $markersOnMap[] = [
@@ -480,7 +481,9 @@ CLASS Report extends MY_Controller {
             
             foreach($datas['retailer'] as $locData){
                 $markersOnMap[] = [
-                    'name'=> 'Retailer',
+                    'code'=> $locData['RetailerID'],
+                    'name'=> $locData['RetailerName'],                    
+                    'RetailerContactNumber' => $locData['RetailerContactNumber'],
                     'type'=> 'retailer',
                     'LatLng'=> [
                         [
@@ -494,7 +497,9 @@ CLASS Report extends MY_Controller {
         } elseif($category == 'distributor') {
             foreach($datas['distributor'] as $locData){
                 $markersOnMap[] = [
-                    'name'=> $locData['DistributorCode'].' - '.$locData['DistributorName'],
+                    'code'=> $locData['DistributorCode'],
+                    'name'=> $locData['DistributorName'],
+                    'location'=> $locData['DistributorPoint'],
                     'type'=> 'distributor',
                     'LatLng'=> [
                         [
@@ -509,7 +514,9 @@ CLASS Report extends MY_Controller {
         elseif($category == 'retailer') {
             foreach($datas['retailer'] as $locData){
                 $markersOnMap[] = [
-                    'name'=> 'Retailer',
+                    'code'=> $locData['RetailerID'],
+                    'name'=> $locData['RetailerName'],                    
+                    'RetailerContactNumber' => $locData['RetailerContactNumber'],
                     'type'=> 'retailer',
                     'LatLng'=> [
                         [
