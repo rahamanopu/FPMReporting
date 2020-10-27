@@ -224,5 +224,19 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+
+    public function getUserTimelineLocation($level3, $level2, $level1,$dateFrom, $dateTo){                 
+        $sql = " EXEC usp_doLoadUserTimelineReport   '$level3','$level2','$level1', '$dateFrom', '$dateTo'";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['distributor'] = $query->result_array();   
+            $data['retailer'] = $query->next_result();
+            $data['user_location'] = $query->next_result();
+                                 
+        }       
+        return $data;
+    }
       
 }

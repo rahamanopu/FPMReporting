@@ -175,6 +175,12 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
+            <li <?php if($segment2 == 'userTimelineLocation'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/userTimelineLocation">
+                    <span class="menu-text">User Timeline Location</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
 
         </ul>
     </li>

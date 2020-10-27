@@ -760,6 +760,83 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/common_report',$data);
     }
 
+    function userTimelineLocation() {
+        $data['pageTitel'] = 'User Timeline Location';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        $this->loadView('report/user_timeline_location',$data);
+    }
+
+    public function getUserTimelineLocation() {  
+        $level1 = $this->input->post('level1');
+        $level2 = $this->input->post('level2');
+        $level3 = $this->input->post('level3');
+        $dateFrom = $this->input->post('dateFrom');   
+        $dateTo = $this->input->post('dateTo');   
+        $markersOnMap = [];     
+        $reportModel = new ReportModel();
+        // $datas = $reportModel->getDistributorRetailerLocation($level3, $level2, $level1,$category);
+        $datas = $reportModel->getUserTimelineLocation($level3, $level2, $level1,$dateFrom,$dateTo);
+        // echo '<pre>',var_dump('Okkkkkk======',$datas);die();
+       
+            foreach($datas['distributor'] as $locData){
+                $markersOnMap[] = [
+                    'code'=> $locData['DistributorCode'],
+                    'name'=> $locData['DistributorName'],
+                    'location'=> $locData['DistributorPoint'],
+                    'type'=> 'distributor',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            } 
+            
+            foreach($datas['retailer'] as $locData){
+                $markersOnMap[] = [
+                    'code'=> $locData['RetailerID'],
+                    'name'=> $locData['RetailerName'],                    
+                    'retailerContactNumber' => $locData['RetailerContactNumber'],
+                    'retailerTypeName' => $locData['RetailerTypeName'],
+                    'type'=> 'retailer',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            }
+            
+            foreach($datas['user_location'] as $locData){
+                $markersOnMap[] = [
+                    'name'=> $locData['UserId'],
+                    'time'=> $locData['ServerTime'],
+                    'type'=> 'user_location',
+                    'LatLng'=> [
+                        [
+                            'lat'=> floatval($locData['Latitude']),
+                            'lng'=> floatval($locData['Longitude'])
+                        ]
+                    ],                                                   
+                ];                        
+            }
+
+  
+        echo json_encode($markersOnMap);
+
+    }
+
     
 
 }
