@@ -393,7 +393,7 @@ CLASS Report extends MY_Controller {
     function distributorSecondarySales() {
         
         $data['action'] = 'report/distributorSecondarySales';
-        $data['pageTitel'] = 'Distibutor Sales Projection';
+        $data['pageTitel'] = 'Distributor Secoundary Sales';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
@@ -422,7 +422,7 @@ CLASS Report extends MY_Controller {
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
                 $datas = $reportModel->getDistributorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
-                exportexcel($datas['priorityData'],$filename = "Distributor_Secondary_Sales_".time());
+                exportexcel($datas['priorityData'],$filename = "Distributor_Secoundary_Sales_".time());
             } else {
                 $datas = $reportModel->getDistributorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];
@@ -463,10 +463,10 @@ CLASS Report extends MY_Controller {
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getdistributorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getdistributorSecondaryProjection($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 exportexcel($datas['priorityData'],$filename = "Distributor_Secondary_Sales_Projction_".time());
             } else {
-                $datas = $reportModel->getdistributorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getdistributorSecondaryProjection($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];
             }
         }
@@ -637,8 +637,7 @@ CLASS Report extends MY_Controller {
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
-        $userlevel = $this->session->userdata('userLevel');
-       
+        $userlevel = $this->session->userdata('userLevel');       
         
         $commonData = new Common_data();
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
@@ -816,9 +815,7 @@ CLASS Report extends MY_Controller {
         $dateTo = $this->input->post('dateTo');   
         $markersOnMap = [];     
         $reportModel = new ReportModel();
-        // $datas = $reportModel->getDistributorRetailerLocation($level3, $level2, $level1,$category);
         $datas = $reportModel->getUserTimelineLocation($level3, $level2, $level1,$dateFrom,$dateTo);
-        // echo '<pre>',var_dump('Okkkkkk======',$datas);die();
        
             foreach($datas['distributor'] as $locData){
                 $markersOnMap[] = [

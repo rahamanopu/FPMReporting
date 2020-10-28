@@ -176,7 +176,7 @@ $segment3 = $this->uri->segment(2);
                                 </div>
                                 <div class="col-md-3"  style="margin-top:5px;">
                                     <input type="month" name="period" autocomplete="off"
-                                           id="period" class="form-control datePicker" 
+                                           id="period" class="form-control" 
                                            required="required"
                                            value="<?php if (!empty($period)) {
                                     echo $period;

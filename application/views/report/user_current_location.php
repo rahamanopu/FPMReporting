@@ -73,7 +73,7 @@ $segment3 = $this->uri->segment(2);
                     var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
                     image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png';
                 } else if(markersOnMap[i].type == 'retailer') {
-                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].RetailerContactNumber+'</span> </div>';                    
+                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].retailerContactNumber+'</span> </div>';                    
                     image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                 }else {
                     var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';

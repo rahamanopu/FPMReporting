@@ -136,11 +136,16 @@ $segment3 = $this->uri->segment(2);
         var markersOnMap = '';
         var centerCords = '';
         $("#showGoogleMapLocation").on('click',function() {
+            var level1= $("#fmecode").val();
+            if(level1===null) {
+                alert("Please Select One TSI");
+                return false;
+            }
             var dateFrom = $("#dateFrom").val();       
             var dateTo = $("#dateTo").val();       
             var level3= $("#regioncode").val();
             var level2= $("#areacode").val();
-            var level1= $("#fmecode").val();
+            
             // var level= 'D1';
             $("#map").html("");
             $.ajax({

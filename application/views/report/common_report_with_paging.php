@@ -140,7 +140,7 @@ $segment3 = $this->uri->segment(2);
                                 }?>
                                 
                                 
-                                <?php if(!isset($removeDateFromField)){?>
+                                <?php if(isset($showDateFromField)){?>
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date From
                                 </div>
@@ -155,7 +155,7 @@ $segment3 = $this->uri->segment(2);
                                 </div>
                                 <?php }?>
 
-                                <?php if(!isset($removeDateToField)){?>
+                                <?php if(isset($showDateToField)){?>
                                 <div class="col-md-1"  style="margin-top:5px;">
                                     Date TO
                                 </div>
