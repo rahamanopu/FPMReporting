@@ -66,10 +66,20 @@ $segment3 = $this->uri->segment(2);
         var map;    
         var InforObj = [];        
 
-        function addMarkerInfo() {               
+        function addMarkerInfo() {  
+            let image= '';             
             for (var i = 0; i < markersOnMap.length; i++) {
-                var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';
-                const image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                if(markersOnMap[i].type == 'distributor') {
+                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
+                    image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png';
+                } else if(markersOnMap[i].type == 'retailer') {
+                    var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].RetailerContactNumber+'</span> </div>';                    
+                    image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                }else {
+                    var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';
+                    image = '';
+                }
+                
 
                 const marker = new google.maps.Marker({
                     position: markersOnMap[i].LatLng[0],
@@ -103,7 +113,7 @@ $segment3 = $this->uri->segment(2);
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 30,
+                zoom: 7,
                 center: centerCords
             });
             addMarkerInfo();

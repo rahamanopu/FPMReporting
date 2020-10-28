@@ -167,12 +167,13 @@ $segment3 = $this->uri->segment(2);
             var map;    
             var InforObj = [];        
 
-            function addMarkerInfo() {               
-                for (var i = 0; i < markersOnMap.length; i++) {                    
-                    let image= '';
+            function addMarkerInfo() {  
+                let image= '';             
+                for (var i = 0; i < markersOnMap.length; i++) {                   
+                    
                     if(markersOnMap[i].type == 'distributor') {
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
-                        image = '';
+                        image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png';
                     } else {
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].RetailerContactNumber+'</span> </div>';
                         
@@ -211,7 +212,7 @@ $segment3 = $this->uri->segment(2);
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 30,
+                    zoom: 7,
                     center: centerCords
                 });
                 addMarkerInfo();

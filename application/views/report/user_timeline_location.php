@@ -229,7 +229,7 @@ $segment3 = $this->uri->segment(2);
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 10,
+                    zoom: 7,
                     center: centerCords
                 });
                 addMarkerInfo();

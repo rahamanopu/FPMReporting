@@ -375,7 +375,7 @@ $(document).ready(function() {
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
+                zoom: 10,
                 center: centerCords
             });
             addMarkerInfo();
