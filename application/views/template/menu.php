@@ -79,7 +79,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <span class="selected"></span>
         </a>
         <ul class="sarah-sub-menu">
-            <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
+        <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/attendancereport">
                     <span class="menu-text">Attendance Report</span>
                     <span class="selected"></span>
@@ -91,12 +91,49 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
+			
+			<li <?php if($segment2 == 'userCurrentLocation'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/userCurrentLocation">
+                    <span class="menu-text">Users Current Location</span>
+                    <span class="selected"></span>
+                </a>
+            </li> 
+			
+			<li <?php if($segment2 == 'userTimelineLocation'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/userTimelineLocation">
+                    <span class="menu-text">User Timeline Location</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+			
             <li <?php if($segment2 == 'tourplan'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/tourplan">
                     <span class="menu-text">Tour Plan Report</span>
                     <span class="selected"></span>
                 </a>
             </li>
+			
+			<li <?php if($segment2 == 'tourPlanMissed'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/tourPlanMissed">
+                    <span class="menu-text">Tour Plan Missed</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+			
+			<li <?php if($segment2 == 'distributorExpense'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorExpense">
+                    <span class="menu-text">TSI Expense</span>
+                    <span class="selected"></span>
+                </a>
+            </li> 
+			
+			<li <?php if($segment2 == 'expenseTopSheet'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/expenseTopSheet">
+                    <span class="menu-text">Expense Top Sheet</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+			
             <li <?php if($segment2 == 'distributorStock'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/distributorStock">
                     <span class="menu-text">Distributor Stock Report</span>
@@ -109,12 +146,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
-             <li <?php if($segment2 == 'distributorExpense'){ ?>class="active" <?php } ?>>
-                <a href="<?php echo base_url(); ?>report/distributorExpense">
-                    <span class="menu-text">TSI Expense</span>
-                    <span class="selected"></span>
-                </a>
-            </li> 
+             
             <li <?php if($segment2 == 'distributorSecondarySales'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/distributorSecondarySales">
                     <span class="menu-text">Distibutor Sales Projection</span>
@@ -133,12 +165,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li>
-            <li <?php if($segment2 == 'userCurrentLocation'){ ?>class="active" <?php } ?>>
-                <a href="<?php echo base_url(); ?>report/userCurrentLocation">
-                    <span class="menu-text">Users Current Location</span>
-                    <span class="selected"></span>
-                </a>
-            </li> 
+            
             <li <?php if($segment2 == 'retailerStock'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/retailerStock">
                     <span class="menu-text">Retailer Stock Report</span>
@@ -160,24 +187,6 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <li <?php if($segment2 == 'retailerOrder'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/retailerOrder">
                     <span class="menu-text">Retailer Order</span>
-                    <span class="selected"></span>
-                </a>
-            </li>
-            <li <?php if($segment2 == 'expenseTopSheet'){ ?>class="active" <?php } ?>>
-                <a href="<?php echo base_url(); ?>report/expenseTopSheet">
-                    <span class="menu-text">Expense Top Sheet</span>
-                    <span class="selected"></span>
-                </a>
-            </li>
-            <li <?php if($segment2 == 'tourPlanMissed'){ ?>class="active" <?php } ?>>
-                <a href="<?php echo base_url(); ?>report/tourPlanMissed">
-                    <span class="menu-text">Tour Plan Missed</span>
-                    <span class="selected"></span>
-                </a>
-            </li>
-            <li <?php if($segment2 == 'userTimelineLocation'){ ?>class="active" <?php } ?>>
-                <a href="<?php echo base_url(); ?>report/userTimelineLocation">
-                    <span class="menu-text">User Timeline Location</span>
                     <span class="selected"></span>
                 </a>
             </li>
