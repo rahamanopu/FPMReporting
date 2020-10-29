@@ -435,7 +435,7 @@ CLASS Report extends MY_Controller {
     function distributorSecondarySalesProjection() {
         
         $data['action'] = 'report/distributorSecondarySalesProjection';
-        $data['pageTitel'] = 'Distibutor Secoundary Sales Projection ';
+        $data['pageTitel'] = 'Distributor Primary Sales projection';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
