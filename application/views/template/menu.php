@@ -193,6 +193,19 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
 
         </ul>
     </li>
+    <?php if($userid == 'admin') {
+        ?>
+        <li>
+        <a href="<?php echo base_url(); ?>app-upload">
+            <i class="fa fa-upload"></i>
+            <span class="menu-text">APK Upload</span>
+            <span class="selected"></span>
+        </a>
+    </li>
+
+        <?php
+    }?>
+    
 
     <li>
         <a href="<?php echo base_url(); ?>authenticate/logout">

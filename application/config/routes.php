@@ -57,5 +57,8 @@ $route["setup/department(:num?)"] = "Setup/department$1";
 $route["setup/department-data"] = "Setup/departmentData";
 $route["setup/department-add"] = "Setup/addDepartment";
 
+$route['app-upload'] = 'Setup/appUpload';
+$route['submit-app-upload'] = 'Setup/submitUpload';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

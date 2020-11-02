@@ -398,5 +398,49 @@ CLASS Setup extends MY_Controller {
         }
         return redirect('setup/department');
     }
+
+
+    function appUpload() {
+        $data = array();
+        $data['userid'] = $this->session->userdata('userid');
+        if($data['userid'] == 'admin'){
+            $this->loadView('appupload', $data);
+        }
+    } 
+    
+    public function submitUpload()
+    {
+        $data = array();
+        $data['userid'] = $this->session->userdata('userid');
+        if($data['userid'] == 'admin'){
+            
+            $new_name = 'TSI.apk';
+            if($_FILES['userfile']['type'] == 'application/vnd.android.package-archive' || $_FILES['userfile']['type'] == 'application/octet-stream' ){
+                $config['upload_path']          = 'uploads/apk/';
+                $config['allowed_types']        = '*';
+                $config['file_name']            = $new_name;
+                $config['overwrite']            = true;
+
+                $this->load->library('upload', $config);
+
+                if ( ! $this->upload->do_upload('userfile'))
+                {
+                    $error = array('error' => $this->upload->display_errors());
+                    print_r($error); exit();
+                }
+                else
+                {
+                    $data = array('upload_data' => $this->upload->data());
+                    setFlashMsg("APK Upload Successful");
+                    $this->session->set_userdata(['apk_file_path'=> base_url().'uploads/apk/'.$new_name]);
+                    return redirect('app-upload','refresh');
+                    
+                }
+            }else{
+                echo "invalid file.";
+            }
+        }
+    }
+
 }
 ?>
