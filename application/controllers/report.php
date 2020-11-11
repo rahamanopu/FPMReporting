@@ -432,6 +432,50 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/common_report',$data);
     }
 
+
+    function distributorCompititorSecondarySales() {
+        
+        $data['action'] = 'report/distributorCompititorSecondarySales';
+        $data['pageTitel'] = 'Distributor Compititor Secoundary Sales';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {  
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getDistributorCompititorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'],$filename = "Distributor_Compititor_Secoundary_Sales_".time());
+            } else {
+                $datas = $reportModel->getDistributorCompititorSecondarySales($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+        }
+
+        $this->loadView('report/common_report',$data);
+    }
+
+
     function distributorSecondarySalesProjection() {
         
         $data['action'] = 'report/distributorSecondarySalesProjection';
@@ -865,6 +909,58 @@ CLASS Report extends MY_Controller {
   
         echo json_encode($markersOnMap);
 
+    }
+
+    public function expenseList() {
+        $data['action'] = 'report/expenseList';
+        $data['pageTitel'] = 'Expense List';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        $this->load->model('CommonModel');
+        $commonModel = new CommonModel();
+
+        $data['expenseTypeHeadField']= true;
+        $data['expenseTypeSubHeadField']= true;
+        $data['expenseTypeHeads']= $commonModel->getExpenseTypeHead();
+        $data['expenseTypeSubHeads']= $commonModel->getExpenseTypeSubHead();   
+        $data['expenseTypeHead'] = '';
+        $data['expenseTypeSubHead'] = '';
+          
+
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/expense/'; 
+            $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
+            $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            
+            // $datas = $reportModel->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $datas = $reportModel->getExpenseList($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $data['priorityData'] = $datas['priorityData'];                                          
+        }
+
+        $this->loadView('report/expense_list',$data);
+        
     }
 
     

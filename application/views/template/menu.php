@@ -79,7 +79,20 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <span class="selected"></span>
         </a>
         <ul class="sarah-sub-menu">
-        <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
+            <?php if($userid == 'admin') {
+            ?>
+                <li <?php if($segment2 == 'expenseList'){ ?>class="active" <?php } ?>>
+                    <a href="<?php echo base_url(); ?>report/expenseList">
+                        <i class="fa fa-money"></i>
+                        <span class="menu-text">Expense List</span>
+                        <span class="selected"></span>
+                    </a>
+                </li>
+
+                <?php
+            }?>
+
+            <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/attendancereport">
                     <span class="menu-text">Attendance Report</span>
                     <span class="selected"></span>
@@ -150,6 +163,13 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <li <?php if($segment2 == 'distributorSecondarySales'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/distributorSecondarySales">
                     <span class="menu-text">Distributor Secoundary Sales</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            
+            <li <?php if($segment2 == 'distributorCompititorSecondarySales'){ ?>class="active" <?php } ?>>
+                <a href="<?php echo base_url(); ?>report/distributorCompititorSecondarySales">
+                    <span class="menu-text">Distributor Compititor Secoundary Sales</span>
                     <span class="selected"></span>
                 </a>
             </li> 

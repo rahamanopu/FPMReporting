@@ -96,6 +96,17 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+    public function getDistributorCompititorSecondarySales($leve3,$level2,$level1,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadDistributorSecoundarySalesCompititor  '$leve3','$level2','$level1','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
 
     public function getdistributorSecondaryProjection($level3,$level2,$level1,$startDate, $endDate){                 
         $sql = " EXEC usp_doLoadDistributorSecoundarySalesProjection  '$level3','$level2','$level1','$startDate', '$endDate' ";        
@@ -234,6 +245,18 @@ class ReportModel extends CI_Model {
             $data['distributor'] = $query->result_array();   
             $data['retailer'] = $query->next_result();
             $data['user_location'] = $query->next_result();
+                                 
+        }       
+        return $data;
+    }
+
+    public function getExpenseList($leve3,$level2,$level1,$expenseTypeHead, $expenseTypeSubHead,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadExpense  '$leve3','$level2','$level1','$expenseTypeHead', '$expenseTypeSubHead','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
                                  
         }       
         return $data;
