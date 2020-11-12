@@ -44,6 +44,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="levelCode" class="col-sm-4 control-label">Level Code</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="levelCode" class="form-control" id="levelCode" value="<?php if(!empty($levelInfo)) { echo isset($levelInfo[ucfirst($level)]) ? $levelInfo[ucfirst($level)] : '' ;}  ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="designation" class="col-sm-4 control-label">Designation</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="designation" class="form-control" id="designation" value="<?php echo !empty($levelInfo) ? $levelInfo['Designation'] : ''; ?>">

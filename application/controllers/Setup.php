@@ -68,7 +68,7 @@ CLASS Setup extends MY_Controller {
         $levelId = $this->input->post('levelId');
         if(isset($_POST)) {
             $data = [
-                $level =>trim($this->input->post('staffId')),
+                $level =>trim($this->input->post('levelCode')),
                 $level.'Name' => trim($this->input->post('fullName')),
                 'Base' => trim($this->input->post('base')),
                 'Designation' => trim($this->input->post('designation')),
