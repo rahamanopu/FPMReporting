@@ -230,6 +230,19 @@ class SetupModel extends CI_Model {
         // return data for datatable
         return $this->fetchData($sql);
     }
+
+    public function getExpenseList($leve3,$level2,$level1,$expenseTypeHead, $expenseTypeSubHead,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadExpense  '$leve3','$level2','$level1','$expenseTypeHead', '$expenseTypeSubHead','$startDate', '$endDate' ";        
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+    
 }
 
 ?>

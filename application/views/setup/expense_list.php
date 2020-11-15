@@ -196,67 +196,60 @@ $segment3 = $this->uri->segment(2);
             </div>
         </div>
         <!-- /BOXES --> 
+        <?php if(isset($expenses)) {?>
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">
-                    
-                    <?php if(!empty($priorityData)){
-                        if(!isset($expenseTypeHead)) {
-                            $expenseTypeHead = '';
-                        }
-                        if(!isset($expenseTypeSubHead)) {
-                            $expenseTypeSubHead = '';
-                        }
-                         ?>
-                       
+                <div class="panel-body">                    
                     <div class="exportallplantable table-responsive">    
                     <table class="table table-bordered table-hover  table-striped">
                         <thead>                            
                             <tr>
-                                <th>SL</th>         
-                                <?php
-                                $index = array_keys($priorityData[0]);
-                                $count = 0;
-                                for($i = 0; $i < count($index); $i++){
-                                    ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th><?php
-                                }
-                                ?>
-                                <th>Edit</th>
+                                <th>SL</th>     
+                                <th>Edit</th>    
+                                <th>Level2</th>    
+                                <th>TSI</th>    
+                                <th>Name</th> 
+                                <th>Expense Date</th>    
+                                <th>Head</th>    
+                                <th>Sub Head</th>
+                                <th>Visit Type</th>
+                                <th>Start</th>    
+                                <th>End</th>  
+                                <th>Transport Name</th> 
+                                <th>Amount</th> 
                             </tr>
                         </thead>
-                        <?php
-                        $count = 0;
-                        if(!isset($imageFolder)) {
-                            $imageFolder = 'uploads/';
-                        }
-                        for ($i = 0; $i < count($priorityData); $i++) { $count++;
-                            $arrayvalue = array_values($priorityData[$i]);
-                            ?>
-                            <tr>
-                                <td><?php echo ($i+1);?></td>    
-                                
-                                <?php
-                                for ($j = 0; $j < count($index); $j++) {
-                                        $value = $arrayvalue[$j];                                    
-                                        echo "<td>" . $value."</td>";  
-                                      
-                                    } 
+                        <tbody>
+                            <?php foreach($expenses as $key=> $expense) {
                                 ?>
-                                <td><a href="<?php echo base_url().'expenseEdit';?>" class="btn btn-primary">Edit</a></td> 
-                        
-                            </td>
+                                <tr>
+                                    <td><?php echo ($key+1);?></td>
+                                    <td><a href="<?php echo base_url().'setup/expneseEdit/'.$expense['ExpenseId'].'/'.$expense['ExpenseDetailsID']?>" class="btn btn-warning btn-sm">Edit</a></td>
+                                    <td><?php echo $expense['Level2'];?></td>
+                                    <td><?php echo $expense['TSI'];?></td>
+                                    <td><?php echo $expense['Name'];?></td>
+                                    <td><?php echo $expense['Expense_Date'];?></td>                                    
+                                    <td><?php echo $expense['Head'];?></td>
+                                    <td><?php echo $expense['Sub_Head'];?></td>
+                                    <td><?php echo ($expense['VisitType'] !='0') ? $expense['VisitType'] : '' ;?></td>
+                                    <td><?php echo ($expense['Start'] !='0') ? $expense['Start'] : '' ;?></td>
+                                    <td><?php echo ($expense['End'] !='0')? $expense['End'] : '' ;?></td>
+                                    <td><?php echo ($expense['TransportName'] !='0') ? $expense['TransportName'] : '' ;?></td>                                    
+                                    <td><?php echo $expense['Amount'];?></td>
+                                </tr>
+                                <?php
+                            }?>
                             
-                            <?php
-                        }
-                        ?>
+                        </tbody>
+                        
 
                         </table>
-                    </div>
-                    <?php } ?>
+                    </div>                  
 
                 </div>
             </div>
         </div>
+        <?php }?>
     </div>
 
 </section>

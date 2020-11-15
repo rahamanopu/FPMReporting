@@ -442,5 +442,77 @@ CLASS Setup extends MY_Controller {
         }
     }
 
+    public function expenseList() {
+        $data['action'] = 'setup/expenseList';
+        $data['pageTitel'] = 'Expense List';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        $this->load->model('common_data');
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        $this->load->model('CommonModel');
+        $commonModel = new CommonModel();
+
+        $data['expenseTypeHeadField']= true;
+        $data['expenseTypeSubHeadField']= true;
+        $data['expenseTypeHeads']= $commonModel->getExpenseTypeHead();
+        $data['expenseTypeSubHeads']= $commonModel->getExpenseTypeSubHead();   
+        $data['expenseTypeHead'] = '';
+        $data['expenseTypeSubHead'] = '';
+          
+
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/expense/'; 
+            $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
+            $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $setupModel = new SetupModel();
+            
+            // $datas = $reportModel->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $datas = $setupModel->getExpenseList($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $data['expenses'] = $datas['priorityData'];                                          
+        }
+        // echo '<pre>',print_r($data['expenses']);die();
+
+        $this->loadView('setup/expense_list',$data);
+        
+    }
+
+    public function expneseEdit($expenseId, $expenseDetailsId) {
+        $data['action'] = 'setup/expenseUpdate';
+        $data['pageTitel'] = 'Expense Edit';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');
+
+        $sql = "select * from ExpenseMaster EM
+                left join ExpenseDetails ED on ED.ExpenseID = EM.ExpenseId        
+                where EM.ExpenseId='$expenseId' and ED.ExpenseDetailsID='$expenseDetailsId'";
+        $query = $this->db->query($sql);
+        if($query && !empty($result=$query->result_array())) {
+            $data['expense'] =  $result[0];
+        }
+        // echo '<pre>',print_r($data['expense']);die();
+        $this->loadView('setup/expense_edit',$data);
+    }
+
 }
 ?>

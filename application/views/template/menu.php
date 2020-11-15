@@ -63,6 +63,19 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                         }
                     }
                     ?>
+
+            <?php if($userid == 'admin') {
+            ?>
+                <li <?php if($segment2 == 'expenseList'){ ?>class="active" <?php } ?>>
+                    <a href="<?php echo base_url(); ?>setup/expenseList">
+                        <i class="fa fa-money"></i>
+                        <span class="menu-text">Expense List</span>
+                        <span class="selected"></span>
+                    </a>
+                </li>
+
+                <?php
+            }?>
                     
                 </ul>
             </li>
@@ -79,19 +92,6 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
             <span class="selected"></span>
         </a>
         <ul class="sarah-sub-menu">
-            <?php if($userid == 'admin') {
-            ?>
-                <li <?php if($segment2 == 'expenseList'){ ?>class="active" <?php } ?>>
-                    <a href="<?php echo base_url(); ?>report/expenseList">
-                        <i class="fa fa-money"></i>
-                        <span class="menu-text">Expense List</span>
-                        <span class="selected"></span>
-                    </a>
-                </li>
-
-                <?php
-            }?>
-
             <li <?php if($segment2 == 'attendancereport'){ ?>class="active" <?php } ?>>
                 <a href="<?php echo base_url(); ?>report/attendancereport">
                     <span class="menu-text">Attendance Report</span>
