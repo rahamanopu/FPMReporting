@@ -510,8 +510,159 @@ CLASS Setup extends MY_Controller {
         if($query && !empty($result=$query->result_array())) {
             $data['expense'] =  $result[0];
         }
+        
+        $data['distributors'] = $this->setupModel->getDistributor($data['expense']['EmpCode']);
+        $data['expenseTransports'] = $this->setupModel->getExpenseTransport();
         // echo '<pre>',print_r($data['expense']);die();
         $this->loadView('setup/expense_edit',$data);
+    }
+
+    public function expenseUpdate() {
+        $expenseId = $this->input->post('ExpenseId');
+        $expenseDetailsId = $this->input->post('ExpenseDetailsID');
+        $expenseDate = $this->input->post('ExpenseDate');
+        
+        // Expense Master
+        $dataMaster['EmpName'] = $this->input->post('EmpName');
+        $dataMaster['UserLevel'] = $this->input->post('UserLevel');
+        $dataMaster['LevelCode'] = $this->input->post('LevelCode');
+        $dataMaster['Period'] = date('Ym', strtotime($expenseDate));
+
+        //************ */ Expense Details *************//
+        $dataDetails['ExpenseDate'] = $expenseDate;
+        if($this->input->post('Amount')) {
+            $dataDetails['Amount'] = $this->input->post('Amount');
+        }
+        // DA
+        if($this->input->post('DAExpType')) {
+            $dataDetails['DAExpType'] = $this->input->post('DAExpType');
+        }
+        if($this->input->post('LocationFrom')) {
+            $dataDetails['LocationFrom'] = $this->input->post('LocationFrom');
+        }
+        if($this->input->post('DistributorCode')) {
+            $dataDetails['DistributorCode'] = $this->input->post('DistributorCode');
+        }
+
+        if($this->input->post('Place')) {
+            $dataDetails['Place'] = $this->input->post('Place');
+        }
+        if($this->input->post('TypeOfWork')) {
+            $dataDetails['TypeOfWork'] = $this->input->post('TypeOfWork');
+        }
+        if($this->input->post('StartDate')) {
+            $dataDetails['StartDate'] = $this->input->post('StartDate');
+        }
+        if($this->input->post('EndDate')) {
+            $dataDetails['EndDate'] = $this->input->post('EndDate');
+        }
+        
+
+        if($this->input->post('SeniorNameVisitedWith')) {
+            $dataDetails['SeniorNameVisitedWith'] = $this->input->post('SeniorNameVisitedWith');
+        }
+        // TA
+        if($this->input->post('LocationFrom')) {
+            $dataDetails['LocationFrom'] = $this->input->post('LocationFrom');
+        }
+        if($this->input->post('ExpseneTransportID')) {
+            $dataDetails['ExpseneTransportID'] = $this->input->post('ExpseneTransportID');
+        }
+        if($this->input->post('PurposeOfTransport')) {
+            $dataDetails['PurposeOfTransport'] = $this->input->post('PurposeOfTransport');
+        }
+        if($this->input->post('ContactPersonName')) {
+            $dataDetails['ContactPersonName'] = $this->input->post('ContactPersonName');
+        }
+        if($this->input->post('ContactPersonMobile')) {
+            $dataDetails['ContactPersonMobile'] = $this->input->post('ContactPersonMobile');
+        }
+
+        // Accumodation Cost
+        if($this->input->post('HotelName')) {
+            $dataDetails['HotelName'] = $this->input->post('HotelName');
+        }
+        if($this->input->post('HotelPlace')) {
+            $dataDetails['HotelPlace'] = $this->input->post('HotelPlace');
+        }
+        if($this->input->post('NightStatyFrom')) {
+            $dataDetails['NightStatyFrom'] = $this->input->post('NightStatyFrom');
+        }
+        if($this->input->post('NightStayTo')) {
+            $dataDetails['NightStayTo'] = $this->input->post('NightStayTo');
+        }
+        if($this->input->post('Purpose')) {
+            $dataDetails['Purpose'] = $this->input->post('Purpose');
+        }
+        //  when Expense type in ['PhotoCopy','Courier Bill','Print','Other']
+        if($this->input->post('Purpose')) {
+            $dataDetails['Purpose'] = $this->input->post('Purpose');
+        }
+
+        // Updating Expense Details        
+        $this->db->update('ExpenseDetails',$dataDetails, ['ExpenseId'=> $expenseId,'ExpenseDetailsID'=> $expenseDetailsId]);
+        // echo '<pre>',var_dump($this->db->last_query());die();
+
+        // Updating Expense  Master
+        $sql = "select ED.Amount from ExpenseMaster EM
+                left join ExpenseDetails ED on ED.ExpenseID = EM.ExpenseId        
+                where EM.ExpenseId='$expenseId'";
+        $query = $this->db->query($sql);
+        if($query && !empty($result=$query->result_array())) {
+            $dataMaster['TotalAmount'] = array_sum( array_column($result,'Amount') ) ;
+        }
+
+        $status = $this->db->update('ExpenseMaster',$dataMaster,['ExpenseId'=> $expenseId]);
+        if($result) {
+            setFlashMsg('Updated Successfully');
+        } else {
+            setFlashMsg('Something Went Wrong','error');
+        }
+        return  redirect('setup/expneseEdit/'.$expenseId.'/'.$expenseDetailsId);
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
     }
 
 }

@@ -242,6 +242,30 @@ class SetupModel extends CI_Model {
         }       
         return $data;
     }
+
+    public function getDistributor($userid)
+    {
+        $sql ="select D.*, DL.Latitude, DL.Longitude from Distributor D
+                left join DistributorLocation DL on DL.DistributorCode = D.DistributorCode
+                where D.TSIID = '$userid'";
+
+                // $sql ="select D.* from Distributor D WHERE TSIID = '$userid'";
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
+    public function getExpenseTransport()
+    {
+        $sql ="select * from ExpseneTransport";
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
     
 }
 

@@ -224,7 +224,7 @@ $segment3 = $this->uri->segment(2);
                                 ?>
                                 <tr>
                                     <td><?php echo ($key+1);?></td>
-                                    <td><a href="<?php echo base_url().'setup/expneseEdit/'.$expense['ExpenseId'].'/'.$expense['ExpenseDetailsID']?>" class="btn btn-warning btn-sm">Edit</a></td>
+                                    <td><a  href="<?php echo base_url().'setup/expneseEdit/'.$expense['ExpenseId'].'/'.$expense['ExpenseDetailsID']?>" class="btn btn-warning btn-sm" target="_blank">Edit</a></td>
                                     <td><?php echo $expense['Level2'];?></td>
                                     <td><?php echo $expense['TSI'];?></td>
                                     <td><?php echo $expense['Name'];?></td>

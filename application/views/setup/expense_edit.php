@@ -13,8 +13,26 @@
                         <form class="form-horizontal" action="<?php echo base_url().$action ?>" method="post">
                             <input type="hidden" name="ExpenseId"
                                    value="<?php echo (isset($expense) && !empty($expense)) ? $expense['ExpenseId'] : '' ?>">
-                                   <input type="hidden" name="ExpenseDetailsID"
-                                   value="<?php echo (isset($expense) && !empty($expense)) ? $expense['ExpenseDetailsID'] : '' ?>">
+                            <input type="hidden" name="ExpenseDetailsID"
+                            value="<?php echo (isset($expense) && !empty($expense)) ? $expense['ExpenseDetailsID'] : '' ?>">
+                    
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Category" class="control-label col-sm-4">Plan Type: </label>
+                                    <div class="col-sm-8">
+                                    <label for="Category" class="control-label col-sm-4 text-primary"><b><?php echo $expense['Category'] ?></b></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="SubCategory" class="control-label col-sm-4">Type: </label>
+                                    <div class="col-sm-8">
+                                    <label for="SubCategory" class="control-label col-sm-4 text-primary"><b><?php echo $expense['SubCategory'] ?></b></label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="EmpName" class="control-label col-sm-4">Employee Name</label>
@@ -46,237 +64,273 @@
                                                required placeholder="LevelCode">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="ProductName" class="control-label col-sm-4">Product Name</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="ProductName" id="ProductName" class="form-control"
-                                               value="<?php echo (isset($expense['ProductName'])) ? $expense['ProductName'] : '' ?>"
-                                               required placeholder="Product Name">
-                                    </div>
-                                </div>
-                            </div>
+                            </div>                            
                             
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="Capacity" class="control-label col-sm-4">Capacity</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="Capacity" id="Capacity" class="form-control"
-                                               value="<?php echo (isset($expense['Capacity'])) ? $expense['Capacity'] : '' ?>"
-                                               required placeholder="Capacity">
+                                    <div class="form-group">
+                                        <label for="ExpenseDate" class="control-label col-sm-4">Expense Date</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="ExpenseDate" id="ExpenseDate" class="form-control datePicker"
+                                                value="<?php echo (isset($expense['ExpenseDate'])) ? date('Y-m-d',strtotime($expense['ExpenseDate'])) : '' ?>"
+                                                required placeholder="ExpenseDate">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="BrandCode" class="control-label col-sm-4">Brand</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" name="BrandCode" id="BrandCode"
-                                                required>
-                                            <option value="">--Select--</option>
-                                            <?php if (isset($brands) && !empty($brands)) {
-                                                foreach ($brands as $brand) {
+                            <?php if($expense['SubCategory'] == 'DA') {
+                                ?>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="DAExpType" class="control-label col-sm-4">Daily Expense Type</label>
+                                        <div class="col-sm-8">
+                                            <select name="DAExpType" class="form-control" require>
+                                                <option value="">Select</option>
+                                                <option value="Breakfast" <?php echo (strtolower($expense['DAExpType'])=='breakfast') ? 'selected' : '' ?>>Breakfast</option>
+                                                <option value="Lunch"  <?php echo (strtolower($expense['DAExpType'])=='lunch') ? 'selected' : '' ?>>Lunch</option>
+                                                <option value="Dinner"  <?php echo (strtolower($expense['DAExpType'])=='dinner') ? 'selected' : '' ?>>Dinner</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="DistributorCode" class="control-label col-sm-4">Distributor</label>
+                                        <div class="col-sm-8">
+                                            <select name="DistributorCode" class="form-control" require>
+                                                <?php foreach($distributors as $distributor) {
                                                     ?>
-                                                    <option value="<?php echo $brand['BrandCode']; ?>"
-                                                        <?php echo (isset($expense['BrandCode']) && ($expense['BrandCode'] == $brand['BrandCode'])) ? 'selected' : '' ?>
-                                                    ><?php echo $brand['BrandCode']; ?></option>
+                                                    <option value="<?php echo $distributor['DistributorCode']?>" <?php echo ($expense['DistributorCode']==$distributor['DistributorCode']) ? 'selected' : '' ?>><?php echo $distributor['DistributorName']?></option>
                                                     <?php
-                                                }
-                                            } ?>
-                                        </select>
+                                                }?>
+
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Place" class="control-label col-sm-4">Place</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="Place" id="Place" class="form-control"
+                                                value="<?php echo (isset($expense['Place'])) ? $expense['Place'] : '' ?>"
+                                                required placeholder="Place">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="TypeOfWork" class="control-label col-sm-4">Type Of Work</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="TypeOfWork" id="TypeOfWork" class="form-control"
+                                                value="<?php echo (isset($expense['TypeOfWork'])) ? $expense['TypeOfWork'] : '' ?>"
+                                                 placeholder="Type Of Work">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="StartDate" class="control-label col-sm-4">Start Time</label>
+                                        <div class="col-sm-8">
+                                            <input type="time" name="StartDate" id="StartDate" class="form-control"
+                                                value="<?php echo (isset($expense['StartDate'])) ? date('H:i',strtotime($expense['StartDate'])) : '' ?>"
+                                                 placeholder="Start Time">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="EndDate" class="control-label col-sm-4">End Time</label>
+                                        <div class="col-sm-8">
+                                            <input type="time" name="EndDate" id="StartDate" class="form-control"
+                                                value="<?php echo (isset($expense['EndDate'])) ? date('H:i',strtotime($expense['EndDate'])) : '' ?>"
+                                                 placeholder="End Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Amount" class="control-label col-sm-4">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="Amount" id="Amount" class="form-control"
+                                                value="<?php echo (isset($expense['Amount'])) ? $expense['Amount'] : '' ?>"
+                                                required placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SeniorNameVisitedWith" class="control-label col-sm-4">Senior Name & Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="SeniorNameVisitedWith" id="SeniorNameVisitedWith" class="form-control"
+                                                value="<?php echo (isset($expense['SeniorNameVisitedWith'])) ? $expense['SeniorNameVisitedWith'] : '' ?>"
+                                                placeholder="Senior Name & ID Visited With">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+                            } else if($expense['SubCategory'] == 'TA') {
+                                ?>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="LocationFrom" class="control-label col-sm-4">Location From</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="LocationFrom" id="LocationFrom" class="form-control"
+                                                value="<?php echo (isset($expense['LocationFrom'])) ? $expense['LocationFrom'] : '' ?>"
+                                                required placeholder="Location From">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ExpseneTransportID" class="control-label col-sm-4">Transport</label>
+                                        <div class="col-sm-8">
+                                            <select name="ExpseneTransportID" require>
+                                                <?php foreach($expenseTransports as $expenseTransport) {
+                                                    ?>
+                                                    <option value="<?php echo $expenseTransport['ExpseneTransportID']?>" <?php echo ($expense['ExpseneTransportID']==$expenseTransport['ExpseneTransportID']) ? 'selected' : '' ?>><?php echo $expenseTransport['ExpseneTransportName']?></option>
+                                                    <?php
+                                                }?>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="PurposeOfTransport" class="control-label col-sm-4">Purpose Of Transport</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="PurposeOfTransport" id="PurposeOfTransport" class="form-control"
+                                                value="<?php echo (isset($expense['PurposeOfTransport'])) ? $expense['PurposeOfTransport'] : '' ?>"
+                                                placeholder="Purpose Of Transport">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ContactPersonName" class="control-label col-sm-4">Contact Person Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="ContactPersonName" id="ContactPersonName" class="form-control"
+                                                value="<?php echo (isset($expense['ContactPersonName'])) ? $expense['ContactPersonName'] : '' ?>"
+                                                placeholder="Contact Person Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ContactPersonMobile" class="control-label col-sm-4">Contact Person Mobile</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="ContactPersonMobile" id="ContactPersonMobile" class="form-control"
+                                                value="<?php echo (isset($expense['ContactPersonMobile'])) ? $expense['ContactPersonMobile'] : '' ?>"
+                                                placeholder="Contact Person Mobile">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Amount" class="control-label col-sm-4">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="Amount" id="Amount" class="form-control"
+                                                value="<?php echo (isset($expense['Amount'])) ? $expense['Amount'] : '' ?>"
+                                                required placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+
+                            } else if($expense['SubCategory'] == 'Accommodation Cost') {
+                                ?>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="HotelName" class="control-label col-sm-4">Hotel Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="HotelName" id="HotelName" class="form-control"
+                                                value="<?php echo (isset($expense['HotelName'])) ? $expense['HotelName'] : '' ?>"
+                                                placeholder="Hotel Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="HotelPlace" class="control-label col-sm-4">Hotel Place</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="HotelPlace" id="HotelPlace" class="form-control"
+                                                value="<?php echo (isset($expense['HotelPlace'])) ? $expense['HotelPlace'] : '' ?>"
+                                                placeholder="Hotel Place">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="NightStatyFrom" class="control-label col-sm-4">Night Stay From</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="NightStatyFrom" id="NightStatyFrom" class="form-control datePicker"
+                                                value="<?php echo (isset($expense['NightStatyFrom'])) ? date('Y-m-d',strtotime($expense['NightStatyFrom'])) : '' ?>"
+                                                required placeholder="Night Stay From">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="NightStayTo" class="control-label col-sm-4">Night Stay To</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="NightStayTo" id="NightStayTo" class="form-control datePicker"
+                                                value="<?php echo (isset($expense['NightStayTo'])) ? date('Y-m-d', strtotime($expense['NightStayTo'])) : '' ?>"
+                                                required placeholder="Night Stay To">
+                                        </div>
+                                    </div>
+                                </div>                               
+
+
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Amount" class="control-label col-sm-4">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="Amount" id="Amount" class="form-control"
+                                                value="<?php echo (isset($expense['Amount'])) ? $expense['Amount'] : '' ?>"
+                                                required placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <?php
+
+                            }else if(in_array($expense['SubCategory'],['PhotoCopy','Courier Bill','Print','Other'])) {
+                                ?>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Purpose" class="control-label col-sm-4">Purpose</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="Purpose" id="Purpose" class="form-control"
+                                                value="<?php echo (isset($expense['Purpose'])) ? $expense['Purpose'] : '' ?>"
+                                                placeholder="Purpose">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Amount" class="control-label col-sm-4">Amount</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="Amount" id="Amount" class="form-control"
+                                                value="<?php echo (isset($expense['Amount'])) ? $expense['Amount'] : '' ?>"
+                                                required placeholder="Amount">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+
+                            }?>
                             
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="EmptyDealerUnitPrice" class="control-label col-sm-4">Empty Dealer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="EmptyDealerUnitPrice" id="EmptyDealerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['EmptyDealerUnitPrice'])) ? $expense['EmptyDealerUnitPrice'] : '' ?>"
-                                               required placeholder="Empty Dealer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="EmptyDealerVAT" class="control-label col-sm-4">Empty Dealer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="EmptyDealerVAT" id="EmptyDealerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['EmptyDealerVAT'])) ? $expense['EmptyDealerVAT'] : '' ?>"
-                                               required placeholder="Empty Dealer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="EmptyRetailerUnitPrice" class="control-label col-sm-4">Empty Retailer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="EmptyRetailerUnitPrice" id="EmptyRetailerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['EmptyRetailerUnitPrice'])) ? $expense['EmptyRetailerUnitPrice'] : '' ?>"
-                                               required placeholder="Empty Retailer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="EmptyRetailerVAT" class="control-label col-sm-4">Empty Retailer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="EmptyRetailerVAT" id="EmptyRetailerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['EmptyRetailerVAT'])) ? $expense['EmptyRetailerVAT'] : '' ?>"
-                                               required placeholder="Empty Retailer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="EmptyMRP" class="control-label col-sm-4">Empty MRP</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="EmptyMRP" id="EmptyMRP" class="form-control"
-                                               value="<?php echo (isset($expense['EmptyMRP'])) ? $expense['EmptyMRP'] : '' ?>"
-                                               required placeholder="Empty MRP">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PakageDealerUnitPrice" class="control-label col-sm-4">Pakage Dealer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="PakageDealerUnitPrice" id="PakageDealerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['PakageDealerUnitPrice'])) ? $expense['PakageDealerUnitPrice'] : '' ?>"
-                                               required placeholder="Pakage Dealer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PakageDealerVAT" class="control-label col-sm-4">Pakage Dealer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="PakageDealerVAT" id="PakageDealerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['PakageDealerVAT'])) ? $expense['PakageDealerVAT'] : '' ?>"
-                                               required placeholder="Pakage Dealer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PakageRetailerUnitPrice" class="control-label col-sm-4">Pakage Retailer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="PakageRetailerUnitPrice" id="PakageRetailerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['PakageRetailerUnitPrice'])) ? $expense['PakageRetailerUnitPrice'] : '' ?>"
-                                               required placeholder="Pakage Retailer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PakageRetailerVAT" class="control-label col-sm-4">Pakage Retailer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="PakageRetailerVAT" id="PakageRetailerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['PakageRetailerVAT'])) ? $expense['PakageRetailerVAT'] : '' ?>"
-                                               required placeholder="Pakage Retailer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="PakageMRP" class="control-label col-sm-4">Pakage MRP</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="PakageMRP" id="PakageMRP" class="form-control"
-                                               value="<?php echo (isset($expense['PakageMRP'])) ? $expense['PakageMRP'] : '' ?>"
-                                               required placeholder="Pakage MRP">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="RefillDealerUnitPrice" class="control-label col-sm-4">Refill Dealer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="RefillDealerUnitPrice" id="RefillDealerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['RefillDealerUnitPrice'])) ? $expense['RefillDealerUnitPrice'] : '' ?>"
-                                               required placeholder="Refill Dealer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="RefillDealerVAT" class="control-label col-sm-4">Refill Dealer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="RefillDealerVAT" id="RefillDealerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['RefillDealerVAT'])) ? $expense['RefillDealerVAT'] : '' ?>"
-                                               required placeholder="Refill Dealer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="RefillRetailerUnitPrice" class="control-label col-sm-4">Refill Retailer Unit Price</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="RefillRetailerUnitPrice" id="RefillRetailerUnitPrice" class="form-control"
-                                               value="<?php echo (isset($expense['RefillRetailerUnitPrice'])) ? $expense['RefillRetailerUnitPrice'] : '' ?>"
-                                               required placeholder="Refill Retailer Unit Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="RefillRetailerVAT" class="control-label col-sm-4">Refill Retailer VAT</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="RefillRetailerVAT" id="RefillRetailerVAT" class="form-control"
-                                               value="<?php echo (isset($expense['RefillRetailerVAT'])) ? $expense['RefillRetailerVAT'] : '' ?>"
-                                               required placeholder="Refill Retailer VAT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="RefillMRP" class="control-label col-sm-4">Refill MRP</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" name="RefillMRP" id="RefillMRP" class="form-control"
-                                               value="<?php echo (isset($expense['RefillMRP'])) ? $expense['RefillMRP'] : '' ?>"
-                                               required placeholder="Refill MRP">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="Business" class="control-label col-sm-4">Business</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" name="Business" id="Business"
-                                                required>
-                                            <option value="">--Select--</option>
-                                            <?php if (isset($businesses) && !empty($businesses)) {
-                                                foreach ($businesses as $business) {
-                                                    ?>
-                                                    <option value="<?php echo $business['Business']; ?>"
-                                                        <?php echo (isset($expense['Business']) && ($expense['Business'] == $business['Business'])) ? 'selected' : '' ?>
-                                                    ><?php echo $business['BusinessName'].' - '.$business['CompanyName']; ?></option>
-                                                    <?php
-                                                }
-                                            } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="Active" class="control-label col-sm-4">Active Status</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" name="Active" id="Active" required>
-                                            <option value="Y" <?php echo (isset($expense['Active']) && ($expense['Active'] == 'Y')) ? 'selected' : '' ?>>
-                                                Active
-                                            </option>
-                                            <option value="N" <?php echo (isset($expense['Active']) && ($expense['Active'] == 'N')) ? 'selected' : '' ?> >
-                                                Inactive
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
                         
                             <div class="clearfix"></div>
                             <div class="col-md-6">
