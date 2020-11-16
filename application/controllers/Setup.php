@@ -530,72 +530,73 @@ CLASS Setup extends MY_Controller {
 
         //************ */ Expense Details *************//
         $dataDetails['ExpenseDate'] = $expenseDate;
-        if($this->input->post('Amount')) {
+        if(isset($_POST['Amount'])) {
             $dataDetails['Amount'] = $this->input->post('Amount');
         }
         // DA
-        if($this->input->post('DAExpType')) {
+        if(isset($_POST['DAExpType'])) {
             $dataDetails['DAExpType'] = $this->input->post('DAExpType');
         }
-        if($this->input->post('LocationFrom')) {
+        if(isset($_POST['LocationFrom'])) {
             $dataDetails['LocationFrom'] = $this->input->post('LocationFrom');
         }
-        if($this->input->post('DistributorCode')) {
+        if(isset($_POST['DistributorCode'])) {
             $dataDetails['DistributorCode'] = $this->input->post('DistributorCode');
         }
 
-        if($this->input->post('Place')) {
+        if(isset($_POST['Place'])) {
             $dataDetails['Place'] = $this->input->post('Place');
         }
-        if($this->input->post('TypeOfWork')) {
+        if(isset($_POST['TypeOfWork'])) {
             $dataDetails['TypeOfWork'] = $this->input->post('TypeOfWork');
         }
-        if($this->input->post('StartDate')) {
+        if(isset($_POST['StartDate'])) {
             $dataDetails['StartDate'] = $this->input->post('StartDate');
         }
-        if($this->input->post('EndDate')) {
+        if(isset($_POST['EndDate'])) {
             $dataDetails['EndDate'] = $this->input->post('EndDate');
         }
         
 
-        if($this->input->post('SeniorNameVisitedWith')) {
+        if(isset($_POST['SeniorNameVisitedWith'])) {
             $dataDetails['SeniorNameVisitedWith'] = $this->input->post('SeniorNameVisitedWith');
         }
         // TA
-        if($this->input->post('LocationFrom')) {
+        if(isset($_POST['LocationFrom'])) {
             $dataDetails['LocationFrom'] = $this->input->post('LocationFrom');
         }
-        if($this->input->post('ExpseneTransportID')) {
+        if(isset($_POST['ExpseneTransportID'])) {
             $dataDetails['ExpseneTransportID'] = $this->input->post('ExpseneTransportID');
         }
-        if($this->input->post('PurposeOfTransport')) {
+        if(isset($_POST['PurposeOfTransport'])) {
             $dataDetails['PurposeOfTransport'] = $this->input->post('PurposeOfTransport');
         }
-        if($this->input->post('ContactPersonName')) {
+        if(isset($_POST['ContactPersonName'])) {
             $dataDetails['ContactPersonName'] = $this->input->post('ContactPersonName');
         }
-        if($this->input->post('ContactPersonMobile')) {
+        if(isset($_POST['ContactPersonMobile'])) {
             $dataDetails['ContactPersonMobile'] = $this->input->post('ContactPersonMobile');
         }
 
         // Accumodation Cost
-        if($this->input->post('HotelName')) {
+        if(isset($_POST['HotelName'])) {
             $dataDetails['HotelName'] = $this->input->post('HotelName');
         }
-        if($this->input->post('HotelPlace')) {
+        if(isset($_POST['HotelPlace'])) {
             $dataDetails['HotelPlace'] = $this->input->post('HotelPlace');
         }
         if($this->input->post('NightStatyFrom')) {
             $dataDetails['NightStatyFrom'] = $this->input->post('NightStatyFrom');
         }
-        if($this->input->post('NightStayTo')) {
+        if(isset($_POST['NightStayTo'])) {
             $dataDetails['NightStayTo'] = $this->input->post('NightStayTo');
         }
-        if($this->input->post('Purpose')) {
+        if(isset($_POST['Purpose'])) {
             $dataDetails['Purpose'] = $this->input->post('Purpose');
         }
+        
         //  when Expense type in ['PhotoCopy','Courier Bill','Print','Other']
-        if($this->input->post('Purpose')) {
+        if(isset($_POST['Purpose'])) {
             $dataDetails['Purpose'] = $this->input->post('Purpose');
         }
 
