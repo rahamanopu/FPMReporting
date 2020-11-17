@@ -513,7 +513,7 @@ CLASS Setup extends MY_Controller {
         
         $data['distributors'] = $this->setupModel->getDistributor($data['expense']['EmpCode']);
         $data['expenseTransports'] = $this->setupModel->getExpenseTransport();
-        // echo '<pre>',print_r($data['expense']);die();
+        // echo '<pre>',print_r($data['expenseTransports']);die();
         $this->loadView('setup/expense_edit',$data);
     }
 

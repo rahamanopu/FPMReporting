@@ -187,10 +187,10 @@
                                     <div class="form-group">
                                         <label for="ExpseneTransportID" class="control-label col-sm-4">Transport</label>
                                         <div class="col-sm-8">
-                                            <select name="ExpseneTransportID" require>
+                                            <select name="ExpseneTransportID" class="form-control" require>
                                                 <?php foreach($expenseTransports as $expenseTransport) {
                                                     ?>
-                                                    <option value="<?php echo $expenseTransport['ExpseneTransportID']?>" <?php echo ($expense['ExpseneTransportID']==$expenseTransport['ExpseneTransportID']) ? 'selected' : '' ?>><?php echo $expenseTransport['ExpseneTransportName']?></option>
+                                                    <option value="<?php echo $expenseTransport['ExpseneTransportName']?>" <?php echo ($expense['ExpseneTransportID']==$expenseTransport['ExpseneTransportName']) ? 'selected' : '' ?>><?php echo $expenseTransport['ExpseneTransportName']?></option>
                                                     <?php
                                                 }?>
 

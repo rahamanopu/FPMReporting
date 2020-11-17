@@ -212,10 +212,9 @@ $segment3 = $this->uri->segment(2);
                                 <th>Expense Date</th>    
                                 <th>Head</th>    
                                 <th>Sub Head</th>
-                                <th>Visit Type</th>
+                                <th>Type</th>
                                 <th>Start</th>    
-                                <th>End</th>  
-                                <th>Transport Name</th> 
+                                <th>End</th>
                                 <th>Amount</th> 
                             </tr>
                         </thead>
@@ -231,10 +230,39 @@ $segment3 = $this->uri->segment(2);
                                     <td><?php echo $expense['Expense_Date'];?></td>                                    
                                     <td><?php echo $expense['Head'];?></td>
                                     <td><?php echo $expense['Sub_Head'];?></td>
-                                    <td><?php echo ($expense['VisitType'] !='0') ? $expense['VisitType'] : '' ;?></td>
-                                    <td><?php echo ($expense['Start'] !='0') ? $expense['Start'] : '' ;?></td>
-                                    <td><?php echo ($expense['End'] !='0')? $expense['End'] : '' ;?></td>
-                                    <td><?php echo ($expense['TransportName'] !='0') ? $expense['TransportName'] : '' ;?></td>                                    
+                                    <td>
+                                        <?php 
+                                        if(isset($expense['VisitType']) && $expense['VisitType'] !='0') {
+                                            echo $expense['VisitType'];
+                                        } elseif(isset($expense['TypeofWork']) && $expense['TypeofWork'] !='0') {
+                                            echo $expense['TypeofWork'];
+                                        } else {
+                                            echo "";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        if(isset($expense['Start']) && $expense['Start'] !='0') {
+                                            echo $expense['Start'];
+                                        } elseif(isset($expense['StartDate']) && $expense['StartDate'] !='0') {
+                                            echo $expense['StartDate'];
+                                        } else {
+                                            echo "";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        if(isset($expense['End']) && $expense['End'] !='0') {
+                                            echo $expense['End'];
+                                        } elseif(isset($expense['EndDate']) && $expense['EndDate'] !='0') {
+                                            echo $expense['EndDate'];
+                                        } else {
+                                            echo "";
+                                        }
+                                        ?>
+                                    </td> 
                                     <td><?php echo $expense['Amount'];?></td>
                                 </tr>
                                 <?php
