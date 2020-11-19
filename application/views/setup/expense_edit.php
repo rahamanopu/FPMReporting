@@ -182,6 +182,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="LocationTo" class="control-label col-sm-4">Location To</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="LocationTo" id="LocationTo" class="form-control"
+                                                   value="<?php echo (isset($expense['LocationTo'])) ? $expense['LocationTo'] : '' ?>"
+                                                   required placeholder="Location To">
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -330,8 +340,18 @@
                                 <?php
 
                             }?>
-                            
-                        
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="HotelPlace" class="control-label col-sm-4">Remarks</label>
+                                    <div class="col-sm-8">
+                                        <textarea  name="Remarks" id="Remarks" class="form-control" cols="10" placeholder="Enter Remarks Here"><?php echo (isset($expense['Remarks'])) ? $expense['Remarks'] : '' ?></textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="clearfix"></div>
                             <div class="col-md-6">
                                 <div class="form-group">

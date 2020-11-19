@@ -196,61 +196,67 @@ $segment3 = $this->uri->segment(2);
             </div>
         </div>
         <!-- /BOXES --> 
-        <?php if(isset($expenses)) {?>
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">                    
+                <div class="panel-body">
+                    
+                    <?php if(!empty($priorityData)){
+                        if(!isset($expenseTypeHead)) {
+                            $expenseTypeHead = '';
+                        }
+                        if(!isset($expenseTypeSubHead)) {
+                            $expenseTypeSubHead = '';
+                        }
+                         ?>
+                       
                     <div class="exportallplantable table-responsive">    
                     <table class="table table-bordered table-hover  table-striped">
-                        <thead>
-                        <tr>
-                            <th>SL</th>
-                            <th>Edit</th>
-                            <?php
-                            $index = array_keys($expenses[0]);
-                            for($i = 2; $i < count($index); $i++){
-                                ?>
-                                <th><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th>
+                        <thead>                            
+                            <tr>
+                                <th>SL</th>         
                                 <?php
-                            }
-                            ?>
-
-                        </tr>
+                                $index = array_keys($priorityData[0]);
+                                $count = 0;
+                                for($i = 0; $i < count($index); $i++){
+                                    ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th><?php
+                                }
+                                ?>
+                                <th>Edit</th>
+                            </tr>
                         </thead>
-                        <tbody>
                         <?php
                         $count = 0;
-
-                        for ($i = 0; $i < count($expenses); $i++) {
-                            $arrayvalue = array_values($expenses[$i]);
-
-                            $eachRow = "<tr><td>". ++$count."</td>";
-                            $eachRow .="<td><a  href='".base_url()."setup/expneseEdit/".$arrayvalue[0]."/".$arrayvalue[1]."' class='btn btn-warning btn-sm' target='_blank'>Edit</a></td>";
-
-                            for ($j = 2; $j < count($index); $j++) {
-                                $value = $arrayvalue[$j];
-                                $eachRow .="<td>".$value."</td>";
-                            }
-
-                            $eachRow .= "</tr>";
-                            echo $eachRow;
-
+                        if(!isset($imageFolder)) {
+                            $imageFolder = 'uploads/';
+                        }
+                        for ($i = 0; $i < count($priorityData); $i++) { $count++;
+                            $arrayvalue = array_values($priorityData[$i]);
                             ?>
+                            <tr>
+                                <td><?php echo ($i+1);?></td>    
+                                
+                                <?php
+                                for ($j = 0; $j < count($index); $j++) {
+                                        $value = $arrayvalue[$j];                                    
+                                        echo "<td>" . $value."</td>";  
+                                      
+                                    } 
+                                ?>
+                                <td><a href="<?php echo base_url().'expenseEdit';?>" class="btn btn-primary">Edit</a></td> 
+                        
+                            </td>
+                            
                             <?php
                         }
-
-
                         ?>
-                        
 
-                        </tbody>
                         </table>
-                    </div>                  
+                    </div>
+                    <?php } ?>
 
                 </div>
             </div>
         </div>
-        <?php }?>
     </div>
 
 </section>

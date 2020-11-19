@@ -489,7 +489,7 @@ CLASS Setup extends MY_Controller {
             $datas = $setupModel->getExpenseList($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
             $data['expenses'] = $datas['priorityData'];                                          
         }
-        // echo '<pre>',print_r($data['expenses']);die();
+//         echo '<pre>',print_r($data['expenses']);die();
 
         $this->loadView('setup/expense_list',$data);
         
@@ -527,12 +527,18 @@ CLASS Setup extends MY_Controller {
         $dataMaster['UserLevel'] = $this->input->post('UserLevel');
         $dataMaster['LevelCode'] = $this->input->post('LevelCode');
         $dataMaster['Period'] = date('Ym', strtotime($expenseDate));
+        $dataMaster['EditDate'] = date('Y-m-d H:i:s');
+        $dataMaster['EditBy'] = $this->session->userdata('userid');        
 
         //************ */ Expense Details *************//
         $dataDetails['ExpenseDate'] = $expenseDate;
         if(isset($_POST['Amount'])) {
             $dataDetails['Amount'] = $this->input->post('Amount');
         }
+        if(isset($_POST['Remarks'])) {
+            $dataDetails['Remarks'] = $this->input->post('Remarks');
+        }
+
         // DA
         if(isset($_POST['DAExpType'])) {
             $dataDetails['DAExpType'] = $this->input->post('DAExpType');
@@ -564,6 +570,9 @@ CLASS Setup extends MY_Controller {
         // TA
         if(isset($_POST['LocationFrom'])) {
             $dataDetails['LocationFrom'] = $this->input->post('LocationFrom');
+        }
+        if(isset($_POST['LocationTo'])) {
+            $dataDetails['LocationTo'] = $this->input->post('LocationTo');
         }
         if(isset($_POST['ExpseneTransportID'])) {
             $dataDetails['ExpseneTransportID'] = $this->input->post('ExpseneTransportID');
@@ -599,6 +608,12 @@ CLASS Setup extends MY_Controller {
         if(isset($_POST['Purpose'])) {
             $dataDetails['Purpose'] = $this->input->post('Purpose');
         }
+
+        $dataDetails['EditBy'] = $this->session->userdata('userid');;
+        $dataDetails['EditDate'] = date('Y-m-d H:i:s');
+
+
+
 
         // Updating Expense Details        
         $this->db->update('ExpenseDetails',$dataDetails, ['ExpenseId'=> $expenseId,'ExpenseDetailsID'=> $expenseDetailsId]);
