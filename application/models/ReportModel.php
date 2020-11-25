@@ -185,8 +185,8 @@ class ReportModel extends CI_Model {
     }  
 
 
-    public function getRetailers($leve3,$level2,$level1,$pageLimit, $pageNumber){                 
-        $sql = " EXEC usp_doLoadRetailerlist  '$leve3','$level2','$level1','$pageLimit', '$pageNumber' ";        
+    public function getRetailers($leve3,$level2,$level1,$pageLimit, $pageNumber, $distcode = ''){                 
+        $sql = " EXEC usp_doLoadRetailerlist  '$leve3','$level2','$level1','$pageLimit', '$pageNumber', '$distcode' ";        
         $query = $this->db->query($sql);           
         $e = $this->db->_error_message();   
         $data = [];             

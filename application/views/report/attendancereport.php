@@ -147,11 +147,12 @@ if (!empty($periodformat)) {
                         <thead>
                             <tr>
                                 <th rowspan="2"></th>
-                                <th></th>
+                                <th colspan="2"></th>
                                 <th colspan="2">Time</th>
                                 <th colspan="2">Location</th>
                                 <th colspan="2">Image</th>
                                 <th colspan="4">Tour plan</th>
+								<th></th>
                             </tr>
                             <tr>         
                                 <?php
@@ -213,7 +214,7 @@ if (!empty($periodformat)) {
                                 <td><button type="button" data-date="<?php echo date('Y-m-d',strtotime($date));?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
                             </tr>
                             <tr>
-                                <td colspan="10" style="display: none;" id="divhide<?php echo $count; ?>">
+                                <td colspan="14" style="display: none;" id="divhide<?php echo $count; ?>">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>

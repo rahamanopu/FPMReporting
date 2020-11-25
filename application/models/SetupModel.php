@@ -266,7 +266,27 @@ class SetupModel extends CI_Model {
         }
         return [];
     }
-    
+    /*
+	public function getExpenseTransport()
+    {
+        $sql ="select * from ExpseneTransport";
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }*/
+	
+	public function doDeleteTourPlan($planid)
+    {
+        $sql ="exec usp_doDeleteTourPlan $planid ";
+        $query = $this->db->query($sql);
+        if($query) {
+            return true;
+        }else{
+			return false;
+		}
+    }
 }
 
 ?>

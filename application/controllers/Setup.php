@@ -10,6 +10,7 @@ CLASS Setup extends MY_Controller {
         parent::__construct();
         $this->load->model('CommonModel', 'common');
         $this->load->model('setupModel');
+		$this->load->model('ReportModel');
     }
 
     /**
@@ -494,7 +495,144 @@ CLASS Setup extends MY_Controller {
         $this->loadView('setup/expense_list',$data);
         
     }
+	
+	
+	public function tourplanlist() {
+        $data['action'] = 'setup/tourplanlist';
+        $data['pageTitel'] = 'Tour Plan Delete';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        $this->load->model('common_data');
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
+        $this->load->model('CommonModel');
+        $commonModel = new CommonModel();
+
+        $data['expenseTypeHeadField']= false;
+        $data['expenseTypeSubHeadField']= false;
+        $data['expenseTypeHeads']= $commonModel->getExpenseTypeHead();
+        $data['expenseTypeSubHeads']= $commonModel->getExpenseTypeSubHead();   
+        $data['expenseTypeHead'] = '';
+        $data['expenseTypeSubHead'] = '';
+          
+
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/expense/'; 
+            $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
+            $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            
+            // $datas = $reportModel->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $datas = $reportModel->getTourplanReport($data['regioncode'],$data['areacode'],$data['fmecode'],$data['startDate'], $data['endDate']);
+				$data['expenses'] = $datas['priorityData'];                                          
+        }
+         //echo '<pre>',print_r($data['expenses']);die();
+
+        $this->loadView('setup/tourplanlist',$data);
+        
+    }
+	
+	public function deletetourplan(){
+		$tourplanid = $this->input->post('tourplanid', true);
+		$setupModel = new SetupModel();
+		$return = $setupModel->doDeleteTourPlan($tourplanid);
+		echo json_encode($return);
+	}
+	
+	public function retailerlist() {
+        $data['action'] = 'setup/retailerlist';
+        $data['pageTitel'] = 'Retailer edit';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        $userlevel = $this->session->userdata('userLevel');
+        $data['showDateToField'] = false;       
+        $data['showDateFromField'] = false;
+       
+        $this->load->model('common_data');
+        $commonData = new Common_data();
+        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        $this->load->model('CommonModel');
+        $commonModel = new CommonModel();
+
+        $data['expenseTypeHeadField']= false;
+        $data['expenseTypeSubHeadField']= false;
+        $data['expenseTypeHeads']= $commonModel->getExpenseTypeHead();
+        $data['expenseTypeSubHeads']= $commonModel->getExpenseTypeSubHead();   
+        $data['expenseTypeHead'] = '';
+        $data['expenseTypeSubHead'] = '';
+        $data['pagelimit']  	= 100;
+		if(!empty($this->input->get_post('page'))){
+			$data['page'] = $this->input->get_post('page');
+		}else{
+			$data['page'] = 1;
+		}
+
+        if (!empty($_POST) OR ! empty($_GET)) { 
+            $data['imageFolder'] = 'uploads/expense/'; 
+            $data['expenseTypeHead'] = $this->input->get_post('expenseTypeHead');
+            $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+
+            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            
+            // $datas = $reportModel->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
+            $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], 
+				$data['pagelimit'], $data['page'], $distcode = '');
+				$data['expenses'] 	= $datas['priorityData'];    
+				$data['pagingData'] = $datas['pagingData'];    
+        }
+         //echo '<pre>',print_r($data['expenses']);die();
+
+        $this->loadView('setup/retailerlist',$data);
+        
+    }
+	
+	public function retailerEdit($retailerId) {
+        $data['action'] = 'setup/retailerUpdate';
+        $data['pageTitel'] = 'Retailer Edit';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');
+
+        
+        
+        //$data['distributors'] = $this->setupModel->getDistributor($data['expense']['EmpCode']);
+        //$data['expenseTransports'] = $this->setupModel->getExpenseTransport();
+        // echo '<pre>',print_r($data['expenseTransports']);die();
+        $this->loadView('setup/retailer_edit',$data);
+    }
+	
     public function expneseEdit($expenseId, $expenseDetailsId) {
         $data['action'] = 'setup/expenseUpdate';
         $data['pageTitel'] = 'Expense Edit';
@@ -635,48 +773,6 @@ CLASS Setup extends MY_Controller {
             setFlashMsg('Something Went Wrong','error');
         }
         return  redirect('setup/expneseEdit/'.$expenseId.'/'.$expenseDetailsId);
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
         
     }

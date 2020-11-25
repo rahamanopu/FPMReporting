@@ -1,7 +1,12 @@
 <script type="text/javascript">
+
     var period = '<?php if(!empty($periodformat)){ echo $periodformat; } ?>';
     var levelcode = '<?php if(!empty($fmecode)){ echo $fmecode; } ?>';
+
+    
+    
 </script>
+
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
 
 <?php
@@ -71,8 +76,7 @@ $segment3 = $this->uri->segment(2);
                                     TSI
                                 </div>
                                 <div class="col-md-3">
-                                    <select name="fmecode" id="fmecode" class="form-control" 
-										<?php if(isset($showDistributorField) && $showDistributorField == true) { ?> onchange="doLoadDistributor(this.value)" <?php } ?>>
+                                    <select name="fmecode" id="fmecode" class="form-control" >
                                         <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
                                         if(!empty($fmelist)){ 
@@ -87,29 +91,8 @@ $segment3 = $this->uri->segment(2);
                                         ?>                                    
                                     </select> 
                                 </div>
-								<?php if(isset($showDistributorField) && $showDistributorField == true) { ?>
-								<div class="col-md-1 form-group">
-                                    Distributor
-                                </div>
-                                <div class="col-md-3">
-                                    <select name="distributorcode" id="distributorcode" class="form-control" >
-                                        <?php if(!empty($distributorlist) && COUNT($distributorlist) > 1){ ?> <option></option> <?php } ?>
-                                        <?php                                      
-                                        if(!empty($distributorlist)){ 
-                                            foreach ($distributorlist AS $row){
-                                        ?>
-                                            <option 
-                                                <?php if(!empty($_POST['distributorcode']) AND $row['DistributorCode'] == $_POST['distributorcode']){ ?> selected="selected" <?php } ?>
-                                                value="<?php echo $row['DistributorCode']; ?>"><?php echo $row['DistributorCode'].' - '.$row['DistributorName']; ?></option>
-                                        <?php 
-                                            }
-                                        }  
-                                        ?>                                    
-                                    </select> 
-                                </div>
-								<?php } ?>
-								
-                                <?php if(isset($expenseTypeHeadField) && $expenseTypeHeadField== true) { ?>
+                                <?php if(isset($expenseTypeHeadField) && $expenseTypeHeadField== true) {
+                                    ?>
 
                                 <div class="col-md-1" style="margin-top:5px;">Expense Head</div>
                                 <div class="col-md-3" style="margin-top:5px;">
@@ -187,6 +170,21 @@ $segment3 = $this->uri->segment(2);
                                 </div>
                                 <?php }?>
 
+                                <?php if(isset($showPeriodField)){?>
+                                <div class="col-md-1"  style="margin-top:5px;">
+                                    Period
+                                </div>
+                                <div class="col-md-3"  style="margin-top:5px;">
+                                    <input type="month" name="period" autocomplete="off"
+                                           id="period" class="form-control" 
+                                           required="required"
+                                           value="<?php if (!empty($period)) {
+                                    echo $period;
+                                } ?>"
+                                           >
+                                </div>
+                                <?php }?>
+
                                 <div class="col-md-2"  style="margin-top:5px;">
                                     <input type="submit" value="Submit"
                                            name="submit" class="btn btn-primary">
@@ -198,81 +196,62 @@ $segment3 = $this->uri->segment(2);
             </div>
         </div>
         <!-- /BOXES --> 
+        <?php if(isset($expenses)) {?>
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">
-                    
-                    <?php if(!empty($priorityData)){
-                        if(!isset($expenseTypeHead)) {
-                            $expenseTypeHead = '';
-                        }
-                        if(!isset($expenseTypeSubHead)) {
-                            $expenseTypeSubHead = '';
-                        }
-                         ?>
-                        <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&startDate='.$startDate.'&endDate='.$endDate.'&expenseTypeHead='.$expenseTypeHead.'&expenseTypeSubHead='.$expenseTypeSubHead.'&distributorcode='.$distributorcode.'&excel=yes'; ?>">
-                            Export To Excel
-                        </a>
-                    <div class="exportallplantable table-responsive">    
-                    <table class="table table-bordered table-hover  table-striped">
-                        <thead>                            
-                            <tr>
-                                <th>SL</th>         
-                                <?php
-                                $index = array_keys($priorityData[0]);
-                                $count = 0;
-                                for($i = 2; $i < count($index); $i++){
-                                    ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th><?php
-                                }
-                                ?>
-                            </tr>
-                        </thead>
-                        <?php
-                        $count = 0;
-                        for ($i = 0; $i < count($priorityData); $i++) { $count++;
-                            $arrayvalue = array_values($priorityData[$i]);
-                            ?>
-                            <tr>
-                                <td><?php echo ($i+1);?></td>    
-                                
-                                <?php
-                                for ($j = 2; $j < count($index); $j++) {
-                                    $value = $arrayvalue[$j];
-                                    if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
-                                        ?>
-                                        <td><img style="width: 100px;height:150px;" src="<?php echo $this->config->item('app_image_base_url').'uploads/expense/'.$value ?>" alt=""></td>
-                                        <?php
+                <div class="panel-body">                    
+					<?php if(!empty($expenses) && !empty($_POST)){ ?>
+						<div class="exportallplantable table-responsive">    
+						<table class="table table-bordered table-hover  table-striped">
+							<thead>
+							<tr>
+								<th>SL</th>
+								<th>Delete</th>
+								<?php
+								$index = array_keys($expenses[0]);
+								for($i = 1; $i < count($index); $i++){
+									?>
+									<th><?php echo str_replace(array('_'), array(' '), $index[$i]); ?></th>
+									<?php
+								}
+								?>
 
-                                    }  else {
-                                        echo "<td>" . $value."</td>";                                           
-                                    }                                      
-                                      
-                                    } 
-                                ?>
-                        
-                            </td>
-                            
-                            <?php
-                        }
-                        ?>
+							</tr>
+							</thead>
+							<tbody>
+							<?php
+							$count = 0;
 
-                        </table>
-                    </div>
-                    <?php } ?>
+							for ($i = 0; $i < count($expenses); $i++) {
+								$arrayvalue = array_values($expenses[$i]);
 
-						<?php if(!empty($pagingData)){
-                            ?>
-                            <ul class="pagination">
-                                <?php foreach($pagingData AS $row){ ?>
-                                    <li <?php if(!empty($page) and $page == $row['PageNo']){ ?> class="active" <?php } ?>>
-                                        <a href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&pagelimit='.$pagelimit.'&page='.$row['PageNo']; ?>"><?php echo $row['PageNo']; ?></a></li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
+								$eachRow = "<tr><td>". ++$count."</td>";
+								$eachRow .="<td id='div".$arrayvalue[0]."'><button onclick='deleteconfirm(".$arrayvalue[0].")' type='button' class='btn btn-warning btn-sm'>Delete</button></td>";
 
+								for ($j = 1; $j < count($index); $j++) {
+									$value = $arrayvalue[$j];
+									$eachRow .="<td>".$value."</td>";
+								}
+
+								$eachRow .= "</tr>";
+								echo $eachRow;
+
+								?>
+								<?php
+							}
+
+
+							?>
+							
+
+							</tbody>
+							</table>
+						</div>                  
+					<?php }else{ echo "No data found! "; }  ?>
                 </div>
             </div>
         </div>
+        <?php }?>
     </div>
 
 </section>
@@ -292,3 +271,28 @@ table tr td{
     border: 1px solid #CCC;
 }
 </style>
+
+<script>
+function deleteconfirm(tourplanid){
+	var result = confirm("Want to delete?");
+	if (result) {
+		//Logic to delete the item
+		$.ajax({
+			url:'<?php echo base_url(); ?>setup/deletetourplan',
+			type: 'POST',
+			data: 'tourplanid=' + tourplanid,
+			dataType: "json",
+			success: function(data) {
+				console.log(data)
+				if(data == true){
+					$("#div" + tourplanid).html("<font color='red'>Deleted</font>");	
+				}
+			},
+			error: function(e) {
+				console.log(e);
+				alert(e.message);
+			}
+		});
+	}
+}
+</script>

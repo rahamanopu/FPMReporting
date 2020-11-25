@@ -297,7 +297,7 @@ CLASS Report extends MY_Controller {
     function retailerCompititorStock () {
         
         $data['action'] = 'report/retailerCompititorStock';
-        $data['pageTitel'] = 'Detailer Compititor Stock Report';
+        $data['pageTitel'] = 'Retailer Compititor Stock Report';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
@@ -683,6 +683,7 @@ CLASS Report extends MY_Controller {
         $data['levelCode'] = $this->session->userdata('levelCode');       
         $userlevel = $this->session->userdata('userLevel');       
         
+		$data['showDistributorField'] = true;  
         $commonData = new Common_data();
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
         
@@ -698,19 +699,22 @@ CLASS Report extends MY_Controller {
             $data['period'] = '';
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
-            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE); 
+			$data['distributorcode'] = $this->input->get_post("distributorcode", TRUE); 			
 
-            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
-            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
-            
+            $data['areainfo'] 			= $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            $data['fmelist'] 			= $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+			if(!empty($data['fmecode'])){
+				$data['distributorlist'] 	= $this->common_data->getUserDistributor($data['fmecode']);
+			}
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], $data['pagelimit'],'%');
-                exportexcel($datas['priorityData'],$filename = "Retailer_List_".time());
+                $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], $data['pagelimit'],'%',$data['distributorcode']);
+					exportexcel($datas['priorityData'],$filename = "Retailer_List_".time());
             } else {
-                $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], $data['pagelimit'],$data['page']);
-                $data['priorityData'] = $datas['priorityData'];
-                $data['pagingData'] = $datas['pagingData'];
+                $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], $data['pagelimit'],$data['page'],$data['distributorcode']);
+					$data['priorityData'] = $datas['priorityData'];
+					$data['pagingData'] = $datas['pagingData'];
             }
         }
 

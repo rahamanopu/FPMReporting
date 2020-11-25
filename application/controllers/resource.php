@@ -38,4 +38,11 @@ CLASS Resource extends MY_Controller {
         $territoryinfo = $this->common_data->getUserTerritory($areacode, $userlevel, $data['levelCode']);        
         echo json_encode($territoryinfo);
     }
+	
+	public function distributorlist(){
+		$data['levelCode'] = $this->input->get_post('level1code');
+		$data['distributorlist'] 	= $this->common_data->getUserDistributor($data['levelCode']);
+		//print_r($data['distributorlist']); exit();
+		echo json_encode($data['distributorlist']);
+	}
 }

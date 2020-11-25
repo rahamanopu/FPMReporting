@@ -82,6 +82,16 @@ class Common_data extends CI_Model {
             return $query->result_array();
         }        
     }
+	
+	public function getUserDistributor($territorycode){		
+        $sql = "SELECT * FROM Distributor WHERE TSIID IN (SELECT StaffId FROM Level1 WHERE Level1 = '$territorycode')";            
+        $result['success'] = false;
+        $query = $this->db->query($sql);
+        $data = array();
+        if ($query) {
+            return $query->result_array();
+        }        
+    }
 }
 
 ?>

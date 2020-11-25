@@ -1,12 +1,9 @@
-<script type="text/javascript">
 
+
+<script type="text/javascript">
     var period = '<?php if(!empty($periodformat)){ echo $periodformat; } ?>';
     var levelcode = '<?php if(!empty($fmecode)){ echo $fmecode; } ?>';
-
-    
-    
 </script>
-
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
 
 <?php

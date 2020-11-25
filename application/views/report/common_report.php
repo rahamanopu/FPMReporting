@@ -2,13 +2,8 @@
 
     var period = '<?php if(!empty($periodformat)){ echo $periodformat; } ?>';
     var levelcode = '<?php if(!empty($fmecode)){ echo $fmecode; } ?>';
-
-    
-    
 </script>
-
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
-
 <?php
 $segment3 = $this->uri->segment(2);
 ?>
@@ -240,8 +235,14 @@ $segment3 = $this->uri->segment(2);
                                 for ($j = 0; $j < count($index); $j++) {
                                     $value = $arrayvalue[$j];
                                     if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
-                                        ?>
-                                        <td><img style="width: 100px;height:150px;" src="<?php echo $this->config->item('app_image_base_url').$imageFolder.$value ?>" alt=""></td>
+										//onclick="doLoadImage('myImg<?php echo $i.$j; ?> 
+                                        <td style="cursor: pointer;">
+										<a href="" onclick="window.open('<?php echo $this->config->item('app_image_base_url').$imageFolder.$value ?>','targetWindow', 'toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1090px, height=550px, top=25px left=120px'); return false;">	
+										<img style="width: 100px;height:150px;" id="myImg<?php echo $i.$j; ?>" 
+											src="<?php echo $this->config->item('app_image_base_url').$imageFolder.$value ?>" 
+											alt="">
+										</a>
+										</td>
                                         <?php
 
                                     }  else {
@@ -269,17 +270,9 @@ $segment3 = $this->uri->segment(2);
 </section>
 
 
-
-<style>
-.selected {
-    background-color: #CCC;
-    color: #FFF;
-}
-table tr td{
-    vertical-align: middle !important;
-}
-
-.panel>.table-bordered, .panel>.table-responsive>.table-bordered{
-    border: 1px solid #CCC;
-}
-</style>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>

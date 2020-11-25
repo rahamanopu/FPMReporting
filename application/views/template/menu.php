@@ -64,7 +64,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     }
                     ?>
 
-            <?php if($userid == 'admin') {
+            <?php  /*if($userid == 'admin') {
             ?>
                 <li <?php if($segment2 == 'expenseList'){ ?>class="active" <?php } ?>>
                     <a href="<?php echo base_url(); ?>setup/expenseList">
@@ -75,7 +75,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                 </li>
 
                 <?php
-            }?>
+            } */ ?>
                     
                 </ul>
             </li>

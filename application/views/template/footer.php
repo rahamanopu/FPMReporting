@@ -53,3 +53,5 @@
 
 <script src="<?php echo base_url(); ?>assets/plugins/datepicker/jquery-ui.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery_validation.js"></script>
+
+ 

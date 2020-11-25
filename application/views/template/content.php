@@ -22,7 +22,7 @@ $usertype = $this->session->userdata('UserType');
         </div>        
     </div>
     <?php if(file_exists("uploads/apk/TSI.apk")) {
-        echo  "<span class='badge' style='margin-right:20px'>APK File: </span><a href=".base_url()."uploads/apk/TSI.apk>" .base_url()."uploads/apk/TSI.apk"."</a>";
+        echo  "<span class='badge' style='margin-right:20px'>APK File: </span><a href='".base_url()."/uploads/apk/TSI.apk'>Download app</a>";
     }?>
    
 </div>
