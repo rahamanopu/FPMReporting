@@ -287,6 +287,15 @@ class SetupModel extends CI_Model {
 			return false;
 		}
     }
+
+    public function getRetailer($retailerId) {
+        $sql = "select * from Retailer where RetailerID='$retailerId'";
+        $query = $this->db->query($sql);
+        if($query && !empty($result = $query->result_array())) {
+            return $result[0];
+        }
+        return [];
+    }
 }
 
 ?>

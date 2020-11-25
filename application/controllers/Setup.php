@@ -626,11 +626,27 @@ CLASS Setup extends MY_Controller {
         $data['levelCode'] = $this->session->userdata('levelCode');
 
         
-        
-        //$data['distributors'] = $this->setupModel->getDistributor($data['expense']['EmpCode']);
-        //$data['expenseTransports'] = $this->setupModel->getExpenseTransport();
-        // echo '<pre>',print_r($data['expenseTransports']);die();
+        $setupModel = new setupModel();
+        $data['retailer'] = $setupModel->getRetailer($retailerId);    
+        $data['distributors'] = $this->setupModel->getDistributor($data['retailer']['EntryBy']);    
+        // echo '<pre>',print_r($data['retailer']);die();
         $this->loadView('setup/retailer_edit',$data);
+    }
+
+    public function retailerUpdate() {
+        $retailerID =  $this->input->post('RetailerID');
+        $dataToUpdate['RetailerName'] = $this->input->post('RetailerName');
+        $dataToUpdate['RetailerContactNumber'] = $this->input->post('RetailerContactNumber');
+        $dataToUpdate['DistributorCode'] = $this->input->post('DistributorCode');
+        $dataToUpdate['Remarks'] = $this->input->post('Remarks');
+        $status = $this->db->update('Retailer',$dataToUpdate,['RetailerID' => $retailerID]);
+        if($status){
+            setFlashMsg('Updated Successfully');
+        } else {
+            setFlashMsg('Something Went Wrong','error');
+        }
+        return  redirect('setup/retailerEdit/'.$retailerID);
+
     }
 	
     public function expneseEdit($expenseId, $expenseDetailsId) {
