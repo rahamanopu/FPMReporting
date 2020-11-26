@@ -76,7 +76,8 @@ $segment3 = $this->uri->segment(2);
                                     TSI
                                 </div>
                                 <div class="col-md-3">
-                                    <select name="fmecode" id="fmecode" class="form-control" >
+                                    <select name="fmecode" id="fmecode" class="form-control" 
+										<?php if(isset($showDistributorField) && $showDistributorField == true) { ?> onchange="doLoadDistributor(this.value)" <?php } ?>>
                                         <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option></option> <?php } ?>
                                         <?php                                      
                                         if(!empty($fmelist)){ 
@@ -91,6 +92,29 @@ $segment3 = $this->uri->segment(2);
                                         ?>                                    
                                     </select> 
                                 </div>
+								
+								<?php if(isset($showDistributorField) && $showDistributorField == true) { ?>
+								<div class="col-md-1 form-group">
+                                    Distributor
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="distributorcode" id="distributorcode" class="form-control" >
+                                        <?php if(!empty($distributorlist) && COUNT($distributorlist) > 1){ ?> <option></option> <?php } ?>
+                                        <?php                                      
+                                        if(!empty($distributorlist)){ 
+                                            foreach ($distributorlist AS $row){
+                                        ?>
+                                            <option 
+                                                <?php if(!empty($_POST['distributorcode']) AND $row['DistributorCode'] == $_POST['distributorcode']){ ?> selected="selected" <?php } ?>
+                                                value="<?php echo $row['DistributorCode']; ?>"><?php echo $row['DistributorCode'].' - '.$row['DistributorName']; ?></option>
+                                        <?php 
+                                            }
+                                        }  
+                                        ?>                                    
+                                    </select> 
+                                </div>
+								<?php } ?>
+								
                                 <?php if(isset($expenseTypeHeadField) && $expenseTypeHeadField== true) {
                                     ?>
 

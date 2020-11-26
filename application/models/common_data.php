@@ -92,6 +92,8 @@ class Common_data extends CI_Model {
             return $query->result_array();
         }        
     }
+	
+	
 }
 
 ?>

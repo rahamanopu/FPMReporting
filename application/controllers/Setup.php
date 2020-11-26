@@ -575,13 +575,14 @@ CLASS Setup extends MY_Controller {
         $this->load->model('CommonModel');
         $commonModel = new CommonModel();
 
+		$data['showDistributorField']= true;
         $data['expenseTypeHeadField']= false;
         $data['expenseTypeSubHeadField']= false;
         $data['expenseTypeHeads']= $commonModel->getExpenseTypeHead();
         $data['expenseTypeSubHeads']= $commonModel->getExpenseTypeSubHead();   
         $data['expenseTypeHead'] = '';
         $data['expenseTypeSubHead'] = '';
-        $data['pagelimit']  	= 100;
+        $data['pagelimit']  	= 1000;
 		if(!empty($this->input->get_post('page'))){
 			$data['page'] = $this->input->get_post('page');
 		}else{
@@ -594,6 +595,7 @@ CLASS Setup extends MY_Controller {
             $data['expenseTypeSubHead'] = $this->input->get_post('expenseTypeSubHead');
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
+			$data['distributorcode'] = $this->input->get_post('distributorcode');
             $data['period'] = '';
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
@@ -602,12 +604,14 @@ CLASS Setup extends MY_Controller {
 
             $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
-            
+            if(!empty($data['fmecode'])){
+				$data['distributorlist'] 	= $this->common_data->getUserDistributor($data['fmecode']);
+			}
             $reportModel = new ReportModel();
             
             // $datas = $reportModel->getdistributorExpense($data['regioncode'], $data['areacode'], $data['fmecode'], $data['expenseTypeHead'],$data['expenseTypeSubHead'],$data['startDate'],$data['endDate']);
             $datas = $reportModel->getRetailers($data['regioncode'], $data['areacode'], $data['fmecode'], 
-				$data['pagelimit'], $data['page'], $distcode = '');
+				$data['pagelimit'], $data['page'], $data['distributorcode']);
 				$data['expenses'] 	= $datas['priorityData'];    
 				$data['pagingData'] = $datas['pagingData'];    
         }
@@ -628,8 +632,9 @@ CLASS Setup extends MY_Controller {
         
         $setupModel = new setupModel();
         $data['retailer'] = $setupModel->getRetailer($retailerId);    
-        $data['distributors'] = $this->setupModel->getDistributor($data['retailer']['EntryBy']);    
-        // echo '<pre>',print_r($data['retailer']);die();
+        $data['distributors'] = $this->setupModel->getDistributor($data['retailer']['EntryBy']);   
+		$data['retailertype'] = $this->setupModel->getRetailerType();		
+        //echo '<pre>'; print_r($data['retailer']);die();
         $this->loadView('setup/retailer_edit',$data);
     }
 
@@ -639,6 +644,13 @@ CLASS Setup extends MY_Controller {
         $dataToUpdate['RetailerContactNumber'] = $this->input->post('RetailerContactNumber');
         $dataToUpdate['DistributorCode'] = $this->input->post('DistributorCode');
         $dataToUpdate['Remarks'] = $this->input->post('Remarks');
+		
+		$dataToUpdate['RetailerTypeID'] = $this->input->post('RetailerType');
+		$dataToUpdate['RetailerContactNumber'] = $this->input->post('RetailerContactNumber');
+		$dataToUpdate['RetailerAddress'] = $this->input->post('RetailerAddress');
+		$dataToUpdate['RetailerContactPerson'] = $this->input->post('RetailerContactPerson');
+		$dataToUpdate['ProprietorName'] = $this->input->post('ProprietorName');
+		
         $status = $this->db->update('Retailer',$dataToUpdate,['RetailerID' => $retailerID]);
         if($status){
             setFlashMsg('Updated Successfully');

@@ -14,6 +14,22 @@
                             <input type="hidden" name="RetailerID"
                                    value="<?php echo (isset($retailer) && !empty($retailer)) ? $retailer['RetailerID'] : '' ?>">
                             
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="DistributorCode" class="control-label col-sm-4">Distributor</label>
+                                    <div class="col-sm-8">
+                                        <select name="DistributorCode" class="form-control" require>
+                                            <?php foreach($distributors as $distributor) {
+                                                ?>
+                                                <option value="<?php echo $distributor['DistributorCode']?>" <?php echo ($retailer['DistributorCode']==$distributor['DistributorCode']) ? 'selected' : '' ?>><?php echo $distributor['DistributorCode'] .' - ' .$distributor['DistributorName']?></option>
+                                                <?php
+                                            }?>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+							
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="RetailerName" class="control-label col-sm-4">Retailer Name</label>
@@ -25,6 +41,24 @@
                                     </div>
                                 </div>
                             </div>
+							
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="RetailerName" class="control-label col-sm-4">Retailer Type</label>
+                                    <div class="col-sm-8">
+										<select name="RetailerType" class="form-control" require>
+                                            <?php foreach($retailertype as $retailertype) {
+                                                ?>
+                                                <option value="<?php echo $retailertype['RetailerTypeID']?>" <?php echo ($retailertype['RetailerTypeID']==$retailer['RetailerTypeID']) ? 'selected' : '' ?>><?php echo $retailertype['RetailerTypeName']; ?></option>
+                                                <?php
+                                            }?>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+							
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="RetailerContactNumber" class="control-label col-sm-4">Retailer Phone</label>
@@ -36,22 +70,43 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
+							
+							<div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="DistributorCode" class="control-label col-sm-4">Distributor</label>
+                                    <label for="RetailerAddress" class="control-label col-sm-4">Retailer Address</label>
                                     <div class="col-sm-8">
-                                        <select name="DistributorCode" class="form-control" require>
-                                            <?php foreach($distributors as $distributor) {
-                                                ?>
-                                                <option value="<?php echo $distributor['DistributorCode']?>" <?php echo ($retailer['DistributorCode']==$distributor['DistributorCode']) ? 'selected' : '' ?>><?php echo $distributor['DistributorName']?></option>
-                                                <?php
-                                            }?>
-
-                                        </select>
+                                        <input type="text" name="RetailerAddress" id="RetailerAddress"
+                                               class="form-control"
+                                               value="<?php echo (isset($retailer['RetailerAddress'])) ? $retailer['RetailerAddress'] : '' ?>"
+                                               required placeholder="Retailer Address">
                                     </div>
                                 </div>
                             </div>
+							
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="RetailerContactPerson" class="control-label col-sm-4">Retailer Contact Person</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="RetailerContactPerson" id="RetailerContactPerson"
+                                               class="form-control"
+                                               value="<?php echo (isset($retailer['RetailerContactPerson'])) ? $retailer['RetailerContactPerson'] : '' ?>"
+                                               required placeholder="Retailer Contact Person">
+                                    </div>
+                                </div>
+                            </div>
+							
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ProprietorName" class="control-label col-sm-4">Proprietor Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="ProprietorName" id="ProprietorName"
+                                               class="form-control"
+                                               value="<?php echo (isset($retailer['ProprietorName'])) ? $retailer['ProprietorName'] : '' ?>"
+                                               required placeholder="Proprietor Name">
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="HotelPlace" class="control-label col-sm-4">Remarks</label>

@@ -296,6 +296,16 @@ class SetupModel extends CI_Model {
         }
         return [];
     }
+	
+	public function getRetailerType(){		
+        $sql = "   SELECT * FROM RetailerType ";            
+        $result['success'] = false;
+        $query = $this->db->query($sql);
+        $data = array();
+        if ($query) {
+            return $query->result_array();
+        }        
+    }
 }
 
 ?>
