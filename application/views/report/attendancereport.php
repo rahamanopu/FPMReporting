@@ -200,7 +200,7 @@ if (!empty($periodformat)) {
 
                                         }else{ 
 
-                                            if(($j==5 || $j==6)) {
+                                            if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
                                                 ?>
                                                 <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px;height:100px"></td>
                                                 <?php

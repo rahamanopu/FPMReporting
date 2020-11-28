@@ -60,5 +60,10 @@ $route["setup/department-add"] = "Setup/addDepartment";
 $route['app-upload'] = 'Setup/appUpload';
 $route['submit-app-upload'] = 'Setup/submitUpload';
 
+// thana
+$route["setup/thana(:num?)"] = "Setup/thana$1";
+$route["setup/thana-data"] = "Setup/thanaData";
+$route["setup/thana-add"] = "Setup/addThana";
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

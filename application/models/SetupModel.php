@@ -306,6 +306,52 @@ class SetupModel extends CI_Model {
             return $query->result_array();
         }        
     }
+
+    public function getThanaData($thanaId = null)
+    {
+        $sql = "select U.DistrictCode,U.UpazilaCode, U.UpazilaName, D.DistrictName from Upazila U left join District D
+                on D.DistrictCode=U.DistrictCode";
+
+        // only for single row
+        if($thanaId !=null) {
+            $sql .=" where UpazilaCode='$thanaId'";
+            $query = $this->db->query($sql);
+            if($query) {
+                return !empty($result = $query->result_array()) ? $result[0] : [];
+            }
+            return false;
+        }
+
+        $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+//        searching
+        if($searchString !='') {
+            $sql .=" where ";
+            $sql .=" U.UpazilaName like '%".$searchString."%'";            
+            $sql .=" Or D.DistrictName like '%".$searchString."%'";            
+        }
+        // ordering
+        if(isset($_POST['order'])) {
+            $orderByColumn = $_POST['order']['0']['column'] + 1;
+            $orderByDirection = $_POST['order']['0']['dir'];
+            $sql .=" order by $orderByColumn $orderByDirection";
+
+        } else{
+            // any one order is must, otherwise Pagination will not work
+            $sql .= " order by DistrictCode";
+        }
+        // return data for datatable
+        return $this->fetchData($sql);
+    }
+
+    public function getDistrictList() {
+        $sql = "select * from District";
+        $query =  $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
 }
 
 ?>

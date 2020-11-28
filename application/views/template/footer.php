@@ -48,6 +48,7 @@
                 'orderable': false
             }
         });
+        
     });
 </script>
 

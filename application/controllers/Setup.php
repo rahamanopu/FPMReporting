@@ -805,5 +805,84 @@ CLASS Setup extends MY_Controller {
         
     }
 
+    public function thana($thanaId ='') {
+        $data = [];
+        $setupModel = new SetupModel();
+        $data['districts'] = $setupModel->getDistrictList();
+        $data['pageTitle'] = "Thana Entry";
+        if($thanaId!='') {
+            $data['thana'] = $setupModel->getThanaData($thanaId);
+            $data['pageTitle'] = "Thana Edit";
+        }
+
+        $data[$this->ajaxDataLimit] = $this->limit;
+        $data[$this->ajaxDataLoadUrl] = base_url().'setup/thana-data';
+//        echo "<pre>",print_r($data['distributors']);die();
+        $this->loadView('setup/thana',$data);
+    }
+    public function thanaData() {
+        $setupModel = new SetupModel();
+        $result = $setupModel->getThanaData();
+        $data = [];
+        foreach ($result['rows'] as $row) {
+            $subArray = [];
+            
+            $subArray[] = $row['UpazilaName'];
+            $subArray[] = $row['DistrictName'];
+            
+            $subArray[] = "<a href='".base_url()."setup/thana/".$row['UpazilaCode']."' class='btn btn-sm btn-info'><i class='fa fa-edit'> Edit</a>";
+
+            $data[] = $subArray;
+        }
+        echo json_encode($this->prepareDataTableOutput($data,$result['count']));
+    }
+
+    public function addThana() {
+        //        echo "<pre>",print_r($_POST);die();
+        
+        $upazilaCode = trim($this->input->post('UpazilaCode'));
+        $districtCode = trim($this->input->post('DistrictCode'));
+        $data = [
+        'UpazilaName' => trim($this->input->post('UpazilaName')),
+        'DistrictCode' => $districtCode,        
+        ];
+    
+        if($upazilaCode !='') {
+            // $data['EditedBy']= $this->session->userdata('userid');
+            // $data['EditedDate']= date('Y-m-d H:i:s');
+            // $data['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+            // $data['EditedDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+            $status = $this->db->update('Upazila',$data,['UpazilaCode'=> $upazilaCode]);
+            if($status) {
+                setFlashMsg("Updated Successfully");
+            }
+        } else {
+            // $data['EntryBy']= $this->session->userdata('userid');
+            // $data['EntryDate']= date('Y-m-d H:i:s');
+            // $data['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+            // $data['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+            $sql = "select top 1 UpazilaCode from Upazila where DistrictCode='$districtCode' order by UpazilaCode desc";
+            $query = $this->db->query($sql);
+            if($query && !empty($result = $query->result_array())) {
+                // echo '<pre>',print_r($result);die();
+                $code = $result[0]['UpazilaCode']+1;
+                if(strlen(intval($result[0]['UpazilaCode'])) < 4) {
+                    $data['UpazilaCode'] = '0'.$code;
+                } else {
+                    $data['UpazilaCode'] = $code;
+                }             
+                
+            }           
+
+            $status = $this->db->insert('Upazila',$data);
+            if($status) {
+                setFlashMsg("Added Successfully");
+            }
+        }
+        return redirect('setup/thana');
+    }
+
 }
 ?>

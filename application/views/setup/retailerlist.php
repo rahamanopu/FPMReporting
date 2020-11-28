@@ -225,11 +225,11 @@ $segment3 = $this->uri->segment(2);
             <div id="panel-1" class="panel panel-default">
                 <div class="panel-body">                    
                     <div class="exportallplantable table-responsive">    
-                    <table class="table table-bordered table-hover  table-striped">
+                    <table class="table table-bordered table-hover  table-striped dataTable">
                         <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Delete</th>
+                            <th>Edit</th>
                             <?php
                             $index = array_keys($expenses[0]);
                             for($i = 2; $i < count($index); $i++){
@@ -304,5 +304,13 @@ table tr td{
     border: 1px solid #CCC;
 }
 </style>
+
+<script>
+    $(document).ready(function() {
+        $(".dataTable").dataTable({
+            "paging":   false,
+        });
+    });
+</script>
 
  
