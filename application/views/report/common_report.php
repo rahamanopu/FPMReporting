@@ -193,7 +193,7 @@ $segment3 = $this->uri->segment(2);
         <!-- /BOXES --> 
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-body" style="height: 500px;overflow:scroll;">
                     
                     <?php if(!empty($priorityData)){
                         if(!isset($expenseTypeHead)) {
@@ -260,7 +260,8 @@ $segment3 = $this->uri->segment(2);
                         }
                         ?>
 
-                        </table>
+                        </table>                    
+                        
                     </div>
                     <?php } ?>
 

@@ -136,7 +136,7 @@ if (!empty($periodformat)) {
         <!-- /BOXES --> 
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-body" style="height: 500px;overflow:scroll;">
                     
                     <?php if(!empty($summary)){ ?>
                     <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?fmecode='.$fmecode.'&period='.$period.'&excel=yes'; ?>">

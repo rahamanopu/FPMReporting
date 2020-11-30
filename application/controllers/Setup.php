@@ -843,8 +843,8 @@ CLASS Setup extends MY_Controller {
         $upazilaCode = trim($this->input->post('UpazilaCode'));
         $districtCode = trim($this->input->post('DistrictCode'));
         $data = [
-        'UpazilaName' => trim($this->input->post('UpazilaName')),
-        'DistrictCode' => $districtCode,        
+            'UpazilaName' => trim($this->input->post('UpazilaName')),
+            'DistrictCode' => $districtCode,        
         ];
     
         if($upazilaCode !='') {
@@ -864,13 +864,14 @@ CLASS Setup extends MY_Controller {
             // $data['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
 
             $sql = "SELECT DistrictCode +  RIGHT('0' + CAST((max(right(UpazilaCode,2)) + 1 ) AS VARCHAR(2)), 2) UpazilaCode 
-                        FROM Upazila WHERE DistrictCode = '$upazilaCode'
+                        FROM Upazila WHERE DistrictCode = '$districtCode'
                     GROUP BY DistrictCode";
+                    
             $query = $this->db->query($sql);
-            if($query && !empty($result = $query->result_array())) {
-                // echo '<pre>',print_r($result);die();
+            
+            if($query && !empty($result = $query->result_array())) {                
                 $data['UpazilaCode'] = $result[0]['UpazilaCode'];
-            }           
+            }   
 
             $status = $this->db->insert('Upazila',$data);
             if($status) {
