@@ -1,5 +1,8 @@
-<script defer
+<!-- <script defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
+</script> -->
+<script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsuzNnJrvwFhot_ciZ7wkArQmHCj38ZaI">
 </script>
       
 
@@ -135,6 +138,12 @@ $segment3 = $this->uri->segment(2);
     $(document).ready(function() {
         var markersOnMap = '';
         var centerCords = '';
+
+        var map;    
+        var InforObj = [];    
+        var directionDisplay;
+        var directionsService = new google.maps.DirectionsService(); 
+        
         $("#showGoogleMapLocation").on('click',function() {
             var level1= $("#fmecode").val();
             if(level1===null) {
@@ -182,10 +191,12 @@ $segment3 = $this->uri->segment(2);
             
         
 
-            var map;    
-            var InforObj = [];        
+               
 
-            function addMarkerInfo() {               
+            function addMarkerInfo() { 
+                var waypts = [];   
+                var start ='';
+                var end = '';           
                 for (var i = 0; i < markersOnMap.length; i++) {                    
                     let image= '';
                     if(markersOnMap[i].type == 'distributor') {
@@ -200,7 +211,19 @@ $segment3 = $this->uri->segment(2);
                         
                         image = '';
 
+                        if(waypts.length < 20) {
+                            waypts.push({
+                                location: markersOnMap[i].LatLng[0],
+                                stopover: true,
+                            });
+                        }
+                        if(start == '') {
+                            start = markersOnMap[i].LatLng[0].lat +','+ markersOnMap[i].LatLng[0].lng;
+                        }
+                        end = markersOnMap[i].LatLng[0].lat +','+ markersOnMap[i].LatLng[0].lng;
+
                     }
+
 
                     const marker = new google.maps.Marker({
                         position: markersOnMap[i].LatLng[0],
@@ -219,6 +242,10 @@ $segment3 = $this->uri->segment(2);
                         InforObj[0] = infowindow;
                     });
                 }
+                // var start = '23.7683909618184, 90.51089453697205';
+                
+
+                drawRoute(start,end,waypts);
             }
 
             function closeOtherInfo() {
@@ -233,10 +260,27 @@ $segment3 = $this->uri->segment(2);
             }
 
             function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
+                // map = new google.maps.Map(document.getElementById('map'), {
+                //     zoom: 7,
+                //     center: centerCords
+                // });
+
+
+
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                var myOptions = {
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
                     zoom: 7,
-                    center: centerCords
-                });
+                    center: centerCords,
+                //     waypoints: waypts,
+                // optimizeWaypoints: true,
+
+                }
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+                directionsDisplay.setMap(map);
+                // drawRoute();
+
+
                 addMarkerInfo();
             }
 
@@ -258,6 +302,43 @@ $segment3 = $this->uri->segment(2);
             }        
 
         });
+
+        
+        function drawRoute(start,end,waypts) {
+        // var start = '23.7683909618184, 90.51089453697205';
+        // var end = '23.850033, 90.6500523';
+        var request = {
+        origin:start, 
+        destination:end,
+        // waypoints: [{location:{ lat: 23.85, lng: 90.65 },stopover:true},{location:{ lat: 23.86, lng: 90.70 },stopover:true},],
+        waypoints: waypts,
+        // optimizeWaypoints: true,
+        // for (let i = 0; i < checkboxArray.length; i++) {
+        //     if (checkboxArray.options[i].selected) {
+        //     waypts.push({
+        //         location: checkboxArray[i].value,
+        //         stopover: true,
+        //     });
+        //     }
+        // }
+
+
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+        directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            var myRoute = response.routes[0];
+            var txtDir = '';
+            for (var i=0; i<myRoute.legs[0].steps.length; i++) {
+            txtDir += myRoute.legs[0].steps[i].instructions+"<br />";
+            }
+            // document.getElementById('directions').innerHTML = txtDir;
+        }
+        }); 
+    }
     });
+
+    
             
 </script>

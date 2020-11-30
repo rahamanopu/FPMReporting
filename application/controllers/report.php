@@ -853,9 +853,10 @@ CLASS Report extends MY_Controller {
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         $this->loadView('report/user_timeline_location',$data);
+        // $this->loadView('report/user_timeline_location2',$data);
     }
 
-    public function getUserTimelineLocation() {  
+    public function getUserTimelineLocation() {          
         $level1 = $this->input->post('level1');
         $level2 = $this->input->post('level2');
         $level3 = $this->input->post('level3');
@@ -904,7 +905,7 @@ CLASS Report extends MY_Controller {
                     'LatLng'=> [
                         [
                             'lat'=> floatval($locData['Latitude']),
-                            'lng'=> floatval($locData['Longitude'])
+                            'lng'=> floatval($locData['Longitude'])                            
                         ]
                     ],                                                   
                 ];                        
