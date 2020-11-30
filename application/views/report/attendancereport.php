@@ -202,7 +202,10 @@ if (!empty($periodformat)) {
 
                                             if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
                                                 ?>
-                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px;height:100px"></td>
+                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/attendance/'.$value; ?>" alt="" style="height:200px;height:100px">
+                                                    <br>
+                                                    <a href="<?php echo base_url().'download-image/'.$value?>" class="">Download</a>
+                                                </td>
                                                 <?php
                                             } else {
                                                 echo "<td>" . $value."</td>"; 

@@ -304,7 +304,8 @@ class SetupModel extends CI_Model {
         $data = array();
         if ($query) {
             return $query->result_array();
-        }        
+        }
+        return [];        
     }
 
     public function getThanaData($thanaId = null)

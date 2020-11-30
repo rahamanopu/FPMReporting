@@ -241,7 +241,9 @@ $segment3 = $this->uri->segment(2);
 										<img style="width: 100px;height:150px;" id="myImg<?php echo $i.$j; ?>" 
 											src="<?php echo $this->config->item('app_image_base_url').$imageFolder.$value ?>" 
 											alt="">
-										</a>
+                                        </a>
+                                        <br>
+                                        <a href="<?php echo base_url().'download-image/'.$value?>" class="">Download</a>
 										</td>
                                         <?php
 

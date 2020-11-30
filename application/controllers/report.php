@@ -915,6 +915,13 @@ CLASS Report extends MY_Controller {
 
     }
 
+    function downloadImage($img)
+    {       
+        $this->load->helper('download');
+        $data = @file_get_contents ($this->config->item('app_image_base_url').'uploads/attendance/'.$img);
+        force_download($img, $data);
+    }
+
     
 
     
