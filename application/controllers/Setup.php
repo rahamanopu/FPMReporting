@@ -863,9 +863,14 @@ CLASS Setup extends MY_Controller {
             // $data['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
             // $data['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
 
-            $sql = "SELECT DistrictCode +  RIGHT('0' + CAST((max(right(UpazilaCode,2)) + 1 ) AS VARCHAR(2)), 2) UpazilaCode 
-                        FROM Upazila WHERE DistrictCode = '$districtCode'
-                    GROUP BY DistrictCode";
+            $sql = "SELECT M.UpazilaCode FROM (
+                SELECT L.UpazilaCode, ROW_NUMBER() OVER (ORDER BY L.UpazilaCode) AS SL FROM (
+                SELECT '$districtCode'+FORMAT(ROW_NUMBER() OVER (ORDER BY UpazilaCode),'00') AS UpazilaCode
+                FROM Upazila WHERE DistrictCode = '$districtCode') L
+                LEFT JOIN (SELECT UpazilaCode FROM Upazila WHERE DistrictCode = '$districtCode') R
+                    ON L.UpazilaCode= R.UpazilaCode
+                    WHERE R.UpazilaCode IS NULL) M
+                WHERE M.SL=1";
                     
             $query = $this->db->query($sql);
             
