@@ -73,7 +73,7 @@ $segment3 = $this->uri->segment(2);
                             </div>
                             <div class="col-md-2">
                                 <select name="fmecode" id="fmecode" class="form-control" required="required">
-                                    <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option></option> <?php } ?>
+                                    <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option value="null"></option> <?php } ?>
                                     <?php                                      
                                     if(!empty($fmelist)){ 
                                         foreach ($fmelist AS $row){
@@ -146,7 +146,7 @@ $segment3 = $this->uri->segment(2);
         
         $("#showGoogleMapLocation").on('click',function() {
             var level1= $("#fmecode").val();
-            if(level1===null) {
+            if(level1===null || level1=='') {
                 alert("Please Select One TSI");
                 return false;
             }

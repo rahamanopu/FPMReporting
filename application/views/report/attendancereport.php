@@ -189,7 +189,7 @@ if (!empty($periodformat)) {
                                 for ($j = 0; $j < count($index); $j++) {
                                     $value = $arrayvalue[$j];   
                                     if($date=='') {
-                                        $date =$arrayvalue[0];                                   
+                                        $date =$arrayvalue[1];                                   
                                     }
                                         if (is_numeric($value)) { 
                                             if($j > 11){
@@ -236,8 +236,7 @@ if (!empty($periodformat)) {
                                             //echo "<pre />"; print_r($filterdata);
                                             $countin = 0;
                                             if(!empty($filterdata)){
-                                                $filterDataLength = count($filterdata);
-                                               
+                                                $filterDataLength = count($filterdata);                                               
                                                 foreach($filterdata as $row){ 
                                                     $countin++;
 
