@@ -202,45 +202,74 @@ $segment3 = $this->uri->segment(2);
                     if(markersOnMap[i].type == 'distributor') {
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Location: <span style="font-weight:700">'+markersOnMap[i].location+'</span> </div>';
                         image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png';
+
+                        // ******* Marker and info ********//
+                        const marker = new google.maps.Marker({
+                            position: markersOnMap[i].LatLng[0],
+                            map: map,
+                            icon: image
+                        });
+
+                        const infowindow = new google.maps.InfoWindow({
+                            content: contentString,
+                            maxWidth: 200
+                        });
+
+                        marker.addListener('click', function () {
+                            closeOtherInfo();
+                            infowindow.open(marker.get('map'), marker);
+                            InforObj[0] = infowindow;
+                        });
+                        // ******* End Marker and info ********//
+
+
                     } else if(markersOnMap[i].type == 'retailer') {
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span><br> Code: <span style="font-weight:700">'+markersOnMap[i].code+'</span><br> Contact: <span style="font-weight:700">'+markersOnMap[i].RetailerContactNumber+'</span> </div>';
                         
                         image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+                        // ******* Marker and info ********//
+                        const marker = new google.maps.Marker({
+                            position: markersOnMap[i].LatLng[0],
+                            map: map,
+                            icon: image
+                        });
+
+                        const infowindow = new google.maps.InfoWindow({
+                            content: contentString,
+                            maxWidth: 200
+                        });
+
+                        marker.addListener('click', function () {
+                            closeOtherInfo();
+                            infowindow.open(marker.get('map'), marker);
+                            InforObj[0] = infowindow;
+                        });
+                        // ******* End Marker and info ********//
+
                     } else {
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span></div>';
                         
-                        image = '';
-
-                        if(waypts.length < 20) {
+                        image = '';                        
+                        if(waypts.length < 26 && start!='') {
+                            startInitiated = true;
                             waypts.push({
                                 location: markersOnMap[i].LatLng[0],
                                 stopover: true,
                             });
                         }
-                        if(start == '') {
-                            start = markersOnMap[i].LatLng[0].lat +','+ markersOnMap[i].LatLng[0].lng;
+                        if(start == '') {     
+                            start = ''+markersOnMap[i].LatLng[0].lat +', '+ markersOnMap[i].LatLng[0].lng+'';
+                            console.log("Starting=======",start);
                         }
-                        end = markersOnMap[i].LatLng[0].lat +','+ markersOnMap[i].LatLng[0].lng;
+                        end = markersOnMap[i].LatLng[0].lat +', '+ markersOnMap[i].LatLng[0].lng;
 
+
+                        
                     }
+ 
 
-
-                    const marker = new google.maps.Marker({
-                        position: markersOnMap[i].LatLng[0],
-                        map: map,
-                        icon: image
-                    });
-
-                    const infowindow = new google.maps.InfoWindow({
-                        content: contentString,
-                        maxWidth: 200
-                    });
-
-                    marker.addListener('click', function () {
-                        closeOtherInfo();
-                        infowindow.open(marker.get('map'), marker);
-                        InforObj[0] = infowindow;
-                    });
+                    
                 }
                 // var start = '23.7683909618184, 90.51089453697205';
                 
@@ -273,7 +302,7 @@ $segment3 = $this->uri->segment(2);
                     zoom: 7,
                     center: centerCords,
                 //     waypoints: waypts,
-                // optimizeWaypoints: true,
+                optimizeWaypoints: false,
 
                 }
                 map = new google.maps.Map(document.getElementById("map"), myOptions);
@@ -305,7 +334,8 @@ $segment3 = $this->uri->segment(2);
 
         
         function drawRoute(start,end,waypts) {
-        // var start = '23.7683909618184, 90.51089453697205';
+            console.log("Into Function=====",start);
+        //var start = '23.7790513, 90.4030151';
         // var end = '23.850033, 90.6500523';
         var request = {
         origin:start, 
@@ -328,12 +358,7 @@ $segment3 = $this->uri->segment(2);
         directionsService.route(request, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
-            var myRoute = response.routes[0];
-            var txtDir = '';
-            for (var i=0; i<myRoute.legs[0].steps.length; i++) {
-            txtDir += myRoute.legs[0].steps[i].instructions+"<br />";
-            }
-            // document.getElementById('directions').innerHTML = txtDir;
+
         }
         }); 
     }
