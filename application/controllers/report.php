@@ -89,11 +89,13 @@ CLASS Report extends MY_Controller {
                 $datas = $reportModel->getDailyAttendanceReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];
             }
+            // echo '<pre>',print_r($data['priorityData']);die();
             
                                   
         }
 
-        $this->loadView('report/common_report',$data);
+        // $this->loadView('report/common_report',$data);
+        $this->loadView('report/daily_attendancereport',$data);
     }
 
 
