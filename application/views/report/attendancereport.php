@@ -20,7 +20,7 @@
 
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
 <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsuzNnJrvwFhot_ciZ7wkArQmHCj38ZaI">
 </script>
       
 
@@ -302,6 +302,11 @@ if (!empty($periodformat)) {
 $(document).ready(function() {
     var markersOnMap = '';
     var centerCords = '';
+    var map;    
+    var InforObj = [];
+    var directionDisplay;
+    var directionsService = new google.maps.DirectionsService(); 
+        
     $(".googleMapLocation").on('click',function() {
         var date = $(this).attr('data-date');
         // var date = '2020-10-15';
@@ -332,37 +337,30 @@ $(document).ready(function() {
             error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
             } 
-        });
-        
-        
-       
+        }); 
 
-        var map;    
-        var InforObj = [];   
-        var flightPlanCoordinates = [];     
+        function addMarkerInfo() {  
+            var waypts = [];   
+            var start ='';
+            var end = ''; 
 
-        function addMarkerInfo() {               
             for (var i = 0; i < markersOnMap.length; i++) {
                 var contentString = '<div id="content"> Time: <span style="font-weight:700">' + markersOnMap[i].content +'</span></div>';
 
-                const marker = new google.maps.Marker({
-                    position: markersOnMap[i].LatLng[0],
-                    map: map
-                });
+                if(waypts.length < 25 && start!='') {
+                    startInitiated = true;
+                    waypts.push({
+                        location: markersOnMap[i].LatLng[0],
+                        stopover: true,
+                    });                
+                }
+                if(start == '') {     
+                    start = ''+markersOnMap[i].LatLng[0].lat +', '+ markersOnMap[i].LatLng[0].lng+'';                   
+                }
+                end = markersOnMap[i].LatLng[0].lat +', '+ markersOnMap[i].LatLng[0].lng;
 
-                const infowindow = new google.maps.InfoWindow({
-                    content: contentString,
-                    maxWidth: 200
-                });
-
-                flightPlanCoordinates.push(markersOnMap[i].LatLng[0]);
-
-                marker.addListener('click', function () {
-                    closeOtherInfo();
-                    infowindow.open(marker.get('map'), marker);
-                    InforObj[0] = infowindow;
-                });
             }
+            drawRoute(start,end,waypts);
         }
 
         function closeOtherInfo() {
@@ -377,20 +375,18 @@ $(document).ready(function() {
         }
 
         function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: centerCords
-            });
-            addMarkerInfo();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var myOptions = {
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                zoom: 7,
+                center: centerCords,
+                //     waypoints: waypts,
+                optimizeWaypoints: false,
 
-            const flightPath = new google.maps.Polyline({
-                path: flightPlanCoordinates,
-                geodesic: true,
-                strokeColor: "#008000",
-                strokeOpacity: 1.0,
-                strokeWeight: 2,
-            });
-            flightPath.setMap(map);
+            }
+            map = new google.maps.Map(document.getElementById("map"), myOptions);
+            directionsDisplay.setMap(map);
+            addMarkerInfo();
         }
 
         // Sets the map on all markers in the array.
@@ -400,10 +396,7 @@ $(document).ready(function() {
         }
         }
 
-        // Removes the markers from the map, but keeps them in the array.
-        function clearMarkers() {
-        setMapOnAll(null);
-        }
+       
 
         // Shows any markers currently in the array.
         function showMarkers() {
@@ -411,6 +404,21 @@ $(document).ready(function() {
         }        
 
     });
+    function drawRoute(start,end,waypts) {     
+        console.log(start,end,waypts);       
+        var request = {
+            origin:start, 
+            destination:end,
+            waypoints: waypts, 
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+        directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+
+        }
+        }); 
+    }
 });
             
   </script>

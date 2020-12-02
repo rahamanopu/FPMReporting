@@ -251,8 +251,7 @@ $segment3 = $this->uri->segment(2);
                         var contentString = '<div id="content">Name: <span style="font-weight:700">' + markersOnMap[i].name +'</span></div>';
                         
                         image = '';                        
-                        if(waypts.length < 26 && start!='') {
-                            startInitiated = true;
+                        if(waypts.length < 25 && start!='') {                            
                             waypts.push({
                                 location: markersOnMap[i].LatLng[0],
                                 stopover: true,
@@ -301,8 +300,8 @@ $segment3 = $this->uri->segment(2);
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     zoom: 7,
                     center: centerCords,
-                //     waypoints: waypts,
-                optimizeWaypoints: false,
+                    //     waypoints: waypts,
+                    optimizeWaypoints: false,
 
                 }
                 map = new google.maps.Map(document.getElementById("map"), myOptions);
@@ -333,35 +332,20 @@ $segment3 = $this->uri->segment(2);
         });
 
         
-        function drawRoute(start,end,waypts) {
-            console.log("Into Function=====",start);
-        //var start = '23.7790513, 90.4030151';
-        // var end = '23.850033, 90.6500523';
-        var request = {
-        origin:start, 
-        destination:end,
-        // waypoints: [{location:{ lat: 23.85, lng: 90.65 },stopover:true},{location:{ lat: 23.86, lng: 90.70 },stopover:true},],
-        waypoints: waypts,
-        // optimizeWaypoints: true,
-        // for (let i = 0; i < checkboxArray.length; i++) {
-        //     if (checkboxArray.options[i].selected) {
-        //     waypts.push({
-        //         location: checkboxArray[i].value,
-        //         stopover: true,
-        //     });
-        //     }
-        // }
+        function drawRoute(start,end,waypts) {            
+            var request = {
+                origin:start, 
+                destination:end,
+                waypoints: waypts, 
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
 
-
-        travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-        directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-
+            }
+            }); 
         }
-        }); 
-    }
     });
 
     
