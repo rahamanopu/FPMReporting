@@ -136,17 +136,17 @@ if (!empty($periodformat)) {
         <!-- /BOXES --> 
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body" style="height: 500px;overflow:scroll;">
+                <div class="panel-body">
                     
                     <?php if(!empty($summary)){ ?>
                     <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?fmecode='.$fmecode.'&period='.$period.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
-                    <div class="exportallplantable table-responsive">    
+                    <div class="exportallplantable">    
                     <table class="table table-bordered table-hover  table-striped">
                         <thead>
                             <tr>
-                                <th rowspan="2"></th>
+                                <th></th>
                                 <th colspan="2"></th>
                                 <th colspan="2">Time</th>
                                 <th colspan="2">Location</th>
@@ -154,7 +154,8 @@ if (!empty($periodformat)) {
                                 <th colspan="4">Tour plan</th>
 								<th></th>
                             </tr>
-                            <tr>         
+                            <tr> 
+                                <th></th>        
                                 <?php
                                 $index = array_keys($summary[0]);
                                 $count = 0;
@@ -165,6 +166,7 @@ if (!empty($periodformat)) {
                                 <th>Location</th>
                             </tr>
                         </thead>
+                        <tbody>
                         <?php
                         function filterattendancearray($val){
                             Global $attendancedate;  
@@ -261,7 +263,7 @@ if (!empty($periodformat)) {
                             <?php
                         }
                         ?>
-
+                        </tbody>
                         </table>
                     </div>
                     <?php } ?>

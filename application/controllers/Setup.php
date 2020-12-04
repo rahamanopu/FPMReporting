@@ -144,10 +144,12 @@ CLASS Setup extends MY_Controller {
         $result = $setupModel->getDistributorList();
         $data = [];
         foreach ($result['rows'] as $row) {
-            $subArray = [];
+            $subArray = [];            
+            $subArray[] = "<a href='".base_url()."setup/distributor-add/".$row['DistributorCode']."' class='btn btn-sm btn-info'><i class='fa fa-edit'> Edit</a>";
             foreach ($row as $key) {
                 $subArray[] = $key;
             }
+
 //            $subArray[] = $row['Zone'];
 //            $subArray[] = $row['Territory'];
 //            $subArray[] = $row['District'];
@@ -167,6 +169,79 @@ CLASS Setup extends MY_Controller {
         }
         echo json_encode($this->prepareDataTableOutput($data,$result['count']));
     }
+
+    // To add Distributor
+
+    public function addDistributor($distributorCode='') {   
+        $setupModel = new SetupModel();     
+        if (!empty($_POST)) {
+            $distributorCode =  trim($this->input->post('ExistingDistributorCode'));
+            $newDistributorCode = trim($this->input->post('DistributorCode'));
+
+            if($distributorCode =='' && !empty($setupModel->getProductByCode($newDistributorCode))) {
+                setFlashMsg("DistributorCode Already Exist with this Product Code: ".$newDistributorCode,'error');
+                return redirect('setup/distributor-add');
+                
+            }
+            $dataToAdd['DistributorCode'] = $newDistributorCode;
+
+            $dataToAdd['Zone'] = trim($this->input->post('Zone'));
+            $dataToAdd['Territory'] = trim($this->input->post('Territory'));
+            $dataToAdd['District'] = trim($this->input->post('District'));
+            $dataToAdd['DistributorPoint'] = trim($this->input->post('DistributorPoint'));
+            $dataToAdd['DistributorCode'] = trim($this->input->post('DistributorCode'));
+            $dataToAdd['DistributorName'] = trim($this->input->post('DistributorName'));
+            $dataToAdd['DistributorType'] = trim($this->input->post('DistributorType'));
+            $dataToAdd['ProprietorName'] = trim($this->input->post('ProprietorName'));
+            $dataToAdd['Address'] = trim($this->input->post('Address'));
+            $dataToAdd['ContactNO'] = trim($this->input->post('ContactNO'));
+            $dataToAdd['TSIID'] = trim($this->input->post('TSIID'));
+            $dataToAdd['TSIName'] = trim($this->input->post('TSIName'));
+            $dataToAdd['ICID'] = trim($this->input->post('ICID'));
+            $dataToAdd['ICName'] = trim($this->input->post('ICName'));
+            
+
+            if ($distributorCode !='') {
+                // $dataToAdd['EditedBy']= $this->session->userdata('userid');
+                // $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
+                // $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                // $dataToAdd['EditedDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+                $status = $this->db->update('Distributor', $dataToAdd, ['DistributorCode'=> $distributorCode]);
+                if ($status) {
+                    setFlashMsg("Updated Successfully");
+                    return redirect('setup/distributor');
+                }
+                setFlashMsg("Failed to Updated","error");
+                return redirect('setup/distributor-add/'.$distributorCode);
+            } else {
+                // $dataToAdd['EntryBy']= $this->session->userdata('userid');
+                // $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
+                // $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                // $dataToAdd['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+
+                $status = $this->db->insert('Distributor', $dataToAdd);
+                if ($status) {
+                    setFlashMsg("Added Successfully");
+                }
+            }
+            return redirect('setup/distributor-add');
+            
+        }
+        $data = [];
+        $data['districts'] = $setupModel->getDistrictList();
+        // echo '<pre>',print_r($data['brands']);die();
+        $data['pageTitle'] = "Distributor Entry";
+        if($distributorCode!='') {
+            $data['distributor'] = $setupModel->getDistributorByCode($distributorCode);
+            // echo '<pre>',print_r($data['distributor']);die();
+            $data['pageTitle'] = "Distributor Edit";
+        }
+
+        $this->loadView('setup/distributor_add',$data);
+    }
+
+
 
     public function product() {
         $data = [];

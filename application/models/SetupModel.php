@@ -71,6 +71,16 @@ class SetupModel extends CI_Model {
         return $this->fetchData($sql);
     }
 
+    public function getDistributorByCode($distributorCode) {
+        $sql = "select * from Distributor where DistributorCode='$distributorCode'";
+        $query =  $this->db->query($sql);
+        if($query && !empty($result = $query->result_array())) {
+            return $result[0];
+        }
+        return [];
+    }
+
+
     public function getProductByCode($productCode) {
         $sql = "select P.*  
                     from Product P

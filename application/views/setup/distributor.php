@@ -10,6 +10,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading panel-heading-transparent">
                         <strong>Distributor List</strong>
+                        <a href="<?php echo base_url().'setup/distributor-add'?>" class="btn btn-danger btn-sm" style="float: right;">Add Distributor</a>
                     </div>
 
                     <div class="panel-body">
@@ -17,6 +18,7 @@
                             <table id="dataTable" class="table table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
+                                    <th>Edit</th>
                                     <th>Zone</th>
                                     <th>Territory</th>
                                     <th>District</th>
@@ -31,6 +33,7 @@
                                     <th>TSI Name</th>
                                     <th>ICID</th>
                                     <th>IC Name</th>
+                                    
                                 </tr>
                                 </thead>
                                 <tbody>

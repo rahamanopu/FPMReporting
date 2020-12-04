@@ -193,7 +193,7 @@ $segment3 = $this->uri->segment(2);
         <!-- /BOXES --> 
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body" style="height: 500px;overflow:scroll;">
+                <div class="panel-body">
                     
                     <?php if(!empty($priorityData)){
                         if(!isset($expenseTypeHead)) {
@@ -206,8 +206,8 @@ $segment3 = $this->uri->segment(2);
                         <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?regioncode='.$regioncode.'&areacode='.$areacode.'&fmecode='.$fmecode.'&startDate='.$startDate.'&endDate='.$endDate.'&expenseTypeHead='.$expenseTypeHead.'&expenseTypeSubHead='.$expenseTypeSubHead.'&period='.$period.'&excel=yes'; ?>">
                             Export To Excel
                         </a>
-                    <div class="exportallplantable table-responsive">    
-                    <table class="table table-bordered table-hover  table-striped">
+                    <div class="exportallplantable">    
+                    <table class="table table-bordered table-hover  table-striped" id="commontable">
                         <thead>                            
                             <tr>
                                 <th>SL</th>         
