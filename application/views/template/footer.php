@@ -110,6 +110,31 @@ loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
                                     //tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
                                 }
                                 initdoctorbrandtable();
+
+
+                                // Dynamic Datatable 
+                                var ajaxDataLoadUrl = $("#ajaxDataLoadUrl").val();
+                                var ajaxDataLimit = $("#ajaxDataLimit").val();
+                                if(ajaxDataLimit =='') {
+                                    ajaxDataLimit = 25;
+                                }
+                                var dataTable = jQuery("#dataTable").dataTable({
+                                    'processing': true,
+                                    'serverSide': true,
+                                    'pageLength': ajaxDataLimit,
+
+                                    'order': [],
+                                    'ajax': {
+                                        url: ajaxDataLoadUrl,
+                                        type: 'POST'
+                                    },
+                                    'columnDefs': {
+                                        'targets': [0, 3, 4],
+                                        'orderable': false
+                                    }
+                                });
+
+                                 // End Dynamic Datatable 
                                 
                                  
                                 
@@ -140,28 +165,9 @@ $(document).ready(function(){
         $(".datePicker").datepicker({
             dateFormat: 'yy-mm-dd'
         });
-        /*    
-        var ajaxDataLoadUrl = $("#ajaxDataLoadUrl").val();
-        var ajaxDataLimit = $("#ajaxDataLimit").val();
-        if(ajaxDataLimit =='') {
-            ajaxDataLimit = 25;
-        }
-        var dataTable = jQuery("#dataTable").dataTable({
-            'processing': true,
-            'serverSide': true,
-            'pageLength': ajaxDataLimit,
-
-            'order': [],
-            'ajax': {
-                url: ajaxDataLoadUrl,
-                type: 'POST'
-            },
-            'columnDefs': {
-                'targets': [0, 3, 4],
-                'orderable': false
-            }
-        });
-        */        
+            
+        
+               
     });
 </script>
 
