@@ -627,6 +627,7 @@ CLASS Report extends MY_Controller {
         $locations = $reportModel->getUserCurrentLocation(); 
         foreach($locations as $locData){
             $markersOnMap[] = [
+                'greaterthanTenMin' => ((strtotime($locData['Last_Updated'])+(10*60)) < time()) ? 'yes' : 'no',
                 'name'=> $locData['TSI_ID'].' - '.$locData['TSI_Name'], 
                 'time' => date('Y-m-d H:i A',strtotime($locData['Last_Updated'])),
                 'type' => 'user_location',

@@ -18,9 +18,15 @@ $segment3 = $this->uri->segment(2);
     <div id="content" class="dashboard padding-20">
         <div class="row">
             <div id="panel-1" class="panel panel-default">
-                <div class="panel-body">               
+                <div class="panel-body">
+                    <p><span>Within 10 Min</span> <span class="fa fa-square"  style="color: yellow !important;"></span> || <span>Greater than 10 Min</span> <span class="fa fa-square" style="color: red !important;"></span></p>                             
                     <p id="mapLoadingText"></p>
-                    <div id="map" style="width: 100%; height: 1000px;"></div>
+                    <div class="col-md-2">
+                        <p id="within_10_min"></p>
+                        <p id="greater_than_10_min"></p>
+                    </div>
+                    <div class="col-md-10"><div id="map" style="width: 100%; height: 1000px;"></div></div>
+                    
                 </div>
             </div>
         </div>
@@ -64,9 +70,10 @@ $segment3 = $this->uri->segment(2);
     
 
         var map;    
-        var InforObj = [];        
+        var InforObj = [];    
 
         function addMarkerInfo() {  
+            var currentD = new Date();
             let image= '';             
             for (var i = 0; i < markersOnMap.length; i++) {
                 if(markersOnMap[i].type == 'distributor') {
@@ -77,7 +84,13 @@ $segment3 = $this->uri->segment(2);
                     image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                 }else {
                     var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';
-                    image = '';
+                    if(markersOnMap[i].greaterthanTenMin=='yes') {
+                        image = pinSymbol('red');
+                        $("#greater_than_10_min").append('<span class="small">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: red !important;"></span><br>');
+                    } else {
+                        image = pinSymbol('yellow');
+                        $("#within_10_min").append('<span class="small">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: yellow !important;"></span><br>');
+                    }
                 }
                 
 
@@ -134,7 +147,22 @@ $segment3 = $this->uri->segment(2);
         // Shows any markers currently in the array.
         function showMarkers() {
         setMapOnAll(map);
-        }        
+        } 
+
+        function pinSymbol(color) {
+            return {
+                path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+                fillColor: color,
+                fillOpacity: 1,
+                strokeColor: '#000',
+                strokeWeight: 2,
+                scale: 1
+            };
+        }       
     });
+
+
+    // refresh the page every 1 min
+    setTimeout("location.reload(true);",(60*1000));
             
 </script>
