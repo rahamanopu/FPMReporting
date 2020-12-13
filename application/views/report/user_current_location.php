@@ -1,6 +1,20 @@
+<style>
+    ::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+</style>
 <script defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
 </script>
+<script defer
+  src="http://maps.mis.digital/leaflet/leaflet-routing-machine.js">
+</script>
+
       
 
 <?php
@@ -22,8 +36,8 @@ $segment3 = $this->uri->segment(2);
                     <p><span>Within 10 Min</span> <span class="fa fa-square"  style="color: yellow !important;"></span> || <span>Greater than 10 Min</span> <span class="fa fa-square" style="color: red !important;"></span></p>                             
                     <p id="mapLoadingText"></p>
                     <div class="col-md-2">
-                        <p id="within_10_min"></p>
-                        <p id="greater_than_10_min"></p>
+                    <p id="within_10_min" style="max-height:300px; overflow:scroll"></p>
+                        <p id="greater_than_10_min"  style="max-height:300px; overflow:scroll"></p>
                     </div>
                     <div class="col-md-10"><div id="map" style="width: 100%; height: 1000px;"></div></div>
                     
@@ -35,9 +49,11 @@ $segment3 = $this->uri->segment(2);
 </section>
 
 <script type="text/javascript">
+	var polyLines = [];
+    var map;   
     $(document).ready(function() {
         var markersOnMap = '';
-        var centerCords = '';
+        var centerCords = '';		
           
         $("#map").html("");
         $.ajax({
@@ -69,7 +85,7 @@ $segment3 = $this->uri->segment(2);
         
     
 
-        var map;    
+         
         var InforObj = [];    
 
         function addMarkerInfo() {  
@@ -86,10 +102,10 @@ $segment3 = $this->uri->segment(2);
                     var contentString = '<div id="content"><span> Name: ' + markersOnMap[i].name +'</span><br><span>Time: '+ markersOnMap[i].time +'</span></div>';
                     if(markersOnMap[i].greaterthanTenMin=='yes') {
                         image = pinSymbol('red');
-                        $("#greater_than_10_min").append('<span class="small">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: red !important;"></span><br>');
+                        $("#greater_than_10_min").append('<span class="small" onclick="zoomToMarker('+markersOnMap[i].LatLng[0].lat+','+markersOnMap[i].LatLng[0].lng+')">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: red !important;"></span><br>');
                     } else {
                         image = pinSymbol('yellow');
-                        $("#within_10_min").append('<span class="small">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: yellow !important;"></span><br>');
+                        $("#within_10_min").append('<span class="small" onclick="zoomToMarker('+markersOnMap[i].LatLng[0].lat+','+markersOnMap[i].LatLng[0].lng+')">'+markersOnMap[i].name+'</span> <span class="fa fa-square"  style="color: yellow !important;"></span><br>');
                     }
                 }
                 
@@ -158,11 +174,24 @@ $segment3 = $this->uri->segment(2);
                 strokeWeight: 2,
                 scale: 1
             };
-        }       
+        }  
+			
+			
     });
+	
+	// function zoomTomarker(Latitude,Longitude,Level1){
+	// 	currentUser = Level1;
+	// 	//map.setView([Latitude,Longitude], 17);
+	// 	map.fitBounds(polyLines[Level1].getBounds());  
+	// }
 
-
-    // refresh the page every 1 min
-    setTimeout("location.reload(true);",(60*1000));
+    function zoomToMarker(lat,lng) {
+        var position = new google.maps.LatLng(lat, lng);
+        map.setCenter(position);
+        map.setZoom(15);
+    }
+	
+    // refresh the page every 5 min
+    setTimeout("location.reload(true);",(2*60*5000));
             
 </script>

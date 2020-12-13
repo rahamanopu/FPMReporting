@@ -43,7 +43,7 @@ class Authenticate extends CI_Controller {
 
         if ($row['success'] == true) {
             $usermenu = $this->Users_data->loadmenu($userid);
-//            echo "<pre>",print_r($usermenu);die();
+        //    echo "<pre>",print_r($usermenu);die();
             $this->session->set_userdata('login',       true);
             $this->session->set_userdata('userid',      $userid);
             $this->session->set_userdata('emp_name',    $row['UserName']);

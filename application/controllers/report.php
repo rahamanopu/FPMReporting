@@ -640,38 +640,42 @@ CLASS Report extends MY_Controller {
             ];                        
         } 
 
-        $distributorRetailerLocation = $reportModel->getDistributorRetailerLocation('','','','');
+        //$distributorRetailerLocation = $reportModel->getDistributorRetailerLocation('','','','');
+		$distributorRetailerLocation = array();
         // distributor
-        foreach($distributorRetailerLocation['distributor'] as $locData){
-            $markersOnMap[] = [
-                'code'=> $locData['DistributorCode'],
-                'name'=> $locData['DistributorName'],
-                'location'=> $locData['DistributorPoint'],
-                'type'=> 'distributor',
-                'LatLng'=> [
-                    [
-                        'lat'=> floatval($locData['Latitude']),
-                        'lng'=> floatval($locData['Longitude'])
-                    ]
-                ],                                                   
-            ];                        
-        } 
+		if(!empty($distributorRetailerLocation)){
+			foreach($distributorRetailerLocation['distributor'] as $locData){
+				$markersOnMap[] = [
+					'code'=> $locData['DistributorCode'],
+					'name'=> $locData['DistributorName'],
+					'location'=> $locData['DistributorPoint'],
+					'type'=> 'distributor',
+					'LatLng'=> [
+						[
+							'lat'=> floatval($locData['Latitude']),
+							'lng'=> floatval($locData['Longitude'])
+						]
+					],                                                   
+				];                        
+			} 
+		}
         // Retailer
-        foreach($distributorRetailerLocation['retailer'] as $locData){
-            $markersOnMap[] = [
-                'code'=> $locData['RetailerID'],
-                'name'=> $locData['RetailerName'],                    
-                'RetailerContactNumber' => $locData['RetailerContactNumber'],
-                'type'=> 'retailer',
-                'LatLng'=> [
-                    [
-                        'lat'=> floatval($locData['Latitude']),
-                        'lng'=> floatval($locData['Longitude'])
-                    ]
-                ],                                                   
-            ];                        
-        }
-
+		if(!empty($distributorRetailerLocation)){
+			foreach($distributorRetailerLocation['retailer'] as $locData){
+				$markersOnMap[] = [
+					'code'=> $locData['RetailerID'],
+					'name'=> $locData['RetailerName'],                    
+					'RetailerContactNumber' => $locData['RetailerContactNumber'],
+					'type'=> 'retailer',
+					'LatLng'=> [
+						[
+							'lat'=> floatval($locData['Latitude']),
+							'lng'=> floatval($locData['Longitude'])
+						]
+					],                                                   
+				];                        
+			}
+		}
         
         echo json_encode($markersOnMap);
     }
