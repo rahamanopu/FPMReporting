@@ -126,24 +126,7 @@
                                            class="form-control" required="">
                                 </div>
                             </div>
-                            <div class="col-md-6 form-group">
-                                <div class="col-md-4">
-                                    Default Business
-                                </div>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="defaultBusiness" id="defaultBusiness">
-                                        <?php if (isset($businessList) && !empty($businessList)) {
-                                            foreach ($businessList as $business) {
-                                                ?>
-                                                <option value="<?php echo $business['Business']; ?>"
-                                                    <?php echo (!empty($userdata) && ($userdata[0]['DefaultBusiness'] == $business['Business'])) ? 'selected' : '' ?>
-                                                ><?php echo $business['BusinessName']; ?></option>
-                                                <?php
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-6 form-group">
                                 <div class="col-md-4">
                                     User Level

@@ -24,9 +24,10 @@ class usermanager_data extends CI_Model {
         }           
     }
     
-    public function doCreateUser($userid, $staffid, $username, $password, $designation,$defaultBusiness,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate){
-        $sql = "EXEC usp_doInsertUserManager  '$userid', '$staffid', '$username', '$password', '$designation','$defaultBusiness','$userLevel','$levelCode','$userType','$active',
-                    '$entryby', '$entryip', '$divicestate'";              //    exit();
+    public function doCreateUser($userid, $staffid, $username, $password, $designation,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate){
+        $sql = "EXEC usp_doInsertUserManager  '$userid', '$staffid', '$username', '$password', '$designation','$userLevel','$levelCode','$userType','$active',
+                    '$entryby', '$entryip', '$divicestate'";
+                    // die($sql);
         $result['success'] = false;
         $query = $this->db->query($sql);
         $data = array();

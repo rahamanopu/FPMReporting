@@ -47,6 +47,10 @@ $route["setup/distributor"] = "Setup/distributor";
 $route["setup/distributor-data"] = "Setup/distributorData";
 $route["setup/distributor-add(/:any)?"] = "Setup/addDistributor$1";
 
+$route["setup/territory(/:any)?"] = "Setup/territory$1";
+$route["setup/territory-data"] = "Setup/territoryData";
+$route["setup/territory-add(/:any)?"] = "Setup/addTerritory$1";
+
 $route["setup/product"] = "Setup/product";
 $route["setup/product-data"] = "Setup/productData";
 $route["setup/product-add(/:any)?"] = "Setup/addProduct$1";

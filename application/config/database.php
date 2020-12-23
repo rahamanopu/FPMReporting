@@ -44,7 +44,7 @@
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
-if (!defined('DB_SERVER_CET')) define('DB_SERVER_CET', "192.168.100.62");
+if (!defined('DB_SERVER_CET')) define('DB_SERVER_CET', "192.168.100.75");
 if (!defined('DB_SERVER_PIMS')) define('DB_SERVER_PIMS', "192.168.100.2");
 if (!defined('DB_SERVER_Matplan')) define('DB_SERVER_Matplan', "192.168.100.90");
 

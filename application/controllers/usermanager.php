@@ -43,13 +43,12 @@ CLASS UserManager extends MY_Controller {
         $entryip = $_SERVER['REMOTE_ADDR'];
         $divicestate = $this->useagent();
         $usermenu = $this->input->post('usermenu', TRUE);
-        $defaultBusiness = $this->input->post('defaultBusiness',true);
         $userLevel = $this->input->post('userLevel', TRUE);
         $levelCode = $this->input->post('levelCode', TRUE);
         $userType = $this->input->post('userType', TRUE);
 //        echo "<pre>",var_dump($defaultBusiness,$userLevel,$levelCode,$userType);die();
 
-        $userCreate = $this->usermanager->doCreateUser($userid, $staffid, $username, $password, $designation,$defaultBusiness,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate);
+        $userCreate = $this->usermanager->doCreateUser($userid, $staffid, $username, $password, $designation,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate);
 
         if ($userCreate == true) {
             $this->usermanager->doDeleteUserMenu($userid);

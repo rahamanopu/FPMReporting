@@ -18,21 +18,11 @@
                             <table id="dataTable" class="table table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Edit</th>
-                                    <th>Zone</th>
-                                    <th>Territory</th>
-                                    <th>District</th>
-                                    <th>Distributor Point</th>
+                                    <th>Edit</th>                                    
+                                    <th>Business</th>
+                                    <th>TTY Code</th>                            
                                     <th>Distributor Code</th>
-                                    <th>Distributor Name</th>
-                                    <th>Distributor Type</th>
-                                    <th>Proprietor Name</th>
-                                    <th>Address</th>
-                                    <th>Contact NO</th>
-                                    <th>TSIID</th>
-                                    <th>TSI Name</th>
-                                    <th>ICID</th>
-                                    <th>IC Name</th>
+                                    <th>Distributor Name</th>                                   
                                     
                                 </tr>
                                 </thead>

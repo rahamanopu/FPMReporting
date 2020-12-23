@@ -39,23 +39,40 @@ class SetupModel extends CI_Model {
 
     public function getDistributorList()
     {
-        $sql = "select * from Distributor ";
+        $sql = "select Business, TTYCode,DistributorCode,DistributorName from Distributor ";
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
         if($searchString !='') {
             $sql .=" where ";
-            $sql .=" Zone like '%".$searchString."%'";
-            $sql .= " or District like '%".$searchString."%'";
-            $sql .= " or DistributorPoint like '%".$searchString."%'";
-            $sql .= " or DistributorCode like '%".$searchString."%'";
-            $sql .= " or DistributorName like '%".$searchString."%'";
-            $sql .= " or ProprietorName like '%".$searchString."%'";
-            $sql .= " or Address like '%".$searchString."%'";
-            $sql .= " or ContactNO like '%".$searchString."%'";
-            $sql .= " or TSIID like '%".$searchString."%'";
-            $sql .= " or TSIName like '%".$searchString."%'";
-            $sql .= " or ICID like '%".$searchString."%'";
-            $sql .= " or ICName like '%".$searchString."%'";
+            $sql .=" Business like '%".$searchString."%'";
+            $sql .= " or TTYCode like '%".$searchString."%'";
+            $sql .= " or DistirbutorCode like '%".$searchString."%'";
+            $sql .= " or DistirbutorName like '%".$searchString."%'";
+        }
+        // ordering
+        if(isset($_POST['order'])) {
+            $orderByColumn = $_POST['order']['0']['column'] + 1;
+            $orderByDirection = $_POST['order']['0']['dir'];
+            $sql .=" order by $orderByColumn $orderByDirection";
+
+        } else{
+            // any one order is must, otherwise Pagination will not work
+            $sql .= " order by 1 DESC";
+        }
+
+        return $this->fetchData($sql);
+    }
+    public function getTerritoryList()
+    {
+        $sql = "select Business, TTYCode,TTYName from Territory ";
+        $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+//        searching
+        if($searchString !='') {
+            $sql .=" where ";
+            $sql .=" Business like '%".$searchString."%'";
+            $sql .= " or TTYCode like '%".$searchString."%'";
+            $sql .= " or TTYName like '%".$searchString."%'";
+
         }
         // ordering
         if(isset($_POST['order'])) {
@@ -73,6 +90,15 @@ class SetupModel extends CI_Model {
 
     public function getDistributorByCode($distributorCode) {
         $sql = "select * from Distributor where DistributorCode='$distributorCode'";
+        $query =  $this->db->query($sql);
+        if($query && !empty($result = $query->result_array())) {
+            return $result[0];
+        }
+        return [];
+    }
+
+    public function getTerritoryByCode($TTYCode) {
+        $sql = "select * from Territory where TTYCode='$TTYCode'";
         $query =  $this->db->query($sql);
         if($query && !empty($result = $query->result_array())) {
             return $result[0];
@@ -104,6 +130,24 @@ class SetupModel extends CI_Model {
     
     public function getBusiness(){
         $sql = "select * from Business";
+        $query =  $this->db->query($sql);
+        if($query){
+            return $query->result_array();
+        }
+        return [];
+    }
+    public function getUserBusiness($userID){
+        $sql = "select UB.*,B.BusinessName,B.CompanyName from UserBusiness UB
+                    join Business B On B.Business=UB.Business
+                where UserId='$userID'";
+        $query =  $this->db->query($sql);
+        if($query){
+            return $query->result_array();
+        }
+        return [];
+    }
+    public function getTerritory(){
+        $sql = "select * from Territory";
         $query =  $this->db->query($sql);
         if($query){
             return $query->result_array();

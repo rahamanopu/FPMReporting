@@ -132,6 +132,78 @@ CLASS Setup extends MY_Controller {
         return $supervisorLevel;
     }
 
+    public function territory($TTYCode='') {
+        $data = [];
+        $data[$this->ajaxDataLimit] = $this->limit;
+        $data[$this->ajaxDataLoadUrl] = base_url().'setup/territory-data';
+        $setupModel = new SetupModel();
+        $data['businesses'] = $setupModel->getBusiness();        
+        $data['pageTitle'] = "Territory Entry";
+        if($TTYCode!='') {
+            $data['territory'] = $setupModel->getTerritoryByCode($TTYCode);
+            // echo '<pre>',print_r($data['territory']);die();
+            $data['pageTitle'] = "Territory Edit";
+        }
+
+        $this->loadView('setup/territory',$data);
+    }
+
+    public function territoryData() {
+        $setupModel = new SetupModel();
+        $result = $setupModel->getTerritoryList();
+        // echo '<pre>',print_r($result);die();
+        $data = [];
+        foreach ($result['rows'] as $row) {
+            $subArray = [];
+            foreach ($row as $key) {
+                $subArray[] = $key;
+            }
+            $subArray[] = "<a href='".base_url()."setup/territory/".$row['TTYCode']."' class='btn btn-sm btn-info'><i class='fa fa-edit'> Edit</a>";
+
+            $data[] = $subArray;
+        }
+        echo json_encode($this->prepareDataTableOutput($data,$result['count']));
+    }
+
+    // To add Distributor
+
+    public function addTerritory($TTYCode='') {   
+        
+        $setupModel = new SetupModel();     
+        if (!empty($_POST)) {
+            $TTYCode =  trim($this->input->post('ExistingTTYCode'));
+
+            $dataToAdd['Business'] = trim($this->input->post('Business'));            
+            $dataToAdd['TTYName'] = trim($this->input->post('TTYName'));
+            
+
+            if ($TTYCode !='') {
+                $dataToAdd['EditedBy']= $this->session->userdata('userid');
+                $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                
+
+                $status = $this->db->update('Territory', $dataToAdd, ['TTYCode'=> $TTYCode]);
+                if ($status) {
+                    setFlashMsg("Updated Successfully");
+                    return redirect('setup/territory');
+                }
+            } else {
+                $dataToAdd['EntryBy']= $this->session->userdata('userid');
+                $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+
+                $status = $this->db->insert('Territory', $dataToAdd);
+                if ($status) {
+                    setFlashMsg("Added Successfully");
+                }
+            }
+            return redirect('setup/territory');
+            
+        }
+    }
+
+
     public function distributor() {
         $data = [];
         $data[$this->ajaxDataLimit] = $this->limit;
@@ -142,6 +214,7 @@ CLASS Setup extends MY_Controller {
     public function distributorData() {
         $setupModel = new SetupModel();
         $result = $setupModel->getDistributorList();
+        // echo '<pre>',print_r($result);die();
         $data = [];
         foreach ($result['rows'] as $row) {
             $subArray = [];            
@@ -149,21 +222,6 @@ CLASS Setup extends MY_Controller {
             foreach ($row as $key) {
                 $subArray[] = $key;
             }
-
-//            $subArray[] = $row['Zone'];
-//            $subArray[] = $row['Territory'];
-//            $subArray[] = $row['District'];
-//            $subArray[] = $row['DistributorPoint'];
-//            $subArray[] = $row['DistributorCode'];
-//            $subArray[] = $row['DistributorName'];
-//            $subArray[] = $row['DistributorType'];
-//            $subArray[] = $row['ProprietorName'];
-//            $subArray[] = $row['Address'];
-//            $subArray[] = $row['ContactNO'];
-//            $subArray[] = $row['TSIID'];
-//            $subArray[] = $row['TSIName'];
-//            $subArray[] = $row['ICID'];
-//            $subArray[] = $row['ICName'];
 
             $data[] = $subArray;
         }
@@ -173,39 +231,29 @@ CLASS Setup extends MY_Controller {
     // To add Distributor
 
     public function addDistributor($distributorCode='') {   
+        
         $setupModel = new SetupModel();     
         if (!empty($_POST)) {
             $distributorCode =  trim($this->input->post('ExistingDistributorCode'));
             $newDistributorCode = trim($this->input->post('DistributorCode'));
 
-            if($distributorCode =='' && !empty($setupModel->getProductByCode($newDistributorCode))) {
-                setFlashMsg("DistributorCode Already Exist with this Product Code: ".$newDistributorCode,'error');
-                return redirect('setup/distributor-add');
+            // if($distributorCode =='' && !empty($setupModel->getProductByCode($newDistributorCode))) {
+            //     setFlashMsg("DistributorCode Already Exist with this Product Code: ".$newDistributorCode,'error');
+            //     return redirect('setup/distributor-add');
                 
-            }
+            // }
             $dataToAdd['DistributorCode'] = $newDistributorCode;
 
-            $dataToAdd['Zone'] = trim($this->input->post('Zone'));
-            $dataToAdd['Territory'] = trim($this->input->post('Territory'));
-            $dataToAdd['District'] = trim($this->input->post('District'));
-            $dataToAdd['DistributorPoint'] = trim($this->input->post('DistributorPoint'));
-            $dataToAdd['DistributorCode'] = trim($this->input->post('DistributorCode'));
+            $dataToAdd['Business'] = trim($this->input->post('Business'));
+            $dataToAdd['TTYCode'] = trim($this->input->post('TTYCode'));
             $dataToAdd['DistributorName'] = trim($this->input->post('DistributorName'));
-            $dataToAdd['DistributorType'] = trim($this->input->post('DistributorType'));
-            $dataToAdd['ProprietorName'] = trim($this->input->post('ProprietorName'));
-            $dataToAdd['Address'] = trim($this->input->post('Address'));
-            $dataToAdd['ContactNO'] = trim($this->input->post('ContactNO'));
-            $dataToAdd['TSIID'] = trim($this->input->post('TSIID'));
-            $dataToAdd['TSIName'] = trim($this->input->post('TSIName'));
-            $dataToAdd['ICID'] = trim($this->input->post('ICID'));
-            $dataToAdd['ICName'] = trim($this->input->post('ICName'));
             
 
             if ($distributorCode !='') {
-                // $dataToAdd['EditedBy']= $this->session->userdata('userid');
-                // $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
-                // $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
-                // $dataToAdd['EditedDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+                $dataToAdd['EditedBy']= $this->session->userdata('userid');
+                $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                
 
                 $status = $this->db->update('Distributor', $dataToAdd, ['DistributorCode'=> $distributorCode]);
                 if ($status) {
@@ -215,10 +263,9 @@ CLASS Setup extends MY_Controller {
                 setFlashMsg("Failed to Updated","error");
                 return redirect('setup/distributor-add/'.$distributorCode);
             } else {
-                // $dataToAdd['EntryBy']= $this->session->userdata('userid');
-                // $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
-                // $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
-                // $dataToAdd['EntryDeviceState']= isset($_SERVER['HTTP_USER_AGENT']) ?  $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+                $dataToAdd['EntryBy']= $this->session->userdata('userid');
+                $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
 
                 $status = $this->db->insert('Distributor', $dataToAdd);
                 if ($status) {
@@ -229,7 +276,8 @@ CLASS Setup extends MY_Controller {
             
         }
         $data = [];
-        $data['districts'] = $setupModel->getDistrictList();
+        $data['businesses'] = $setupModel->getBusiness();
+        $data['territories'] = $setupModel->getTerritory();
         // echo '<pre>',print_r($data['brands']);die();
         $data['pageTitle'] = "Distributor Entry";
         if($distributorCode!='') {
