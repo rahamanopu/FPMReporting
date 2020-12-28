@@ -328,6 +328,87 @@ CLASS Setup extends MY_Controller {
 
     }
 
+    public function sr($srCode='') {
+        $data = [];
+        $data[$this->ajaxDataLimit] = $this->limit;
+        $data[$this->ajaxDataLoadUrl] = base_url().'setup/sr-data';
+        $setupModel = new SetupModel();
+        $userId =  $this->session->userdata('userid');
+        $data['businesses'] = $setupModel->getUserBusiness($userId);        
+        $data['distributors'] = $setupModel->getDistributor();        
+        $data['srTypes'] = $setupModel->getSrType();        
+        // echo '<pre>',print_r($data['srType']);
+        // echo '<pre>',print_r($data['srType']);die();
+        $data['pageTitle'] = "SR Entry";
+        if($srCode!='') {
+            $data['sr'] = $setupModel->getSRByCode($srCode);
+            // echo '<pre>',print_r($data['territory']);die();
+            $data['pageTitle'] = "SR Edit";
+        }
+
+        $this->loadView('setup/sr',$data);
+    }
+
+    public function srData() {
+        $setupModel = new SetupModel();
+        $result = $setupModel->getSRList();
+        // echo '<pre>',print_r($result);die();
+        $data = [];
+        foreach ($result['rows'] as $row) {
+            $subArray = [];
+            foreach ($row as $key) {
+                $subArray[] = $key;
+            }
+            $subArray[] = "<a href='".base_url()."setup/sr/".$row['SRCode']."' class='btn btn-sm btn-info'><i class='fa fa-edit'> Edit</a>";
+
+            $data[] = $subArray;
+        }
+        echo json_encode($this->prepareDataTableOutput($data,$result['count']));
+    }
+
+    // To add Distributor
+
+    public function addSr($srCode='') {   
+        
+        $setupModel = new SetupModel();     
+        if (!empty($_POST)) {
+            $SRCode =  trim($this->input->post('ExistingSRCode'));
+
+            $dataToAdd['Business'] = trim($this->input->post('Business'));            
+            $dataToAdd['SRCode'] = trim($this->input->post('SRCode'));
+            $dataToAdd['StaffID'] = trim($this->input->post('StaffID'));
+            $dataToAdd['SRName'] = trim($this->input->post('SRName'));
+            $dataToAdd['SRTypeID'] = trim($this->input->post('SRTypeID'));
+            $dataToAdd['DistributorCode'] = trim($this->input->post('DistributorCode'));
+            $dataToAdd['SRLocation'] = trim($this->input->post('SRLocation'));
+            
+
+            if ($SRCode !='') {
+                $dataToAdd['EditedBy']= $this->session->userdata('userid');
+                $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EditedIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+                
+
+                $status = $this->db->update('SR', $dataToAdd, ['SRCode'=> $SRCode]);
+                if ($status) {
+                    setFlashMsg("Updated Successfully");
+                    return redirect('setup/sr');
+                }
+            } else {
+                $dataToAdd['EntryBy']= $this->session->userdata('userid');
+                $dataToAdd['EntryDate']= date('Y-m-d H:i:s');
+                $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
+
+                $status = $this->db->insert('SR', $dataToAdd);
+                if ($status) {
+                    setFlashMsg("Added Successfully");
+                }
+            }
+            return redirect('setup/sr');
+            
+        }
+    }
+
 
 
     public function product() {

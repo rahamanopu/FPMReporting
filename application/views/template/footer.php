@@ -173,5 +173,6 @@ $(document).ready(function(){
 
 <script src="<?php echo base_url(); ?>assets/plugins/datepicker/jquery-ui.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery_validation.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery.chained-1.0.1.js"></script>
 
  

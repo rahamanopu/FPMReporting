@@ -47,10 +47,11 @@ class SetupModel extends CI_Model {
 //        searching
         if($searchString !='') {
             $sql .=" where ";
-            $sql .=" Business like '%".$searchString."%'";
-            $sql .= " or TTYCode like '%".$searchString."%'";
-            $sql .= " or DistirbutorCode like '%".$searchString."%'";
-            $sql .= " or DistirbutorName like '%".$searchString."%'";
+            $sql .=" D.Business like '%".$searchString."%'";
+            $sql .= " or D.TTYCode like '%".$searchString."%'";
+            $sql .= " or D.DistirbutorCode like '%".$searchString."%'";            
+            $sql .= " or T.TTYName like '%".$searchString."%'";
+            $sql .= " or D.DistributorName like '%".$searchString."%'";
         }
         // ordering
         if(isset($_POST['order'])) {
@@ -67,16 +68,50 @@ class SetupModel extends CI_Model {
     }
     public function getTerritoryList()
     {
-        $sql = "select BusinessName, TTYCode,TTYName 
+        $sql = "select B.BusinessName, T.TTYCode,T.TTYName 
             from Territory T
             join Business B on B.Business= T.Business";
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
         if($searchString !='') {
             $sql .=" where ";
-            $sql .=" Business like '%".$searchString."%'";
-            $sql .= " or TTYCode like '%".$searchString."%'";
-            $sql .= " or TTYName like '%".$searchString."%'";
+            $sql .=" B.BusinessName like '%".$searchString."%'";
+            $sql .=" or T.Business like '%".$searchString."%'";
+            $sql .= " or T.TTYCode like '%".$searchString."%'";
+            $sql .= " or T.TTYName like '%".$searchString."%'";
+
+        }
+        // ordering
+        if(isset($_POST['order'])) {
+            $orderByColumn = $_POST['order']['0']['column'] + 1;
+            $orderByDirection = $_POST['order']['0']['dir'];
+            $sql .=" order by $orderByColumn $orderByDirection";
+
+        } else{
+            // any one order is must, otherwise Pagination will not work
+            $sql .= " order by 1 DESC";
+        }
+
+        return $this->fetchData($sql);
+    }
+
+    public function getSRList()
+    {
+        $sql = " select B.BusinessName, S.SRCode,S.SRName,D.DistributorName,S.SRLocation, ST.SRType 
+        from SR S
+        join Business B On B.Business= S.Business
+        join Distributor D on D.DistributorCode= S.DistributorCode
+        join SRType ST on St.SRTypeID=S.SRTypeID ";
+        $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+//        searching
+        if($searchString !='') {
+            $sql .=" where ";
+            $sql .=" B.BusinessName like '%".$searchString."%'";
+            $sql .=" or S.Business like '%".$searchString."%'";
+            $sql .= " or S.SRCode like '%".$searchString."%'";
+            $sql .= " or S.SRName like '%".$searchString."%'";
+            $sql .= " or S.SRLocation like '%".$searchString."%'";
+            $sql .= " or ST.SRType like '%".$searchString."%'";
 
         }
         // ordering
@@ -104,6 +139,14 @@ class SetupModel extends CI_Model {
 
     public function getTerritoryByCode($TTYCode) {
         $sql = "select * from Territory where TTYCode='$TTYCode'";
+        $query =  $this->db->query($sql);
+        if($query && !empty($result = $query->result_array())) {
+            return $result[0];
+        }
+        return [];
+    }
+    public function getSRByCode($SRCode) {
+        $sql = "select * from SR where SRCode='$SRCode'";
         $query =  $this->db->query($sql);
         if($query && !empty($result = $query->result_array())) {
             return $result[0];
@@ -302,13 +345,22 @@ class SetupModel extends CI_Model {
         return $data;
     }
 
-    public function getDistributor($userid)
+    public function getDistributor($business='')
     {
-        $sql ="select D.*, DL.Latitude, DL.Longitude from Distributor D
-                left join DistributorLocation DL on DL.DistributorCode = D.DistributorCode
-                where D.TSIID = '$userid'";
+        $sql ="select D.* from Distributor D
+                where D.Business = '$business' or '' = '$business'";
 
                 // $sql ="select D.* from Distributor D WHERE TSIID = '$userid'";
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
+    public function getSrType()
+    {
+        $sql ="select * from SRType";
         $query = $this->db->query($sql);
         if($query) {
             return $query->result_array();

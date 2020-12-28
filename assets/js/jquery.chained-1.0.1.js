@@ -9,15 +9,14 @@
  * Project home:
  *   http://www.appelsiini.net/projects/chained
  *
- * Version: 1.0.1
+ * Version: 2.0.0-beta.3
  *
  */
 
 ;(function($, window, document, undefined) {
     "use strict";
 
-    $.fn.chained = function(parent_selector) {
-
+    $.fn.chained = function(parentSelector) {
         return this.each(function() {
 
             /* Save this to child because this changes when scope changes. */
@@ -25,7 +24,7 @@
             var backup = $(child).clone();
 
             /* Handles maximum two parents now. */
-            $(parent_selector).each(function() {
+            $(parentSelector).each(function() {
                 $(this).bind("change", function() {
                     updateChildren();
                 });
@@ -41,25 +40,20 @@
             });
 
             function updateChildren() {
-                var trigger_change = true;
-                var currently_selected_value = $("option:selected", child).val();
+                var triggerChange = true;
+                var currentlySelectedValue = $("option:selected", child).val();
 
                 $(child).html(backup.html());
 
-                /* If multiple parents build classname like foo\bar. */
+                /* If multiple parents build value like foo+bar. */
                 var selected = "";
-                $(parent_selector).each(function() {
-                    var selectedClass = $("option:selected", this).val();
-                    if (selectedClass) {
+                $(parentSelector).each(function() {
+                    var selectedValue = $("option:selected", this).val();
+                    if (selectedValue) {
                         if (selected.length > 0) {
-                            if (window.Zepto) {
-                                /* Zepto class regexp dies with classes like foo\bar. */
-                                selected += "\\\\";
-                            } else {
-                                selected += "\\";
-                            }
+                            selected += "+";
                         }
-                        selected += selectedClass;
+                        selected += selectedValue;
                     }
                 });
 
@@ -67,19 +61,29 @@
                 /* TODO: This should be dynamic and check for each parent */
                 /*       without subclassing. */
                 var first;
-                if ($.isArray(parent_selector)) {
-                    first = $(parent_selector[0]).first();
+                if ($.isArray(parentSelector)) {
+                    first = $(parentSelector[0]).first();
                 } else {
-                    first = $(parent_selector).first();
+                    first = $(parentSelector).first();
                 }
-                var selected_first = $("option:selected", first).val();
+                var selectedFirst = $("option:selected", first).val();
 
                 $("option", child).each(function() {
-                    /* Remove unneeded items but save the default value. */
-                    if ($(this).hasClass(selected) && $(this).val() === currently_selected_value) {
-                        $(this).prop("selected", true);
-                        trigger_change = false;
-                    } else if (!$(this).hasClass(selected) && !$(this).hasClass(selected_first) && $(this).val() !== "") {
+                    /* Always leave the default value in place. */
+                    if ($(this).val() === "") {
+                        return;
+                    }
+                    var matches = [];
+                    var data = String($(this).data("chained"));
+                    if (data) {
+                        matches = data.split(" ");
+                    }
+                    if ((matches.indexOf(selected) > -1) || (matches.indexOf(selectedFirst) > -1)) {
+                        if ($(this).val() === currentlySelectedValue) {
+                            $(this).prop("selected", true);
+                            triggerChange = false;
+                        }
+                    } else {
                         $(this).remove();
                     }
                 });
@@ -90,7 +94,7 @@
                 } else {
                     $(child).prop("disabled", false);
                 }
-                if (trigger_change) {
+                if (triggerChange) {
                     $(child).trigger("change");
                 }
             }
