@@ -137,7 +137,8 @@ CLASS Setup extends MY_Controller {
         $data[$this->ajaxDataLimit] = $this->limit;
         $data[$this->ajaxDataLoadUrl] = base_url().'setup/territory-data';
         $setupModel = new SetupModel();
-        $data['businesses'] = $setupModel->getBusiness();        
+        $userId =  $this->session->userdata('userid');
+        $data['businesses'] = $setupModel->getUserBusiness($userId);        
         $data['pageTitle'] = "Territory Entry";
         if($TTYCode!='') {
             $data['territory'] = $setupModel->getTerritoryByCode($TTYCode);
@@ -207,7 +208,8 @@ CLASS Setup extends MY_Controller {
     public function distributor() {
         $data = [];
         $data[$this->ajaxDataLimit] = $this->limit;
-        $data[$this->ajaxDataLoadUrl] = base_url().'setup/distributor-data';
+        $data[$this->ajaxDataLoadUrl] = base_url().'setup/distributor-data';       
+
         $this->loadView('setup/distributor',$data);
     }
 
@@ -249,6 +251,9 @@ CLASS Setup extends MY_Controller {
             $dataToAdd['DistributorName'] = trim($this->input->post('DistributorName'));
             
 
+            $DistributorSDMSBusinesses = $this->input->post('DistributorSDMSBusiness');
+            $DistributorSDMSCodes = $this->input->post('DistributorSDMSCode');
+
             if ($distributorCode !='') {
                 $dataToAdd['EditedBy']= $this->session->userdata('userid');
                 $dataToAdd['EditedDate']= date('Y-m-d H:i:s');
@@ -256,6 +261,9 @@ CLASS Setup extends MY_Controller {
                 
 
                 $status = $this->db->update('Distributor', $dataToAdd, ['DistributorCode'=> $distributorCode]);
+
+                $this->addDistributorSDMS($newDistributorCode,$distributorCode,$DistributorSDMSBusinesses, $DistributorSDMSCodes);
+
                 if ($status) {
                     setFlashMsg("Updated Successfully");
                     return redirect('setup/distributor');
@@ -268,6 +276,9 @@ CLASS Setup extends MY_Controller {
                 $dataToAdd['EntryIpAddress']= isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'Unknown';
 
                 $status = $this->db->insert('Distributor', $dataToAdd);
+                // insert distributor SDMS
+                
+                $this->addDistributorSDMS($dataToAdd['DistributorCode'],$dataToAdd['DistributorCode'],$DistributorSDMSBusinesses, $DistributorSDMSCodes);
                 if ($status) {
                     setFlashMsg("Added Successfully");
                 }
@@ -276,17 +287,45 @@ CLASS Setup extends MY_Controller {
             
         }
         $data = [];
+        $userId =  $this->session->userdata('userid');
+        $data['userBusinesses'] = $setupModel->getUserBusiness($userId); 
         $data['businesses'] = $setupModel->getBusiness();
-        $data['territories'] = $setupModel->getTerritory();
-        // echo '<pre>',print_r($data['brands']);die();
+        $data['territories'] = $setupModel->getTerritory();        
+
+        $data['territories'] = $setupModel->getTerritory();       
         $data['pageTitle'] = "Distributor Entry";
         if($distributorCode!='') {
             $data['distributor'] = $setupModel->getDistributorByCode($distributorCode);
-            // echo '<pre>',print_r($data['distributor']);die();
             $data['pageTitle'] = "Distributor Edit";
         }
 
         $this->loadView('setup/distributor_add',$data);
+    }
+
+    private function addDistributorSDMS($newDistributorCode,$oldDistributorCode='',$DistributorSDMSBusinesses=[], $DistributorSDMSCodes=[]) {
+        try{
+            
+            // delete old codes first
+            $sql = "delete from DistributorSDMS where DistributorCode='$oldDistributorCode'";
+            $this->db->query($sql);
+          
+            foreach($DistributorSDMSCodes as $key => $DistributorSDMSCode) {
+                if($DistributorSDMSCode =='' || $DistributorSDMSBusinesses[$key] =='') {
+                    continue;
+                }
+                $sdmsData = [
+                    'DistributorCode' => $newDistributorCode,
+                    'DistributorSDMSBusiness' => $DistributorSDMSBusinesses[$key],
+                    'DistributorSDMSCode' => $DistributorSDMSCode,
+                ];
+
+                $this->db->insert('DistributorSDMS',$sdmsData);
+            }
+        } catch(Exception $ex) {
+            return false;
+        }
+        return true;        
+
     }
 
 

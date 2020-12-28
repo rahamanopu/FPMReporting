@@ -23,7 +23,7 @@
                                     <div class="col-sm-8">
                                         <select name="Business" id="Business" class="form-control" required>
                                             <option value="">Select</option>
-                                            <?php foreach($businesses as $business) {
+                                            <?php foreach($userBusinesses as $business) {
                                                 ?>
                                                 <option value="<?php echo $business['Business']?>" <?php echo (isset($territory['Business']) && $territory['Business'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
                                                 <?php
@@ -37,10 +37,14 @@
                                 <div class="form-group">
                                     <label for="TTYCode" class="control-label col-sm-4">Territory</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="TTYCode" id="TTYCode"
-                                               class="form-control"
-                                               value="<?php echo (isset($distributor['TTYCode'])) ? $distributor['TTYCode'] : '' ?>"
-                                               required placeholder="Territory">
+                                        <select name="TTYCode" id="TTYCode" class="form-control" required>
+                                            <option value="">Select</option>
+                                            <?php foreach($territories as $territory) {
+                                                ?>
+                                                <option value="<?php echo $territory['TTYCode']?>" <?php echo (isset($territory['TTYCode']) && $territory['TTYCode'] == $territory['TTYCode']) ? 'selected' : ''?> ><?php echo $territory['TTYName']?></option>
+                                                <?php
+                                            }?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -67,6 +71,48 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="clearfix"></div>
+                            <div class="text-center" style="border-bottom: 1px solid #ddd; margin-bottom:10px">Distributor SDMS</div>
+                            <?php for($i=0;$i<4;$i++) {
+                                ?>
+                                <div class="clearfix"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="DistributorSDMSBusiness" class="control-label col-sm-4">Distributor SDMS Business</label>
+                                        <div class="col-sm-8">
+                                            <select name="DistributorSDMSBusiness[]"  class="form-control" required>
+                                                <option value="">Select</option>
+                                                <?php foreach($businesses as $business) {
+                                                    ?>
+                                                    <option value="<?php echo $business['Business']?>" <?php echo (isset($distributorSDMS['DistributorSDMSBusiness']) && $distributorSDMS['DistributorSDMSBusiness'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
+                                                    <?php
+                                                }?>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="DistributorSDMSCode" class="control-label col-sm-4">Distributor SDMS Code</label>
+                                        <div class="col-sm-8">
+                                        <input type="text" name="DistributorSDMSCode[]" class="form-control"
+                                                value="<?php echo (isset($distributorSDMS['DistributorSDMSCode'])) ? $distributorSDMS['DistributorSDMSCode'] : '' ?>"
+                                                required placeholder="Distributor SDMS Code">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+                            }?>
+                            
+                            
+                            
+
+
                             <div class="clearfix"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
