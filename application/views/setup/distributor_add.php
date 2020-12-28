@@ -1,8 +1,5 @@
 <!-- Section  -->
-<section id="main-content">
-    <div class="content-title">
-        <h3 class="main-title">Tree Management</h3>
-    </div>
+<section id="main-content">    
     <div>
         <!-- BOXES -->
         <div class="row">

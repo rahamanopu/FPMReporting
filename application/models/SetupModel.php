@@ -39,7 +39,10 @@ class SetupModel extends CI_Model {
 
     public function getDistributorList()
     {
-        $sql = "select Business, TTYCode,DistributorCode,DistributorName from Distributor ";
+        $sql = "select  B.BusinessName,T.TTYName,D.DistributorCode,D.DistributorName
+        from Distributor D
+        join Business B on B.Business= D.Business
+        join Territory T on T.TTYCode = D.TTYCode ";
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
         if($searchString !='') {
@@ -64,7 +67,9 @@ class SetupModel extends CI_Model {
     }
     public function getTerritoryList()
     {
-        $sql = "select Business, TTYCode,TTYName from Territory ";
+        $sql = "select BusinessName, TTYCode,TTYName 
+            from Territory T
+            join Business B on B.Business= T.Business";
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
         if($searchString !='') {

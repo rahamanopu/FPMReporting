@@ -1,8 +1,6 @@
 <!-- Section  -->
 <section id="main-content">
-    <div class="content-title">
-        <h3 class="main-title">Tree Management</h3>
-    </div>
+    
     <div>
         <!-- BOXES -->
         <div class="row">
@@ -71,7 +69,7 @@
                             <table id="dataTable" class="table table-bordered table-hover table-striped">
                                 <thead>
                                 <tr>                                 
-                                    <th>Business</th>
+                                    <th>Business Name</th>
                                     <th>TTY Code</th>                            
                                     <th>Territory Name</th>                                    
                                     <th>Edit</th>                              

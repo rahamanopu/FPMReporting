@@ -1,8 +1,6 @@
 <!-- Section  -->
 <section id="main-content">
-    <div class="content-title">
-        <h3 class="main-title">Tree Management</h3>
-    </div>
+    
     <div>
         <!-- BOXES -->
         <div class="row">
@@ -19,8 +17,8 @@
                                 <thead>
                                 <tr>
                                     <th>Edit</th>                                    
-                                    <th>Business</th>
-                                    <th>TTY Code</th>                            
+                                    <th>Business Name</th>
+                                    <th>TTY Name</th>                            
                                     <th>Distributor Code</th>
                                     <th>Distributor Name</th>                                   
                                     
