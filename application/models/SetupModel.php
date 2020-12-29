@@ -37,21 +37,25 @@ class SetupModel extends CI_Model {
         return false;
     }
 
-    public function getDistributorList()
+    public function getDistributorList($userBusiness = [])
     {
+        $userBusiness = implode("','",$userBusiness);        
         $sql = "select  B.BusinessName,T.TTYName,D.DistributorCode,D.DistributorName
         from Distributor D
         join Business B on B.Business= D.Business
         join Territory T on T.TTYCode = D.TTYCode ";
+        $sql .= " Where D.Business in ('$userBusiness')";
+        
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
         if($searchString !='') {
-            $sql .=" where ";
+            $sql .=" AND (";
             $sql .=" D.Business like '%".$searchString."%'";
             $sql .= " or D.TTYCode like '%".$searchString."%'";
-            $sql .= " or D.DistirbutorCode like '%".$searchString."%'";            
+            $sql .= " or D.DistributorCode like '%".$searchString."%'";            
             $sql .= " or T.TTYName like '%".$searchString."%'";
             $sql .= " or D.DistributorName like '%".$searchString."%'";
+            $sql .=" )";
         }
         // ordering
         if(isset($_POST['order'])) {
@@ -133,6 +137,14 @@ class SetupModel extends CI_Model {
         $query =  $this->db->query($sql);
         if($query && !empty($result = $query->result_array())) {
             return $result[0];
+        }
+        return [];
+    }
+    public function getDistributSDMS($distributorCode) {
+        $sql = "select * from DistributorSDMS where DistributorCode='$distributorCode'";
+        $query =  $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
         }
         return [];
     }

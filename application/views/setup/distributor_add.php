@@ -22,7 +22,7 @@
                                             <option value="">Select</option>
                                             <?php foreach($userBusinesses as $business) {
                                                 ?>
-                                                <option value="<?php echo $business['Business']?>" <?php echo (isset($territory['Business']) && $territory['Business'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
+                                                <option value="<?php echo $business['Business']?>" <?php echo (isset($distributor['Business']) && $distributor['Business'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
                                                 <?php
                                             }?>
                                         </select>
@@ -83,7 +83,7 @@
                                                 <option value="">Select</option>
                                                 <?php foreach($businesses as $business) {
                                                     ?>
-                                                    <option value="<?php echo $business['Business']?>" <?php echo (isset($distributorSDMS['DistributorSDMSBusiness']) && $distributorSDMS['DistributorSDMSBusiness'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
+                                                    <option value="<?php echo $business['Business']?>" <?php echo (isset($distributorSDMS[$i]['DistributorSDMSBusiness']) && $distributorSDMS[$i]['DistributorSDMSBusiness'] == $business['Business']) ? 'selected' : ''?> ><?php echo $business['BusinessName']?></option>
                                                     <?php
                                                 }?>
                                             </select>
@@ -96,7 +96,7 @@
                                         <label for="DistributorSDMSCode" class="control-label col-sm-4">Distributor SDMS Code</label>
                                         <div class="col-sm-8">
                                         <input type="text" name="DistributorSDMSCode[]" class="form-control"
-                                                value="<?php echo (isset($distributorSDMS['DistributorSDMSCode'])) ? $distributorSDMS['DistributorSDMSCode'] : '' ?>"
+                                                value="<?php echo (isset($distributorSDMS[$i]['DistributorSDMSCode'])) ? $distributorSDMS[$i]['DistributorSDMSCode'] : '' ?>"
                                                 required placeholder="Distributor SDMS Code">
                                             
                                         </div>

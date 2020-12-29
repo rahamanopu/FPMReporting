@@ -215,7 +215,10 @@ CLASS Setup extends MY_Controller {
 
     public function distributorData() {
         $setupModel = new SetupModel();
-        $result = $setupModel->getDistributorList();
+        $userID = $this->session->userdata('userid');
+        $userBusiness =  $setupModel->getUserBusiness($userID);
+        $userBusiness = array_column($userBusiness,'Business');
+        $result = $setupModel->getDistributorList($userBusiness);
         // echo '<pre>',print_r($result);die();
         $data = [];
         foreach ($result['rows'] as $row) {
@@ -296,6 +299,8 @@ CLASS Setup extends MY_Controller {
         $data['pageTitle'] = "Distributor Entry";
         if($distributorCode!='') {
             $data['distributor'] = $setupModel->getDistributorByCode($distributorCode);
+            $data['distributorSDMS'] = $setupModel->getDistributSDMS($distributorCode);
+            // echo '<pre>',print_r($data['distributorSDMS']);die();
             $data['pageTitle'] = "Distributor Edit";
         }
 
@@ -319,7 +324,12 @@ CLASS Setup extends MY_Controller {
                     'DistributorSDMSCode' => $DistributorSDMSCode,
                 ];
 
-                $this->db->insert('DistributorSDMS',$sdmsData);
+                $sql = "select * from DistributorSDMS where DistributorCode='$newDistributorCode' and DistributorSDMSBusiness='$DistributorSDMSBusinesses[$key]' and DistributorSDMSCode='$DistributorSDMSCode'";
+                $query = $this->db->query($sql);
+                if($query && empty($query->result_array())) {
+                    $this->db->insert('DistributorSDMS',$sdmsData);
+                }
+                
             }
         } catch(Exception $ex) {
             return false;

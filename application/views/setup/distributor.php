@@ -10,6 +10,7 @@
                         <strong>Distributor List</strong>
                         <a href="<?php echo base_url().'setup/distributor-add'?>" class="btn btn-danger btn-sm" style="float: right;">Add Distributor</a>
                     </div>
+                    <?php echo getFlashMsg(); ?>
 
                     <div class="panel-body">
                         <div class="table-responsive">

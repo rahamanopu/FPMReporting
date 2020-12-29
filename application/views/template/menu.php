@@ -85,7 +85,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
     }
     ?>
     
-    <li class="sarah-has-menu <?php if($segment == 'report'){ ?> active <?php } ?>">
+    <!-- <li class="sarah-has-menu <?php if($segment == 'report'){ ?> active <?php } ?>">
         <a href="javascript:void(0)">
             <i class="fa fa-sitemap"></i>
             <span class="menu-text">Report</span>
@@ -225,7 +225,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
 
         <?php
     }?>
-    
+     -->
 
     <li>
         <a href="<?php echo base_url(); ?>authenticate/logout">
