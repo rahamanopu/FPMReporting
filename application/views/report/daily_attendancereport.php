@@ -93,7 +93,7 @@ if (!empty($periodformat)) {
                         </div>
 
                         <div class="col-md-1">
-                            TSI
+                            FME
                         </div>
                         <div class="col-md-3">
                             <select name="fmecode" id="fmecode" class="form-control" >
@@ -196,8 +196,8 @@ if (!empty($periodformat)) {
                                     $date = '';
                                     for ($j = 0; $j < count($index); $j++) {
                                         $value = $arrayvalue[$j];   
-                                        if($date=='') {
-                                            $date =$arrayvalue[4];                                   
+                                        if($date=='' && $index[$j] == 'AttendanceDate') {
+                                            $date =$arrayvalue[$j];                                   
                                         }
                                         if (is_numeric($value)) { 
                                             if($j > 11){

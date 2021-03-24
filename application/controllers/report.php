@@ -19,9 +19,10 @@ CLASS Report extends MY_Controller {
         $data['levelCode'] = $this->session->userdata('levelCode');
         $data['pagetitel'] = 'Attendance Summary Report';
         $data['action'] = 'report/attendancereport';
-        $userlevel = $this->session->userdata('userLevel');
+        // $userlevel = $this->session->userdata('userLevel');
+        $userlevel = '';
         $data['postperiod'] = date('F y');
-        
+       
         $commonData = new Common_data();
         $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
@@ -59,7 +60,8 @@ CLASS Report extends MY_Controller {
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
-        $userlevel = $this->session->userdata('userLevel');
+        // $userlevel = $this->session->userdata('userLevel');
+        $userlevel = '';
 
         $data['showDateToField'] = true;       
         $data['showDateFromField'] = true;

@@ -45,14 +45,17 @@
 | the active record class
 */
 if (!defined('DB_SERVER_CET')) define('DB_SERVER_CET', "192.168.100.75");
+if (!defined('DB_SERVER_DCR')) define('DB_SERVER_DCR', "192.168.100.75");
 if (!defined('DB_SERVER_PIMS')) define('DB_SERVER_PIMS', "192.168.100.2");
 if (!defined('DB_SERVER_Matplan')) define('DB_SERVER_Matplan', "192.168.100.90");
 
 if (!defined('DB_DB_CET')) define('DB_DB_CET', "FPM");
+if (!defined('DB_DB_DCR')) define('DB_DB_DCR', "DCR");
 if (!defined('DB_DB_PIMS')) define('DB_DB_PIMS', "PIMSNEW");
 if (!defined('DB_DB_Matplan')) define('DB_DB_Matplan', "MatPlan");
 
 if (!defined('DB_CONSTRING_CET'))define('DB_CONSTRING_CET', "DRIVER={SQL Server};SERVER=".DB_SERVER_CET.";DATABASE=".DB_DB_CET);
+if (!defined('DB_CONSTRING_DCR'))define('DB_CONSTRING_DCR', "DRIVER={SQL Server};SERVER=".DB_SERVER_DCR.";DATABASE=".DB_DB_DCR);
 if (!defined('DB_CONSTRING_PIMS'))define('DB_CONSTRING_PIMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_PIMS.";DATABASE=".DB_DB_PIMS);
 if (!defined('DB_CONSTRING_Matplan'))define('DB_CONSTRING_Matplan', "DRIVER={SQL Server};SERVER=".DB_SERVER_Matplan.";DATABASE=".DB_DB_Matplan);
 
@@ -74,6 +77,22 @@ $db['default']['dbcollat'] = "utf8_general_ci";
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = FALSE;
 $db['default']['stricton'] = FALSE;
+
+$db['dcr']['hostname'] = DB_CONSTRING_DCR;
+$db['dcr']['username'] = "sa";
+$db['dcr']['password'] = "dataport";
+$db['dcr']['database'] = DB_DB_DCR;
+$db['dcr']['dbdriver'] = "odbc";
+$db['dcr']['dbprefix'] = "";
+$db['dcr']['pconnect'] = FALSE;
+$db['dcr']['db_debug'] = TRUE;
+$db['dcr']['cache_on'] = FALSE;
+$db['dcr']['cachedir'] = "";
+$db['dcr']['char_set'] = "utf8";
+$db['dcr']['dbcollat'] = "utf8_general_ci";
+$db['dcr']['swap_pre'] = '';
+$db['dcr']['autoinit'] = FALSE;
+$db['dcr']['stricton'] = FALSE;
 
 
 $db['PIMS']['hostname'] = DB_CONSTRING_PIMS;
