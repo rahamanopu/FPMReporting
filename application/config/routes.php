@@ -76,5 +76,18 @@ $route["setup/thana-data"] = "Setup/thanaData";
 $route["setup/thana-add"] = "Setup/addThana";
 $route["download-image/(:any)"] = "report/downloadImage/$1";
 
+//document Category
+$route["learning/document-category"] = "learning/documentCategory";
+$route["learning/document-category-create"] = "learning/documentCategoryCreate";
+$route["learning/document-category-store"] = "learning/documentCategoryStore";
+$route["learning/document-category-edit/(:any)?"] = "learning/documentCategoryEdit/$1";
+$route["learning/document-category-update/(:any)?"] = "learning/documentCategoryUpdate/$1";
+
+//document
+$route["learning/document"] = "learning/document";
+$route["learning/document-create"] = "learning/documentCreate";
+$route["learning/document-store"] = "learning/documentStore";
+$route["learning/document-edit/(:any)?"] = "learning/documentEdit/$1";
+$route["learning/document-update/(:any)?"] = "learning/documentUpdate/$1";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
