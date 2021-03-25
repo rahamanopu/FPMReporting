@@ -25,8 +25,8 @@ class ReportModel extends CI_Model {
         return $data;
     } 
 
-    public function getDailyAttendanceReport($leve3,$level2,$level1,$startDate, $endDate){                 
-        $sql = " EXEC usp_doLoadAttendanceReport  '$level1','$startDate', '$endDate' "; 
+    public function getDailyAttendanceReport($business,$startDate, $endDate){                 
+        $sql = " EXEC usp_doLoadAttendanceReport  '$business','$startDate', '$endDate' "; 
         $query = $this->db->query($sql); 
         $e = $this->db->_error_message();   
         $data = [];             

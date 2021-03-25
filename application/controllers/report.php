@@ -68,7 +68,9 @@ CLASS Report extends MY_Controller {
        
         
         $commonData = new Common_data();
-        $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+        $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        // echo '<pre>',print_r($data['userBusinesses']);die();
+        // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
         if (!empty($_POST) OR ! empty($_GET)) { 
             $data['imageFolder'] = 'uploads/attendance/'; 
@@ -78,17 +80,19 @@ CLASS Report extends MY_Controller {
 
             $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
-            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);           
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
 
-            $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
-            $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            $data['business'] = $this->input->get_post("business", TRUE);           
+
+            // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getDailyAttendanceReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate']);
                 exportexcel($datas['priorityData'],$filename = "Distributor_Stock_".time());
             } else {
-                $datas = $reportModel->getDailyAttendanceReport($data['regioncode'], $data['areacode'], $data['fmecode'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];
             }
             // echo '<pre>',print_r($data['priorityData']);die();

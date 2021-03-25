@@ -112,6 +112,20 @@ class Common_data extends CI_Model {
             return $query->result_array();
         }        
     }
+
+    public function getUserBusiness($userId) {
+        $sql = "select UB.UserId,UB.Business,B.BusinessName from  sdmsmirror.sdmsmirror.dbo.UserBusiness UB
+        left join sdmsmirror.sdmsmirror.dbo.Business B on B.Business= UB.Business   
+        where UB.UserId='$userId'
+        Order by B.BusinessName";
+
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+
+    }
 	
 	
 }

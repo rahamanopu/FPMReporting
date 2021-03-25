@@ -53,68 +53,22 @@ if (!empty($periodformat)) {
                     <div class="col-md-12">                       
 
                         <div class="col-md-1">
-                            Region
+                            Business
                         </div>
                         <div class="col-md-3">
-                            <select name="regioncode" id="regioncode" class="form-control" onchange="doChangeArea(this.value)">
-                                <option></option>
-                                <?php 
-                                if(!empty($regions)){ 
-                                    foreach ($regions AS $row){
-                                        ?>
-                                        <option 
-                                            <?php if(!empty($_POST['regioncode']) AND $row['Level3'] == $_POST['regioncode']){ ?> selected="selected" <?php } ?>
-                                            value="<?php echo $row['Level3']; ?>"><?php echo $row['Level3'].' - '.$row['Level3Name']; ?></option>
-                                        <?php 
-                                    }
-                                } 
-                                ?>                                    
-                            </select> 
+                            <select name="business" id="business" class="form-control">
+                                <option value="">-- Select --</option>
+                                <?php foreach($userBusinesses as $userBusiness) {
+                                    ?>
+                                    <option value="<?php echo $userBusiness['Business']?>" 
+                                    <?php echo (isset($business) && $business==$userBusiness['Business']) ? 'selected':''  ?>><?php echo $userBusiness['BusinessName']?></option>
+                                    <?php
+                                }?>
+                                
+                            </select>
+                            
                         </div>
-
-                        <div class="col-md-1">
-                            Area
-                        </div>
-                        <div class="col-md-3">
-                            <select name="areacode" id="areacode" class="form-control" onchange="doChangeTerritory(this.value)">
-                                <?php if(!empty($areainfo) && COUNT($areainfo) > 1){ ?> <option></option> <?php } ?>
-                                <?php                                      
-                                if(!empty($areainfo)){ 
-                                    foreach ($areainfo AS $row){
-                                        ?>
-                                        <option 
-                                            <?php if(!empty($_POST['areacode']) AND $row['Level2'] == $_POST['areacode']){ ?> selected="selected" <?php } ?>
-                                            value="<?php echo $row['Level2']; ?>"><?php echo $row['Level2'].' - '.$row['Level2Name']; ?></option>
-                                        <?php 
-                                    }
-                                }  
-                                ?>                                    
-                            </select> 
-                        </div>
-
-                        <div class="col-md-1">
-                            FME
-                        </div>
-                        <div class="col-md-3">
-                            <select name="fmecode" id="fmecode" class="form-control" >
-                                <?php if(!empty($fmelist) && COUNT($fmelist) > 1){ ?> <option></option> <?php } ?>
-                                <?php                                      
-                                if(!empty($fmelist)){ 
-                                    foreach ($fmelist AS $row){
-                                        ?>
-                                        <option 
-                                            <?php if(!empty($_POST['fmecode']) AND $row['Level1'] == $_POST['fmecode']){ ?> selected="selected" <?php } ?>
-                                            value="<?php echo $row['Level1']; ?>"><?php echo $row['Level1'].' - '.$row['Level1Name']; ?></option>
-                                        <?php 
-                                    }
-                                }  
-                                ?>                                    
-                            </select> 
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-12">         
+                
                         <?php if(isset($showDateFromField)){?>
                             <div class="col-md-1"  style="margin-top:5px;">
                                 Date From

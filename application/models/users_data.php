@@ -15,14 +15,14 @@ class Users_data extends CI_Model {
         
     	$sql = "SELECT 
                         U.*
-                FROM UserManager U
+                FROM sdmsmirror.sdmsmirror.dbo.UserManager U
                 WHERE U.UserId = '$userid'";
         $result['success'] = false;
         $query = $this->db->query($sql);
 		if ($query) {
 		    $rows = $query->result_array();
                     if (count($rows) > 0) {
-//                        die(decrypt_password($rows[0]['Password']));
+                    //    die(decrypt_password($rows[0]['Password']));
                         if($rows[0]['Password'] == encrypt_password($password)){
                             $data = $rows[0];
                             $result['success'] = true;
