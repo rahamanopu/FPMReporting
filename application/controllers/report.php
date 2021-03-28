@@ -72,8 +72,7 @@ CLASS Report extends MY_Controller {
         // echo '<pre>',print_r($data['userBusinesses']);die();
         // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
-        if (!empty($_POST) OR ! empty($_GET)) { 
-            $data['imageFolder'] = 'uploads/attendance/'; 
+        if (!empty($_POST) OR ! empty($_GET)) {             
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
             $data['period'] = '';
@@ -929,10 +928,13 @@ CLASS Report extends MY_Controller {
 
     }
 
-    function downloadImage($img)
+    function downloadImage($img,$url = '')
     {       
+        if($url =='') {
+            $url = "https://s3.amazonaws.com/acifpmattendance/";
+        }
         $this->load->helper('download');
-        $data = @file_get_contents ($this->config->item('app_image_base_url').'uploads/attendance/'.$img);
+        $data = @file_get_contents ($url.$img);
         force_download($img, $data);
     }
 

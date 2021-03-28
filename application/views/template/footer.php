@@ -165,6 +165,18 @@ $(document).ready(function(){
         $(".datePicker").datepicker({
             dateFormat: 'yy-mm-dd'
         });
+
+        var currentPageLink = document.location.href;
+        //Search your menu for a linkURL that is similar to the active pageURL
+        $(".sarah-sub-menu li a").each(function(){
+            if($(this).attr("href") === currentPageLink){
+                $('.sarah-sub-menu li').removeClass('active');
+                $(this).parent().addClass('active');
+                // active most Parent menu
+                $('.sarah-has-menu').removeClass('active');              
+                $(this).closest('.sarah-has-menu').addClass('active');
+            }
+        });
             
         
                

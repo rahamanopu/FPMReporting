@@ -294,6 +294,22 @@ class usermanager_data extends CI_Model {
             return false;
         }
     }
+
+    public function addUserBusiness($userid, $userBusiness){
+        $sql = "delete from UserBusiness where UserID='$userid'";
+        $query = $this->db->query($sql);
+        
+        foreach($userBusiness as $item) {
+            $dataToinsert = [
+                'UserID' => $userid,
+                'Business' => $item,
+                'Active' => '1',
+            ];
+            $this->db->insert('UserBusiness', $dataToinsert);
+        }
+        return true;
+
+    }
     
 }
 

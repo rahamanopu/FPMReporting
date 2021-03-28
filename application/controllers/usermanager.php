@@ -8,31 +8,33 @@ CLASS UserManager extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('usermanager_data', 'usermanager');
-        $this->load->model('CommonModel', 'common');
+        $this->load->model('Common_data');
     }
 
-    public function index() {
+    public function index($userId='') {
         $data = [];
         $data['titel'] = 'User manager';
         $data['subtitel'] = 'Add user manager';
         $data['action'] = 'usermanager/index';
+        
 
-        $data['segment3'] = $this->uri->segment(3);
-
-        $data['menulist']       = $this->usermanager->getMenu($data['segment3']);
-        $data['userdata']       = $this->usermanager->doLoadUserData($data['segment3']);
-        $data['businessList'] = $this->common->getBusiness();
-        $data['userTypeList'] = $this->common->getUserType();
-
-
-        $data['userlist'] = $this->usermanager->doLoadUserList();
+        $data['menulist']       = $this->usermanager->getMenu($userId);
+        $data['userdata']       = $this->usermanager->doLoadUserData($userId);
+        $commonData = new Common_data();
+        $data['userBusinessCodes'] = [];
+        if($userId !='') {
+            $data['userBusinessCodes'] = array_column($commonData->getUserBusinessCode($userId),'Business');
+        }
+        $data['businessList'] = $commonData->getBusiness();
+        $data['userTypeList'] = $commonData->getUserType();
+        $data['userlist'] = $this->usermanager->doLoadUserList();        
         $this->loadView('usermanager/index',$data);
     }
 
     /**
      * Save user manager
      */
-    public function docreate() {
+    public function docreate() {                
         $userid = $this->input->post('userid', TRUE);
         $staffid = $this->input->post('staffid', TRUE);
         $username = $this->input->post('username', TRUE);
@@ -47,16 +49,21 @@ CLASS UserManager extends MY_Controller {
         $levelCode = $this->input->post('levelCode', TRUE);
         $userType = $this->input->post('userType', TRUE);
 //        echo "<pre>",var_dump($defaultBusiness,$userLevel,$levelCode,$userType);die();
+        $userManagerData = new usermanager_data();
+        $userCreate = $userManagerData->doCreateUser($userid, $staffid, $username, $password, $designation,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate);
 
-        $userCreate = $this->usermanager->doCreateUser($userid, $staffid, $username, $password, $designation,$userLevel, $levelCode,$userType, $active, $entryby, $entryip, $divicestate);
+        
 
         if ($userCreate == true) {
-            $this->usermanager->doDeleteUserMenu($userid);
+            $userManagerData->doDeleteUserMenu($userid);
             if (!empty($usermenu)) {
                 for ($i = 0; $i < count($usermenu); $i++) {
-                    $this->usermanager->doInsertUserMenu($userid, $usermenu[$i]);
+                    $userManagerData->doInsertUserMenu($userid, $usermenu[$i]);
                 }
             }
+            // Add User Business
+            $userBusiness = $this->input->post('userBusines');
+            $userManagerData->addUserBusiness($userid, $userBusiness);
             setFlashMsg("Successful Added");
         } else {
             setFlashMsg("Something Went Wrong");

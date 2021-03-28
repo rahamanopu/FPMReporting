@@ -42,7 +42,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                 $menuname = $row['MenuName'];
                 $submenu = array_filter($usermenu,"filtersubmenu");
             ?>
-            <li class="sarah-has-menu <?php if($segment == trim($row['MenuActiveLink'])){ ?> active <?php } ?>">
+            <li class="sarah-has-menu">
                 <a href="javascript:void(0)">
                     <i class="fa fa-pencil-square-o"></i>
                     <span class="menu-text"><?php echo $row['MenuName']; ?></span>
@@ -53,7 +53,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     if(!empty($submenu)){
                         foreach($submenu as $row1){
                             ?>
-                            <li <?php if($subMenuLink == $row1['Link']){ ?>class="active" <?php } ?>>
+                            <li>
                                 <a href="<?php echo base_url().$row1['Link']; ?>">
                                     <span class="menu-text"><?php echo $row1['SubMenuName']; ?></span>
                                     <span class="selected"></span>
@@ -85,7 +85,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
     }
     ?>
     
-    <li class="sarah-has-menu <?php if($segment == 'report'){ ?> active <?php } ?>">
+    <li class="sarah-has-menu">
         <a href="javascript:void(0)">
             <i class="fa fa-sitemap"></i>
             <span class="menu-text">Report</span>
@@ -98,7 +98,7 @@ $subMenuLink = $segment2 ? ($segment."/".$segment2) : $segment
                     <span class="selected"></span>
                 </a>
             </li> -->
-            <li <?php if($segment2 == 'dailyAttendanceReport'){ ?>class="active" <?php } ?>>
+            <li>
                 <a href="<?php echo base_url(); ?>report/dailyAttendanceReport">
                     <span class="menu-text">Daily Attendance Report</span>
                     <span class="selected"></span>

@@ -177,6 +177,25 @@
                                     </select>
                                 </div>
                             </div>
+                            <!-- UserBusiness -->
+                            <div class="col-md-6 form-group">
+                                <div class="col-md-4">
+                                    User Business
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-control bs-multiselect" name="userBusines[]" id="userBusines" multiple>
+                                        <?php if (isset($businessList) && !empty($businessList)) {
+                                            foreach ($businessList as $business) {
+                                                ?>
+                                                <option value="<?php echo $business['Business']; ?>"
+                                                    <?php echo (!empty($userBusinessCodes) && in_array($business['Business'],$userBusinessCodes)) ? "selected" : "";?>
+                                                ><?php echo $business['BusinessName']; ?></option>
+                                                <?php
+                                            }
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="col-md-6 form-group">
                                 <div class="col-md-4">

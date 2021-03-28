@@ -74,7 +74,7 @@ $route['submit-app-upload'] = 'Setup/submitUpload';
 $route["setup/thana(:num?)"] = "Setup/thana$1";
 $route["setup/thana-data"] = "Setup/thanaData";
 $route["setup/thana-add"] = "Setup/addThana";
-$route["download-image/(:any)"] = "report/downloadImage/$1";
+$route["download-image/(:any)(:/any)?"] = "report/downloadImage/$1$2";
 
 //document Category
 $route["learning/document-category"] = "learning/documentCategory";

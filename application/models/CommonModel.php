@@ -13,8 +13,7 @@ class CommonModel extends CI_Model {
     public function getBusiness(){
         $sql = "SELECT 
                     B.Business AS Business, BusinessName 
-                FROM Business B
-                WHERE Active = 'Y'
+                FROM BusinessView B
                 ORDER BY 2";
         $result['success'] = false;
         $query = $this->db->query($sql);

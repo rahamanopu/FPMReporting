@@ -15,7 +15,7 @@ class Users_data extends CI_Model {
         
     	$sql = "SELECT 
                         U.*
-                FROM sdmsmirror.sdmsmirror.dbo.UserManager U
+                FROM UserManager U
                 WHERE U.UserId = '$userid'";
         $result['success'] = false;
         $query = $this->db->query($sql);

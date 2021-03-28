@@ -10,6 +10,15 @@ class Common_data extends CI_Model {
         parent::__construct();
     }         
     
+    public function getUserType(){
+        $sql = "select * from UserType order by UserTypeName";
+        $query = $this->db->query($sql);
+        if ($query) {
+            return $query->result_array();
+        }else{
+            return [];
+        }
+    }
     
     public function getUserRegion($userlevel, $levelCode){
     
@@ -113,18 +122,37 @@ class Common_data extends CI_Model {
         }        
     }
 
+    public function getBusiness() {
+        $sql = "select Business, BusinessName 
+            from BusinessView order by BusinessName ";
+        $query = $this->db->query($sql);       
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
     public function getUserBusiness($userId) {
-        $sql = "select UB.UserId,UB.Business,B.BusinessName from  sdmsmirror.sdmsmirror.dbo.UserBusiness UB
-        left join sdmsmirror.sdmsmirror.dbo.Business B on B.Business= UB.Business   
+        $sql = "select UB.UserId,UB.Business,BV.BusinessName from UserBusiness UB
+        left join BusinessView BV on BV.Business= UB.Business   
         where UB.UserId='$userId'
-        Order by B.BusinessName";
+        Order by BV.BusinessName";
 
         $query = $this->db->query($sql);
         if($query) {
             return $query->result_array();
         }
         return [];
+    }
+    public function getUserBusinessCode($userId) {
+        $sql = "select UB.Business from UserBusiness UB         
+            where UB.UserId='$userId'";
 
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
     }
 	
 	
