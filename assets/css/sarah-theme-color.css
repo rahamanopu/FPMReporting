@@ -150,6 +150,7 @@
 }
 #sarahapp-container[sarah-color-type="lpanel-bg2"] #sarah-left-panel .panel-list li.active > a .selected {
     border-right: 7px solid #FFF;
+    background-color: transparent;
 }
 #sarahapp-container[sarah-color-type="lpanel-bg2"] #sarah-left-panel .panel-list li a .label {
     color: #d7e9fc;
