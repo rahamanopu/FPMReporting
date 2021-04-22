@@ -146,10 +146,8 @@ class ReportModel extends CI_Model {
     public function getUserLocation($level1,$date){                 
         $sql = "SELECT U.* 
             FROM [192.168.100.75].DCR.dbo.UserLocation U
-            INNER JOIN [192.168.100.75].DCR.dbo.ViewLevels L
-                ON U.UserId = L.Level1StaffID
             WHERE ServerTime BETWEEN '$date' AND '$date 23:59:59.000'
-                AND (L.Level1 = '$level1')";
+            and U.UserId='$level1'";
         $query = $this->db->query($sql);           
         $e = $this->db->_error_message();   
         $data = [];             
