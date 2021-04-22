@@ -148,10 +148,15 @@ if (!empty($periodformat)) {
                                 <tr>
                                     <?php
                                     $date = '';
+                                    $level = '';
+                                    // echo '<pre>',print_r($index);die();
                                     for ($j = 0; $j < count($index); $j++) {
                                         $value = $arrayvalue[$j];   
-                                        if($date=='' && $index[$j] == 'AttendanceDate') {
+                                        if($date=='' && $index[$j] == 'WorkingDate') {
                                             $date =$arrayvalue[$j];                                   
+                                        }
+                                        if($level=='' && $index[$j] == 'UserId') {
+                                            $level =$arrayvalue[$j];                                   
                                         }
                                         if (is_numeric($value)) { 
                                             if($j > 11){
@@ -175,7 +180,7 @@ if (!empty($periodformat)) {
                                         }
                                     } 
                                     ?>
-                                    <td><button type="button" data-date="<?php echo date('Y-m-d',strtotime($date));?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
+                                    <td><button type="button" data-level="<?php echo $level; ?>" data-date="<?php echo date('Y-m-d',strtotime($date));?>" class="btn btn-info btn-sm googleMapLocation" data-toggle="modal" data-target="#myModal">View Location</button></td>
                                 </tr>
 
                                 <?php
@@ -230,7 +235,8 @@ if (!empty($periodformat)) {
         $(".googleMapLocation").on('click',function() {
             var date = $(this).attr('data-date');
             // var date = '2020-10-15';
-            var level= $("#fmecode").val();
+            var level = $(this).attr('data-level');
+            // var level= $("#fmecode").val();
             // var level= 'D1';
             $("#map").html("");
             $.ajax({
