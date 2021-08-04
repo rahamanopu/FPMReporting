@@ -48,16 +48,19 @@ if (!defined('DB_SERVER_CET')) define('DB_SERVER_CET', "192.168.100.75");
 if (!defined('DB_SERVER_DCR')) define('DB_SERVER_DCR', "192.168.100.75");
 if (!defined('DB_SERVER_PIMS')) define('DB_SERVER_PIMS', "192.168.100.2");
 if (!defined('DB_SERVER_Matplan')) define('DB_SERVER_Matplan', "192.168.100.90");
+if (!defined('DB_SERVER_SDMS')) define('DB_SERVER_SDMS', "192.168.100.90");
 
 if (!defined('DB_DB_CET')) define('DB_DB_CET', "FPM");
 if (!defined('DB_DB_DCR')) define('DB_DB_DCR', "DCR");
 if (!defined('DB_DB_PIMS')) define('DB_DB_PIMS', "PIMSNEW");
 if (!defined('DB_DB_Matplan')) define('DB_DB_Matplan', "MatPlan");
+if (!defined('DB_DB_SDMS')) define('DB_DB_SDMS', "sdms");
 
 if (!defined('DB_CONSTRING_CET'))define('DB_CONSTRING_CET', "DRIVER={SQL Server};SERVER=".DB_SERVER_CET.";DATABASE=".DB_DB_CET);
 if (!defined('DB_CONSTRING_DCR'))define('DB_CONSTRING_DCR', "DRIVER={SQL Server};SERVER=".DB_SERVER_DCR.";DATABASE=".DB_DB_DCR);
 if (!defined('DB_CONSTRING_PIMS'))define('DB_CONSTRING_PIMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_PIMS.";DATABASE=".DB_DB_PIMS);
 if (!defined('DB_CONSTRING_Matplan'))define('DB_CONSTRING_Matplan', "DRIVER={SQL Server};SERVER=".DB_SERVER_Matplan.";DATABASE=".DB_DB_Matplan);
+if (!defined('DB_CONSTRING_SDMS'))define('DB_CONSTRING_SDMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_SDMS.";DATABASE=".DB_DB_SDMS);
 
 
 $active_group = 'default';
@@ -127,6 +130,23 @@ $db['Matplan']['dbcollat'] = "utf8_general_ci";
 $db['Matplan']['swap_pre'] = '';
 $db['Matplan']['autoinit'] = FALSE;
 $db['Matplan']['stricton'] = FALSE;
+
+
+$db['sdms']['hostname'] = DB_CONSTRING_SDMS;
+$db['sdms']['username'] = "sa";
+$db['sdms']['password'] = "dataport";
+$db['sdms']['database'] = DB_DB_SDMS;
+$db['sdms']['dbdriver'] = "odbc";
+$db['sdms']['dbprefix'] = "";
+$db['sdms']['pconnect'] = FALSE;
+$db['sdms']['db_debug'] = TRUE;
+$db['sdms']['cache_on'] = FALSE;
+$db['sdms']['cachedir'] = "";
+$db['sdms']['char_set'] = "utf8";
+$db['sdms']['dbcollat'] = "utf8_general_ci";
+$db['sdms']['swap_pre'] = '';
+$db['sdms']['autoinit'] = FALSE;
+$db['sdms']['stricton'] = FALSE;
  
 /* End of file database.php */
 /* Location: ./application/config/database.php */

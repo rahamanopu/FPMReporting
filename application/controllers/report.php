@@ -53,7 +53,7 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/attendancereport',$data);
     }
 
-    function dailyAttendanceReport() {
+    public function dailyAttendanceReport() {
         $data['action'] = 'report/dailyAttendanceReport';
         $data['pageTitel'] = 'Daily Attendance Report';
         $data['userid'] = $this->session->userdata('userid');
@@ -101,6 +101,76 @@ CLASS Report extends MY_Controller {
 
         // $this->loadView('report/common_report',$data);
         $this->loadView('report/daily_attendancereport',$data);
+    }
+
+    public function orderAndCollection() {
+        $data['action'] = 'report/orderAndCollection';
+        $data['pageTitel'] = 'Order And Collection Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');  
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+        $data['reportStauses'] = $this->getReportStatus();
+        $commonData = new Common_data();
+        $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            
+            $data['business'] = $this->input->get_post("business", TRUE);           
+            $data['report_status'] = $this->input->get_post("report_status", TRUE);  
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getOrderAndCollectionReport($data['startDate'],$data['endDate'],$data['business'],$data['report_status'],$data['userid']);
+                exportexcel($datas['priorityData'],$filename = "OrderAndCollectionReprot_".time());
+            } else {
+                $datas = $reportModel->getOrderAndCollectionReport($data['startDate'],$data['endDate'],$data['business'],$data['report_status'],$data['userid']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+                                  
+        }
+        $this->loadView('report/order_collection_report',$data);
+    }
+
+    public function dayWisePrimarySales() {
+        $data['action'] = 'report/dayWisePrimarySales';
+        $data['pageTitel'] = 'Day Wise Primary Sales Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+        $data['reportStauses'] = $this->getReportStatus();
+       
+        
+        $commonData = new Common_data();
+        $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        // echo '<pre>',print_r($data['userBusinesses']);die();
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            
+            $data['business'] = $this->input->get_post("business", TRUE);           
+            $data['report_status'] = $this->input->get_post("report_status", TRUE);             
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getDayWisePrimarySalesReport($data['startDate'],$data['endDate'],$data['business'],$data['report_status'],$data['userid']);
+                exportexcel($datas['priorityData'],$filename = "DayWisePrimarySalesReport_".time());
+            } else {
+                $datas = $reportModel->getDayWisePrimarySalesReport($data['startDate'],$data['endDate'],$data['business'],$data['report_status'],$data['userid']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+            // echo '<pre>',print_r($data['priorityData']);die();            
+                                  
+        }
+        $this->loadView('report/day_wise_primary_sales_report',$data);
     }
 
 

@@ -100,4 +100,12 @@ class MY_Controller extends CI_Controller
         return $output;
     }
 
+    public function getReportStatus() {
+        return [
+            'Y' => "Approved",
+            'N' => "Pending",
+            'D' => "Cancel",
+        ];
+    }
+
 }
