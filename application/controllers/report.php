@@ -174,6 +174,88 @@ CLASS Report extends MY_Controller {
     }
 
 
+    public function customerComplaint() {
+        $data['action'] = 'report/customerComplaint';
+        $data['pageTitel'] = 'Customer Complaint Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');  
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+        $data['reportStauses'] = [''=>'Pending','resolved'=>'Resolved'];
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';    
+            $data['report_status'] = $this->input->get_post("report_status", TRUE);  
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getCustomerComplaint($data['startDate'],$data['endDate'],$data['report_status']);
+                exportexcel($datas['priorityData'],$filename = "ComplaintReprot_".time());
+            } else {
+                $datas = $reportModel->getCustomerComplaint($data['startDate'],$data['endDate'],$data['report_status']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+                                  
+        }
+        $this->loadView('report/customer_complaint',$data);
+    }
+
+    public function resolveComplaint() {
+        $data['action'] = 'report/resolveComplaint';
+        $data['pageTitel'] = 'Customer Complaint Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');  
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getCustomerComplaint($data['startDate'],$data['endDate'],'');
+                exportexcel($datas['priorityData'],$filename = "ComplaintReprot_".time());
+            } else {
+                $datas = $reportModel->getCustomerComplaint($data['startDate'],$data['endDate'],'');
+                $data['priorityData'] = $datas['priorityData'];
+            }
+                                  
+        }
+        $this->loadView('report/customer_complaint_resolve',$data);
+    }
+
+    public function resolveCustomerComplaint() {
+        $userId= $this->session->userdata('userid');
+        $complaintId = $this->input->get_post('complaintId',true);
+        $complaintText = $this->input->get_post('complaintText',true);
+
+        $sql = "update CustomerComplaint set Solved='1',SolvedComments='$complaintText', SolvedBy='$userId'
+                where ComplaintId='$complaintId'";
+
+        $result = $this->db->query($sql);  
+        $response = [];
+        if($result) {
+            $response = [
+                'success' => true,
+                'message' => 'Successfully Resolved the Compalint',
+            ];
+            
+        } else {
+            $response = [
+                'success' => false,
+                'message' => 'Failed to Resolve the Complaint',
+            ];
+        }
+        echo json_encode($response);
+    }
+
+
     public function userLocation() {
         $level = $this->input->get('level');
         $date = $this->input->get('date');

@@ -50,6 +50,7 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+    
     public function getDayWisePrimarySalesReport($startDate,$endDate,$business,$report_status,$userid){                 
         $sql = "EXEC usp_doLoadDayWisePrimary  '$startDate','$endDate','$business','$report_status','$userid' "; 
         // die($sql);
@@ -62,6 +63,23 @@ class ReportModel extends CI_Model {
             $data['priorityData'] = $query->result_array();          
                                  
         }       
+        return $data;
+    }
+
+    public function getCustomerComplaint($startDate,$endDate,$report_status){                 
+        $sql = "select CC.ComplaintID,CC.ProductCode,CC.BatchNo,
+                    case when CC.Solved ='1' then 'Resolved' else 'Pending' end Solved_Status, CC.SolvedComments,
+                    CC.CustomerName,CC.CustomerMobile, convert(varchar, CC.EntryDate, 103) Date ,CC.ComplaintDetails,
+                    CC.ComplaintImage as Image ,B.BusinessName as Business
+                from CustomerComplaint CC
+                join Business B on B.Business=CC.Business 
+                where EntryDate between '$startDate' and '$endDate 23:59:59'
+                and (Solved='$report_status' or '$report_status' = '')"; 
+        // die($sql);
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data['priorityData'] = $query->result_array();             
+              
         return $data;
     }
     
