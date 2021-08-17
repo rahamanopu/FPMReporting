@@ -55,7 +55,8 @@
                         <select name="report_status" class="form-control">
                             <?php foreach($reportStauses as $key=>$reportStaus) {
                                 ?>
-                                <option value="<?php echo $key;?>"><?php echo $reportStaus;?></option>
+                                <option value="<?php echo $key;?>"
+                                <?php echo (isset($report_status) && $report_status==$key ) ? 'selected': '' ?> ><?php echo $reportStaus;?></option>
                                 <?php
 
                             }?>
@@ -81,7 +82,7 @@
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?startDate='.$startDate.'&endDate='.$endDate.'&business='.$business.'&report_status='.$report_status.'&excel=yes'; ?>">
+                    <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?startDate='.$startDate.'&endDate='.$endDate.'&report_status='.$report_status.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
@@ -114,8 +115,18 @@
                                         if (is_numeric($value)) { 
                                             echo "<td style='text-align: right;'>" . $value."</td>";
 
-                                        }else{                                             
-                                            echo "<td>" . $value."</td>";                                           
+                                        }else{ 
+                                            if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
+                                                ?>
+                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$value; ?>" alt="" style="height:200px;height:100px">
+                                               
+                                                    
+                                                </td>
+                                                <?php
+                                            } else {
+                                                echo "<td>" . $value."</td>";                                                
+                                            }                                            
+                                                                                       
 
                                         }
                                     } 

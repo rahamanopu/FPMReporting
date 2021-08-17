@@ -184,7 +184,7 @@ CLASS Report extends MY_Controller {
 
         $data['showDateToField'] = true;       
         $data['showDateFromField'] = true;
-        $data['reportStauses'] = [''=>'Pending','resolved'=>'Resolved'];
+        $data['reportStauses'] = [''=>'Pending','1'=>'Resolved'];
         if (!empty($_POST) OR ! empty($_GET)) {             
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
@@ -205,7 +205,7 @@ CLASS Report extends MY_Controller {
 
     public function resolveComplaint() {
         $data['action'] = 'report/resolveComplaint';
-        $data['pageTitel'] = 'Customer Complaint Report';
+        $data['pageTitel'] = 'Resolve Customer Complaint';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
