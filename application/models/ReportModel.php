@@ -70,10 +70,11 @@ class ReportModel extends CI_Model {
         $sql = "select CC.ComplaintID,CC.ProductCode,CC.BatchNo,
                     case when CC.Solved ='1' then 'Resolved' else 'Pending' end Solved_Status, CC.SolvedComments,
                     CC.CustomerName,CC.CustomerMobile, convert(varchar, CC.EntryDate, 103) Date ,CC.ComplaintDetails,
-                    CC.ComplaintImage as Image ,B.BusinessName as Business
+                    CC.ComplaintImage as Image ,B.BusinessName as Business,UM.UserName
                 from CustomerComplaint CC
                 join Business B on B.Business=CC.Business 
-                where EntryDate between '$startDate' and '$endDate 23:59:59'
+                left join UserManager UM on UM.UserId=CC.EntryBy
+                where CC.EntryDate between '$startDate' and '$endDate 23:59:59'
                 and (Solved='$report_status' or '$report_status' = '')"; 
         // die($sql);
         $query = $this->db->query($sql); 
