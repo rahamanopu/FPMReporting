@@ -70,7 +70,6 @@
                         </div>
                         <div class="col-md-2">
                         <select name="report_status" class="form-control">
-                            <option value="">--Select--</option>
                             <?php foreach($reportStauses as $key=>$reportStaus) {
                                 ?>
                                 <option value="<?php echo $key;?>"><?php echo $reportStaus;?></option>
