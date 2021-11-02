@@ -50,6 +50,11 @@ CLASS Learning extends MY_Controller {
         $name = $_FILES['file']['name'];
 
         $target_dir = "uploads/images/";
+
+        if(!file_exists($target_dir)) {
+            mkdir($target_dir,'0755');
+        }
+        
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
 
         // Select file type

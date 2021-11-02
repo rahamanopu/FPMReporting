@@ -41,7 +41,7 @@ class Learning_data extends CI_Model {
     public function doStoreDocumentCategory($Business,$CategoryName,$imageName,$ActiveStatus){
 
         $sql = "INSERT INTO [192.168.100.75].DCR.dbo.DocumentCategory (Business, CategoryName,CategoryIcon, ActiveStatus) 
-                                  VALUES ('$Business', '$CategoryName',$imageName, '$ActiveStatus') ";
+                                  VALUES ('$Business', '$CategoryName','$imageName', '$ActiveStatus') ";
         $query = $this->db->query($sql);
         if ($query) {
             return true;
