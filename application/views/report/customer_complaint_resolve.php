@@ -67,7 +67,7 @@
                     <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?startDate='.$startDate.'&endDate='.$endDate.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
-                    <div class="exportallplantable table-responsive">    
+                    <div class="table-responsive">    
                         <table class="table table-bordered table-hover  table-striped dataTable">
                             <thead>                            
                                 <tr>         

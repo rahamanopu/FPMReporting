@@ -38,9 +38,13 @@ class ReportModel extends CI_Model {
     }
     public function getOrderAndCollectionReport($startDate,$endDate,$business,$report_status,$userid){                 
         $sql = "EXEC usp_doLoadOrderAndCollectionReport  '$startDate','$endDate','$business','$report_status','$userid' "; 
-        // die($sql);
-        $CI = & get_instance();
-        $CI->db = $this->load->database('sdms',true);
+        if ($business == 'D') {
+            $CI = & get_instance();
+            $CI->db = $this->load->database('cbsdms', true);
+        }else{
+            $CI = & get_instance();
+            $CI->db = $this->load->database('sdms', true);
+        }
         $query = $this->db->query($sql); 
         $e = $this->db->_error_message();   
         $data = [];             
@@ -73,7 +77,7 @@ class ReportModel extends CI_Model {
                     CC.ComplaintImage as Image ,B.BusinessName as Business,UM.UserName
                 from CustomerComplaint CC
                 join Business B on B.Business=CC.Business 
-                left join UserManager UM on UM.UserId=CC.EntryBy
+                join [192.168.100.21].[SDMSMirror].dbo.UserManager UM on UM.UserId=CC.EntryBy
                 where CC.EntryDate between '$startDate' and '$endDate 23:59:59'
                 and (Solved='$report_status' or '$report_status' = '')"; 
         // die($sql);

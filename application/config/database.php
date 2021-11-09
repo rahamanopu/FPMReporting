@@ -49,18 +49,22 @@ if (!defined('DB_SERVER_DCR')) define('DB_SERVER_DCR', "192.168.100.75");
 if (!defined('DB_SERVER_PIMS')) define('DB_SERVER_PIMS', "192.168.100.2");
 if (!defined('DB_SERVER_Matplan')) define('DB_SERVER_Matplan', "192.168.100.90");
 if (!defined('DB_SERVER_SDMS')) define('DB_SERVER_SDMS', "192.168.100.90");
+if (!defined('DB_SERVER_CBSDMS')) define('DB_SERVER_CBSDMS', "192.168.100.165");
 
 if (!defined('DB_DB_CET')) define('DB_DB_CET', "FPM");
 if (!defined('DB_DB_DCR')) define('DB_DB_DCR', "DCR");
 if (!defined('DB_DB_PIMS')) define('DB_DB_PIMS', "PIMSNEW");
 if (!defined('DB_DB_Matplan')) define('DB_DB_Matplan', "MatPlan");
 if (!defined('DB_DB_SDMS')) define('DB_DB_SDMS', "sdms");
+if (!defined('DB_DB_CBSDMS')) define('DB_DB_CBSDMS', "SDMSMIRROR");
 
 if (!defined('DB_CONSTRING_CET'))define('DB_CONSTRING_CET', "DRIVER={SQL Server};SERVER=".DB_SERVER_CET.";DATABASE=".DB_DB_CET);
 if (!defined('DB_CONSTRING_DCR'))define('DB_CONSTRING_DCR', "DRIVER={SQL Server};SERVER=".DB_SERVER_DCR.";DATABASE=".DB_DB_DCR);
 if (!defined('DB_CONSTRING_PIMS'))define('DB_CONSTRING_PIMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_PIMS.";DATABASE=".DB_DB_PIMS);
 if (!defined('DB_CONSTRING_Matplan'))define('DB_CONSTRING_Matplan', "DRIVER={SQL Server};SERVER=".DB_SERVER_Matplan.";DATABASE=".DB_DB_Matplan);
 if (!defined('DB_CONSTRING_SDMS'))define('DB_CONSTRING_SDMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_SDMS.";DATABASE=".DB_DB_SDMS);
+if (!defined('DB_CONSTRING_CBSDMS'))define('DB_CONSTRING_CBSDMS', "DRIVER={SQL Server};SERVER=".DB_SERVER_CBSDMS.";DATABASE=".DB_DB_CBSDMS);
+
 
 
 $active_group = 'default';
@@ -147,6 +151,22 @@ $db['sdms']['dbcollat'] = "utf8_general_ci";
 $db['sdms']['swap_pre'] = '';
 $db['sdms']['autoinit'] = FALSE;
 $db['sdms']['stricton'] = FALSE;
- 
+
+
+$db['cbsdms']['hostname'] = DB_CONSTRING_CBSDMS;
+$db['cbsdms']['username'] = "sa";
+$db['cbsdms']['password'] = "dataport";
+$db['cbsdms']['database'] = DB_DB_CBSDMS;
+$db['cbsdms']['dbdriver'] = "odbc";
+$db['cbsdms']['dbprefix'] = "";
+$db['cbsdms']['pconnect'] = FALSE;
+$db['cbsdms']['db_debug'] = TRUE;
+$db['cbsdms']['cache_on'] = FALSE;
+$db['cbsdms']['cachedir'] = "";
+$db['cbsdms']['char_set'] = "utf8";
+$db['cbsdms']['dbcollat'] = "utf8_general_ci";
+$db['cbsdms']['swap_pre'] = '';
+$db['cbsdms']['autoinit'] = FALSE;
+$db['cbsdms']['stricton'] = FALSE;
 /* End of file database.php */
 /* Location: ./application/config/database.php */
