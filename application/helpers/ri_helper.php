@@ -99,7 +99,9 @@ if (!function_exists('setFlashMsg')) {
      */
     function setFlashMsg($message = "Successful", $messageType = "success")
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         if ($messageType == 'success') {
             $_SESSION['success_msg'] = $message;
         } elseif ($messageType == 'error') {
@@ -121,7 +123,9 @@ if (!function_exists('getFlashMsg')) {
     function getFlashMsg()
     {
         $message = "";
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }        
         if (isset($_SESSION['success_msg']) && $_SESSION['success_msg'] != '') {
             $message = getMsgWithHtml($_SESSION['success_msg'], 'success');
             unset($_SESSION['success_msg']);

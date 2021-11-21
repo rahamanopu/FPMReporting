@@ -89,5 +89,8 @@ $route["learning/document-create"] = "learning/documentCreate";
 $route["learning/document-store"] = "learning/documentStore";
 $route["learning/document-edit/(:any)?"] = "learning/documentEdit/$1";
 $route["learning/document-update/(:any)?"] = "learning/documentUpdate/$1";
+
+// CashCustomer price
+$route['cash-cutomer-price-add'] = "CashCustomerProduct/importCashPrice";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
