@@ -16,7 +16,7 @@ $segment3 = $this->uri->segment(2);
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard padding-left-20">
         <!-- BOXES -->
         
         <div class="row">
@@ -199,7 +199,7 @@ $segment3 = $this->uri->segment(2);
         </div>
         <!-- /BOXES --> 
         <div class="row">
-            <div id="panel-1" class="panel panel-default">
+            <div id="panel-1" class="panel panel-default padding-left-20">
                 <div class="panel-body" style="height: 500px;overflow:scroll;">
                     
                     <?php if(!empty($priorityData)){

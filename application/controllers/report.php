@@ -189,7 +189,7 @@ CLASS Report extends MY_Controller {
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
             $data['period'] = '';    
-            $data['report_status'] = $this->input->get_post("report_status", TRUE);  
+            $data['report_status'] = $this->input->get_post("report_status", TRUE); 
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
                 $datas = $reportModel->getCustomerComplaint($data['startDate'],$data['endDate'],$data['report_status']);
@@ -200,6 +200,7 @@ CLASS Report extends MY_Controller {
             }
                                   
         }
+        // echo '<pre>',print_r($data['priorityData']);die();
         $this->loadView('report/customer_complaint',$data);
     }
 
@@ -253,6 +254,28 @@ CLASS Report extends MY_Controller {
             ];
         }
         echo json_encode($response);
+    }
+
+    public function updateCustomerComplaintCategory() {
+        try{
+            $complaintCategory = $this->input->post('complaintCategory',true);
+            $complaintIDs = $this->input->post('complaintID',true);
+            $status = false;
+            foreach($complaintIDs as $key=>$item) {
+                $dataToAdd['ComplaintCategory'] = $complaintCategory[$key];
+                $status = $this->db->update('CustomerComplaint',$dataToAdd,['ComplaintID'=>$item]);
+            }
+            if($status) {
+                setFlashMsg('Updated Complaint Category','success');
+            } else {
+                setFlashMsg('Nothing to be updated','error');
+            }
+
+        }catch(Exception $ex) {
+            setFlashMsg("Exception Happend","error");
+        }
+        return redirect('report/customerComplaint');        
+
     }
 
 

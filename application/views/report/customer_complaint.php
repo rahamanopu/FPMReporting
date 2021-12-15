@@ -5,11 +5,12 @@
 <section id="main-content">            
     <!-- page title -->
     <div class="content-title">
-        <h3 class="main-title"><?php echo $pageTitel; ?></h3>                
+        <h3 class="main-title"><?php echo $pageTitel; ?></h3>  
+        <?php echo getFlashMsg();?>              
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard padding-left-20">
         <!-- BOXES -->
 
         <div class="row">
@@ -78,71 +79,97 @@
     </div>
     <!-- /BOXES --> 
     <div class="row">
-        <div id="panel-1" class="panel panel-default padding-20">
+        <div id="panel-1" class="panel panel-default padding-left-20">
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
                     <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?startDate='.$startDate.'&endDate='.$endDate.'&report_status='.$report_status.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
-                    <div class="table-responsive">    
-                        <table class="table table-bordered table-hover  table-striped dataTable">
-                            <thead>                            
-                                <tr>         
-                                    <?php
-                                    $index = array_keys($priorityData[0]);
-                                    $count = 0;
-                                    for($i = 0; $i < count($index); $i++){
-                                        ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_','Per','Prac'), array(' ',' / ','Prac.'), $index[$i]); ?></th><?php
-                                    }
-                                    ?>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $count = 0;
-                            for ($i = 0; $i < count($priorityData); $i++) { $count++;
-                                $arrayvalue = array_values($priorityData[$i]);
-                                ?>
-                                <tr>
-                                    <?php
-                                    
-                                    // echo '<pre>',print_r($index);die();
-                                    for ($j = 0; $j < count($index); $j++) {
-                                        $value = $arrayvalue[$j];   
+                    <form class="form-horizontal" method="POST" action="<?php echo base_url().'report/updateCustomerComplaintCategory'?>" accept="">
+                        <div class="table-responsive">    
+                            <table class="table table-bordered table-hover  table-striped dataTable">
+                                <thead>                            
+                                    <tr>
+                                        <?php if(isset($report_status) && $report_status=='1') {
+                                            ?>
+                                            <th class="text-info">Complaint Categorige</th>         
+                                            <?php
+                                        }?>
+                                        <th>Product Code</th>
+                                        <th>Batch No</th>
+                                        <th>Solved Status</th>
+                                        <th>Solved Comments</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Mobile</th>
+                                        <th>Date</th>
+                                        <th>Complaint Details</th>
+                                        <th>Image</th>
+                                        <th>Business</th>                                   
+                                
                                         
-                                        if (is_numeric($value)) { 
-                                            echo "<td style='text-align: right;'>" . $value."</td>";
-
-                                        }else{ 
-                                            if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
-                                                ?>
-                                                <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$value; ?>" alt="" style="height:200px;height:100px">
-                                               
-                                                    
-                                                </td>
-                                                <?php
-                                            } else {
-                                                echo "<td>" . $value."</td>";                                                
-                                            }                                            
-                                                                                       
-
-                                        }
-                                    } 
-                                    ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php                            
+                                foreach($priorityData as $item){ 
+                                    $selectBoxStyle = 'none';
+                                    if($item['ComplaintCategory'] == 'green') {
+                                        $selectBoxStyle = "background-color:#008000;color:#fff";
+                                    }
+                                    else if($item['ComplaintCategory'] == 'yellow') {
+                                        $selectBoxStyle = "background-color:#FFFF00;color:#fff";
+                                    }
+                                    else if($item['ComplaintCategory'] == 'red') {
+                                        $selectBoxStyle = "background-color:#FF0000;color:#fff";
+                                    }
                                     
-                                </tr>
+                                    ?>
+                                    <tr>
+                                        <?php if(isset($report_status) && $report_status=='1') {
+                                            ?>
+                                            <td>
+                                                <select class="categorySelectBox form-control" name="complaintCategory[]" style="<?php echo $selectBoxStyle?>;">
+                                                    <option value="">--Select--</option>
+                                                    <option value="green" <?php echo (isset($item['ComplaintCategory']) && $item['ComplaintCategory'] == 'green') ? 'selected' : ''?>>Green</option>
+                                                    <option value="yellow" <?php echo (isset($item['ComplaintCategory']) && $item['ComplaintCategory'] == 'yellow') ? 'selected' : ''?>>Yellow</option>
+                                                    <option value="red" <?php echo (isset($item['ComplaintCategory']) && $item['ComplaintCategory'] == 'red') ? 'selected' : ''?>>Red</option>
+                                                </select>
+                                                <input type="hidden" name="complaintID[]" value="<?php echo $item['ComplaintID']?>">
+                                            </td>         
+                                            <?php
+                                        }?>
+                                        
+                                        <td><?php echo $item['ProductCode']?></td>
+                                        <td><?php echo $item['BatchNo']?></td>
+                                        <td><?php echo $item['Solved_Status']?></td>
+                                        <td><?php echo $item['SolvedComments']?></td>
+                                        <td><?php echo $item['CustomerName']?></td>
+                                        <td><?php echo $item['CustomerMobile']?></td>
+                                        <td><?php echo $item['Date']?></td>
+                                        <td><?php echo $item['ComplaintDetails']?></td>
+                                        <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image']; ?>" alt="" style="height:200px;height:100px"></td>
+                                        <td><?php echo $item['Business']?></td>
 
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                        
+                                    </tr>
+
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4 margin-top-20">
+                            <div class="form-group">
+                                <input type="submit" value="Update Complaint Category" class="btn btn-success btn-block">
+                            </div>
+                        </div>
+                    </form>
                     <?php } ?>
 
-            </div>
+            </form>
         </div>
     </div>
     </div>

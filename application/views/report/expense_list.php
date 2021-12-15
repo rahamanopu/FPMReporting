@@ -18,7 +18,7 @@ $segment3 = $this->uri->segment(2);
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard padding-left-20">
         <!-- BOXES -->
         
         <div class="row">

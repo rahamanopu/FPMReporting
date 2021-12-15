@@ -9,7 +9,7 @@
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard padding-left-20">
         <!-- BOXES -->
 
         <div class="row">
@@ -60,7 +60,7 @@
     </div>
     <!-- /BOXES --> 
     <div class="row">
-        <div id="panel-1" class="panel panel-default padding-20">
+        <div id="panel-1" class="panel panel-default padding-left-20">
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
