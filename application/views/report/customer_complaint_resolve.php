@@ -76,7 +76,7 @@
                                     $count = 0;
                                     echo "<th>Resolve</th>";
                                     for($i = 0; $i < count($index); $i++){
-                                        ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_','Per','Prac'), array(' ',' / ','Prac.'), $index[$i]); ?></th><?php
+                                        ?><th><?php echo str_replace(array('_','Per','Prac'), array(' ',' / ','Prac.'), $index[$i]); ?></th><?php
                                     }
                                     ?>
                                     

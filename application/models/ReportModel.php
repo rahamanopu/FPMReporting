@@ -73,7 +73,7 @@ class ReportModel extends CI_Model {
     public function getCustomerComplaint($startDate,$endDate,$report_status){                 
         $sql = "select CC.ComplaintID,CC.ProductCode,CC.BatchNo,
                     case when CC.Solved ='1' then 'Resolved' else 'Pending' end Solved_Status, CC.SolvedComments,
-                    CC.CustomerName,CC.CustomerMobile, convert(varchar, CC.EntryDate, 103) Date ,CC.ComplaintDetails,
+                    CC.CustomerName,CC.CustomerMobile,CC.CustomerType, convert(varchar, CC.EntryDate, 103) Date ,CC.ComplaintDetails,
                     CC.ComplaintImage as Image ,B.BusinessName as Business,UM.UserName,CC.ComplaintCategory
                 from CustomerComplaint CC
                 join Business B on B.Business=CC.Business 

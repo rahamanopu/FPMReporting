@@ -102,6 +102,7 @@
                                         <th>Solved Comments</th>
                                         <th>Customer Name</th>
                                         <th>Customer Mobile</th>
+                                        <th>Customer Type</th>
                                         <th>Date</th>
                                         <th>Complaint Details</th>
                                         <th>Image</th>
@@ -146,6 +147,7 @@
                                         <td><?php echo $item['SolvedComments']?></td>
                                         <td><?php echo $item['CustomerName']?></td>
                                         <td><?php echo $item['CustomerMobile']?></td>
+                                        <td><?php echo $item['CustomerType']?></td>
                                         <td><?php echo $item['Date']?></td>
                                         <td><?php echo $item['ComplaintDetails']?></td>
                                         <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image']; ?>" alt="" style="height:200px;height:100px"></td>
