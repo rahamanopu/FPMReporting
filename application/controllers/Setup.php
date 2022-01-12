@@ -1139,5 +1139,84 @@ CLASS Setup extends MY_Controller {
         return redirect('setup/thana');
     }
 
+    public function productSMSOrder() {
+        $data = [];
+        $data[$this->ajaxDataLimit] = $this->limit;
+        $data[$this->ajaxDataLoadUrl] = base_url().'setup/product-SMS-order-data';
+        $setupModel = new SetupModel();
+        $userId =  $this->session->userdata('userid');
+        $data['pageTitle'] = "Product SMS Order Setup";
+
+        
+        if(isset($_GET['excel']) && ($_GET['excel']=='yes')) {
+            $exportableData = $setupModel->getProductSMSOrderList(); 
+            exportexcel($exportableData, str_replace(" ","_", $data['pageTitle']));              
+        }
+
+        $data['businesses'] = $setupModel->getUserBusiness($userId); 
+        // echo '<pre>',print_r($data['businesses']);die();
+       
+        
+
+        $this->loadView('setup/product_SMS_order',$data);
+    }
+
+    public function productSMSOrderData() {
+        $setupModel = new SetupModel();
+        $result = $setupModel->getProductSMSOrderList();        
+        // echo '<pre>',print_r($result);die();
+        $data = [];
+        foreach ($result['rows'] as $row) {
+            // echo '<pre>',print_r($row);die();
+            $subArray = [];           
+            
+            $subArray[] = $row['ProductCode'];
+            $subArray[] = $row['SMSCODE'];
+            $subArray[] = $row['ProductName'];
+            $subArray[] = $row['Unit'];
+            $subArray[] = $row['PackSizeWT'];
+            $subArray[] = $row['PackSize'];
+            $subArray[] = $row['BrandCode'];
+            $subArray[] = $row['MRP'];
+            $subArray[] = $row['Business'];
+            $subArray[] = "<span id='smsOrder_".$row['ProductCode']."'>".$row['SMSOrder']."</span>";
+
+            if($row['SMSOrder'] == 'Y') {
+                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."'>". 
+                    "<button class='btn btn-sm btn-default'>YES</button>".
+                    "<button class='btn btn-sm btn-primary active'>NO</button>".
+                "</div>";               
+            } else {
+                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."'>". 
+                    "<button class='btn btn-sm btn-primary active'>YES</button>".
+                    "<button class='btn btn-sm btn-default'>NO</button>".
+                "</div>";
+            }
+           
+            
+
+            $data[] = $subArray;
+        }
+        echo json_encode($this->prepareDataTableOutput($data,$result['count']));
+    }
+
+    public function productSMSOrderUpdate() {
+        $productCode = $this->input->post('productCode');
+        $smsOrder = $this->input->post('smsOrder');
+        $userID = $this->session->userdata('userid');
+        $sql = "update [192.168.100.90].SDMS.dbo.product set SMSOrder='$smsOrder' where ProductCode='$productCode'";
+        $sql = "Update [192.168.100.90].SDMS.dbo.product SET
+                    SMSOrder ='$smsOrder'	
+                FROM [192.168.100.90].SDMS.dbo.product P
+                    INNER join UserBusiness UB on UB.Business=P.Business and UB.UserID='$userID'
+                where P.ProductCode='$productCode'";
+        $status = $this->db->query($sql);
+        if($status) {
+            echo json_encode(['success'=> true]);
+        } else {
+            echo json_encode(['success'=> false]);
+        }
+    }
+
 }
 ?>

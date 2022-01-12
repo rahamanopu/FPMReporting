@@ -92,5 +92,10 @@ $route["learning/document-update/(:any)?"] = "learning/documentUpdate/$1";
 
 // CashCustomer price
 $route['cash-cutomer-price-add'] = "CashCustomerProduct/importCashPrice";
+
+// Product Sms Order settings
+$route["setup/product-SMS-order"] = "Setup/productSMSOrder";
+$route["setup/product-SMS-order-data"] = "Setup/productSMSOrderData";
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

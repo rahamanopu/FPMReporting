@@ -476,6 +476,62 @@ class SetupModel extends CI_Model {
         return [];
     }
 
+    public function getProductSMSOrderList()
+    {
+        $userID = $this->session->userdata('userid');
+        $sql = " select 
+                    P.ProductCode,
+                    P.SMSCODE,
+                    P.ProductName,
+                    P.Unit,
+                    P.PackSizeWT,
+                    P.PackSize,
+                    P.BrandCode,
+                    P.MRP,
+                    P.Business,
+                    P.SMSOrder 
+                from [192.168.100.90].SDMS.dbo.product P
+                    join UserBusiness UB on UB.Business=P.Business
+                where P.Active='Y' and UB.UserID='$userID' ";
+        // ************ for Export data
+        if(isset($_GET['excel']) && ($_GET['excel']=='yes')) {
+            $query = $this->db->query($sql);
+            if($query) {
+                return $query->result_array();
+            }
+            return [];
+        }   
+        // ************ end for Export data
+        
+        
+        $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+//        searching
+        if($searchString !='') {
+            $sql .=" and ( ";
+            $sql .=" P.ProductCode like '%".$searchString."%'";
+            $sql .=" or P.SMSCODE like '%".$searchString."%'";
+            $sql .= " or P.ProductName like '%".$searchString."%'";
+            $sql .= " or P.Unit like '%".$searchString."%'";
+            $sql .= " or P.PackSize like '%".$searchString."%'";
+            $sql .= " or P.Business like '%".$searchString."%'";
+
+            $sql .= " )";
+
+        }
+        // ordering
+        if(isset($_POST['order'])) {
+            $orderByColumn = $_POST['order']['0']['column'] + 1;
+            $orderByDirection = $_POST['order']['0']['dir'];
+            $sql .=" order by $orderByColumn $orderByDirection";
+
+        } else{
+            // any one order is must, otherwise Pagination will not work
+            $sql .= " order by 1 DESC";
+        }
+
+        return $this->fetchData($sql);
+    }
+
 }
 
 ?>
