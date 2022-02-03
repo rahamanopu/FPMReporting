@@ -479,30 +479,63 @@ class SetupModel extends CI_Model {
     public function getProductSMSOrderList()
     {
         $userID = $this->session->userdata('userid');
-        $sql = " select 
-                    P.ProductCode,
-                    P.SMSCODE,
-                    P.ProductName,
-                    P.Unit,
-                    P.PackSizeWT,
-                    P.PackSize,
-                    P.BrandCode,
-                    P.MRP,
-                    P.Business,
-                    P.SMSOrder 
-                from [192.168.100.90].SDMS.dbo.product P
-                    join UserBusiness UB on UB.Business=P.Business
-                where P.Active='Y' and UB.UserID='$userID' ";
+        $sql = " SELECT 
+                        * 
+                    FROM (
+                        select 
+                            P.ProductCode,
+                            P.SMSCODE,
+                            P.ProductName,
+                            P.Unit,
+                            P.PackSizeWT,
+                            P.PackSize,
+                            P.BrandCode,
+                            P.MRP,
+                            P.Business,
+                            P.SMSOrder,UB.UserID  
+                        from [192.168.100.90].SDMS.dbo.product P
+                            join UserBusiness UB on UB.Business=P.Business
+                        where P.Active='Y' and UB.UserID = '$userID'
+                        UNION ALL
+                        select 
+                            P.ProductCode,
+                            P.SMSCODE,
+                            P.ProductName,
+                            '' Unit,
+                            '0' PackSizeWT,
+                            P.PackSize,
+                            P.BrandCode,
+                            P.MRP,
+                            P.Business,
+                            P.SMSOrder,UB.UserID  
+                        from [192.168.100.165].SDMSMirror.dbo.product P
+                            join UserBusiness UB on UB.Business=P.Business
+                        where P.Active='Y' and UB.UserID = '$userID'
+                    ) p
+                    WHERE UserID = '$userID' ";
         // ************ for Export data
+
+        //echo $sql; exit(); 
+        $pattern = '/[^A-Za-z0-9\. -#@]/';
         if(isset($_GET['excel']) && ($_GET['excel']=='yes')) {
             $query = $this->db->query($sql);
             if($query) {
-                return $query->result_array();
+                $data = $query->result_array();
+
+                for ($i=0; $i < count($data); $i++) {
+                    $d = preg_replace($pattern, '', $data[$i]['ProductName']);
+                    $data[$i]['ProductName'] = $d;
+                    $d = preg_replace($pattern, '', $data[$i]['PackSize']);
+                    $data[$i]['PackSize'] = $d;
+                    return $data;
+                }
+                //echo '<pre>',print_r($data);die();
+
             }
             return [];
         }   
         // ************ end for Export data
-        
+       
         
         $searchString = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
 //        searching
@@ -523,7 +556,6 @@ class SetupModel extends CI_Model {
             $orderByColumn = $_POST['order']['0']['column'] + 1;
             $orderByDirection = $_POST['order']['0']['dir'];
             $sql .=" order by $orderByColumn $orderByDirection";
-
         } else{
             // any one order is must, otherwise Pagination will not work
             $sql .= " order by 1 DESC";

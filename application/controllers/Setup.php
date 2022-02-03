@@ -1150,6 +1150,7 @@ CLASS Setup extends MY_Controller {
         
         if(isset($_GET['excel']) && ($_GET['excel']=='yes')) {
             $exportableData = $setupModel->getProductSMSOrderList(); 
+            //echo '<pre>',print_r($exportableData);die();
             exportexcel($exportableData, str_replace(" ","_", $data['pageTitle']));              
         }
 
@@ -1182,12 +1183,12 @@ CLASS Setup extends MY_Controller {
             $subArray[] = "<span id='smsOrder_".$row['ProductCode']."'>".$row['SMSOrder']."</span>";
 
             if($row['SMSOrder'] == 'Y') {
-                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."'>". 
+                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."' data-Business='".$row['Business']."'>". 
                     "<button class='btn btn-sm btn-default'>YES</button>".
                     "<button class='btn btn-sm btn-primary active'>NO</button>".
                 "</div>";               
             } else {
-                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."'>". 
+                $subArray[] = "<div class='btn-group btn-toggle' data-productCode='".$row['ProductCode']."' data-smsOrder='".$row['SMSOrder']."' data-Business='".$row['Business']."'>". 
                     "<button class='btn btn-sm btn-primary active'>YES</button>".
                     "<button class='btn btn-sm btn-default'>NO</button>".
                 "</div>";
@@ -1203,13 +1204,24 @@ CLASS Setup extends MY_Controller {
     public function productSMSOrderUpdate() {
         $productCode = $this->input->post('productCode');
         $smsOrder = $this->input->post('smsOrder');
+        $business = $this->input->post('business');
         $userID = $this->session->userdata('userid');
-        $sql = "update [192.168.100.90].SDMS.dbo.product set SMSOrder='$smsOrder' where ProductCode='$productCode'";
-        $sql = "Update [192.168.100.90].SDMS.dbo.product SET
+
+        if($businss = 'C'){
+            $sql = "Update [192.168.100.165].SDMSMirror.dbo.product SET
+                    SMSOrder ='$smsOrder'	
+                FROM [192.168.100.165].SDMSMirror.dbo.product P
+                    INNER join UserBusiness UB on UB.Business=P.Business and UB.UserID='$userID'
+                where P.ProductCode='$productCode'";
+        }else{
+            $sql = "Update [192.168.100.90].SDMS.dbo.product SET
                     SMSOrder ='$smsOrder'	
                 FROM [192.168.100.90].SDMS.dbo.product P
                     INNER join UserBusiness UB on UB.Business=P.Business and UB.UserID='$userID'
                 where P.ProductCode='$productCode'";
+        }
+
+        
         $status = $this->db->query($sql);
         if($status) {
             echo json_encode(['success'=> true]);

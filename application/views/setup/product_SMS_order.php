@@ -54,6 +54,7 @@
             var btnGroup = $(this); 
             var productCode = btnGroup.attr('data-productCode');
             var smsOrderStatus = btnGroup.attr('data-smsOrder');
+            var business = btnGroup.attr('data-business');
             var newOrderStatus = (smsOrderStatus=='Y') ? 'N':'Y'; 
             console.log("==========",productCode,"======",smsOrderStatus,"======",newOrderStatus);
             // return true;
@@ -63,6 +64,7 @@
                 data:{
                     'productCode' : productCode,
                     'smsOrder' : newOrderStatus,
+                    'business' : business,
                 },
                 dataType:'json',
                 type:'post',
