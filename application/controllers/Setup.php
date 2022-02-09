@@ -1207,7 +1207,7 @@ CLASS Setup extends MY_Controller {
         $business = $this->input->post('business');
         $userID = $this->session->userdata('userid');
 
-        if($businss = 'C'){
+        if($business == 'C'){
             $sql = "Update [192.168.100.165].SDMSMirror.dbo.product SET
                     SMSOrder ='$smsOrder'	
                 FROM [192.168.100.165].SDMSMirror.dbo.product P
