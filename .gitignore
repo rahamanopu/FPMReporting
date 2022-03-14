@@ -1,0 +1,6 @@
+.idea
+.idea/*
+uploads/*
+
+#system Folder as it is confiagured in centrally
+system
