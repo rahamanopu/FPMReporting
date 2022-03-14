@@ -107,6 +107,8 @@
                                         <th>Complaint Details</th>
                                         <th>Image</th>
                                         <th>Business</th>                                   
+                                        <th>Entry By</th>                                   
+                                        <th>Designation</th>                                   
                                 
                                         
                                     </tr>
@@ -152,6 +154,8 @@
                                         <td><?php echo $item['ComplaintDetails']?></td>
                                         <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image']; ?>" alt="" style="height:200px;height:100px"></td>
                                         <td><?php echo $item['Business']?></td>
+                                        <td><?php echo $item['UserName']?></td>
+                                        <td><?php echo $item['Designation']?></td>
 
                                         
                                     </tr>

@@ -74,7 +74,8 @@ class ReportModel extends CI_Model {
         $sql = "select CC.ComplaintID,CC.ProductCode,CC.BatchNo,
                     case when CC.Solved ='1' then 'Resolved' else 'Pending' end Solved_Status, CC.SolvedComments,
                     CC.CustomerName,CC.CustomerMobile,CC.CustomerType, convert(varchar, CC.EntryDate, 103) Date ,CC.ComplaintDetails,
-                    CC.ComplaintImage as Image ,B.BusinessName as Business,UM.UserName,CC.ComplaintCategory
+                    CC.ComplaintImage as Image ,B.BusinessName as Business,
+                    UM.UserName, UM.Designation, CC.ComplaintCategory
                 from CustomerComplaint CC
                 join Business B on B.Business=CC.Business 
                 join [192.168.100.21].[SDMSMirror].dbo.UserManager UM on UM.UserId=CC.EntryBy
