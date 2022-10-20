@@ -36,6 +36,30 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+    
+    public function getAhDoctorReport(){                 
+        $sql = "SELECT *  from AHDoctor"; 
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+    
+    public function getFarmReport(){                 
+        $sql = "SELECT *  from FirmMaster"; 
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
     public function getOrderAndCollectionReport($startDate,$endDate,$business,$report_status,$userid){                 
         $sql = "EXEC usp_doLoadOrderAndCollectionReport  '$startDate','$endDate','$business','$report_status','$userid' "; 
         if ($business == 'D') {

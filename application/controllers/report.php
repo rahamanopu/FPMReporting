@@ -103,6 +103,106 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/daily_attendancereport',$data);
     }
 
+    public function ahDoctorReport() {
+        $data['action'] = 'report/ahDoctorReport';
+        $data['pageTitel'] = 'AH Doctor Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        // $userlevel = $this->session->userdata('userLevel');
+        $userlevel = '';
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        
+        $commonData = new Common_data();
+        $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        // echo '<pre>',print_r($data['userBusinesses']);die();
+        // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
+
+            $data['business'] = $this->input->get_post("business", TRUE);           
+
+            // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getAhDoctorReport();
+                exportexcel($datas['priorityData'],$filename = "ah_doctor_report".time());
+            } else {
+                $datas = $reportModel->getAhDoctorReport();
+                $data['priorityData'] = $datas['priorityData'];
+            }
+            // echo '<pre>',print_r($data['priorityData']);die();
+            
+                                  
+        }
+
+        // $this->loadView('report/common_report',$data);
+        $this->loadView('report/ah_doctor_report',$data);
+    }
+    
+    public function FarmReport() {
+        $data['action'] = 'report/farmReport';
+        $data['pageTitel'] = 'Farm Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        // $userlevel = $this->session->userdata('userLevel');
+        $userlevel = '';
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        
+        $commonData = new Common_data();
+        $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        // echo '<pre>',print_r($data['userBusinesses']);die();
+        // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['period'] = '';
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
+
+            $data['business'] = $this->input->get_post("business", TRUE);           
+
+            // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getFarmReport();
+                exportexcel($datas['priorityData'],$filename = "farm_report".time());
+            } else {
+                $datas = $reportModel->getFarmReport();
+                $data['priorityData'] = $datas['priorityData'];
+            }
+            // echo '<pre>',print_r($data['priorityData']);die();
+            
+                                  
+        }
+
+        // $this->loadView('report/common_report',$data);
+        $this->loadView('report/ah_doctor_report',$data);
+    }
+
     public function orderAndCollection() {
         $data['action'] = 'report/orderAndCollection';
         $data['pageTitel'] = 'Order And Collection Report';
