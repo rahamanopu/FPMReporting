@@ -37,8 +37,11 @@ class ReportModel extends CI_Model {
         return $data;
     }
     
-    public function getAhDoctorReport(){                 
-        $sql = "SELECT *  from AHDoctor"; 
+    public function getAhDoctorReport(){ 
+        
+        
+
+        $sql = "select * from AhDoctor"; 
         $query = $this->db->query($sql); 
         $e = $this->db->_error_message();   
         $data = [];             
@@ -49,8 +52,24 @@ class ReportModel extends CI_Model {
         return $data;
     }
     
-    public function getFarmReport(){                 
-        $sql = "SELECT *  from FirmMaster"; 
+    public function getFarmCount()
+    {
+        $sql1 = "SELECT count(FirmID) as totalCount from FirmMaster";
+        $query1 = $this->db->query($sql1);
+        if($query1 != false){
+            return $data['totalCount'] = $query1->result()[0]->totalCount;
+            // echo "<pre/>";print_r($data['totalCount']);exit();
+        }else{
+            return $data['totalCount'] = 0;
+        }
+    }
+    public function getFarmReport($limit, $page)
+    {  
+        $sql = "SELECT * From (
+            select 
+            row_number() over (order by FirmID desc) sl,
+            * from FirmMaster
+            ) S where sl between $page and $limit"; 
         $query = $this->db->query($sql); 
         $e = $this->db->_error_message();   
         $data = [];             

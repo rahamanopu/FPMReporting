@@ -163,9 +163,10 @@ if (!empty($periodformat)) {
                             ?>
                             </tbody>
                         </table>
+                        
                     </div>
                     <?php } ?>
-
+                    <p class="pull-right" style="font-size: 20px;"><?php echo $links; ?></p>
             </div>
         </div>
     </div>
