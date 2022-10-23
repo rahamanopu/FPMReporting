@@ -166,7 +166,9 @@ if (!empty($periodformat)) {
                         
                     </div>
                     <?php } ?>
-                    <p class="pull-right" style="font-size: 20px;"><?php echo $links; ?></p>
+                    <div>
+                        <p style="font-size: 20px;text-align:center;"><?php echo $links; ?></p>
+                    </div>
             </div>
         </div>
     </div>

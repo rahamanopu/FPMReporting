@@ -37,46 +37,33 @@ class ReportModel extends CI_Model {
         return $data;
     }
     
-    public function getAhDoctorReport(){ 
-        
-        
+    public function get_doctor_count() {
+        return $this->db->count_all('AhDoctor');
+    }
 
-        $sql = "select * from AhDoctor"; 
-        $query = $this->db->query($sql); 
-        $e = $this->db->_error_message();   
-        $data = [];             
-        if ($e == '') {
-            $data['priorityData'] = $query->result_array();          
-                                 
-        }       
+    public function getAhDoctorReport($limit, $start){ 
+        
+        $this->db->limit($limit, $start);
+        $query = $this->db->query("SELECT  * FROM     AhDoctor ORDER BY DoctorID desc 
+                                    OFFSET  $start ROWS 
+                                    FETCH NEXT $limit ROWS ONLY ");
+
+        $data['priorityData'] = $query->result_array();       
         return $data;
     }
     
-    public function getFarmCount()
-    {
-        $sql1 = "SELECT count(FirmID) as totalCount from FirmMaster";
-        $query1 = $this->db->query($sql1);
-        if($query1 != false){
-            return $data['totalCount'] = $query1->result()[0]->totalCount;
-            // echo "<pre/>";print_r($data['totalCount']);exit();
-        }else{
-            return $data['totalCount'] = 0;
-        }
+    public function get_farm_count() {
+        return $this->db->count_all('FirmMaster');
     }
-    public function getFarmReport($limit, $page)
+
+    public function getFarmReport($limit, $start)
     {  
-        $sql = "SELECT * From (
-            select 
-            row_number() over (order by FirmID desc) sl,
-            * from FirmMaster
-            ) S where sl between $page and $limit"; 
-        $query = $this->db->query($sql); 
-        $e = $this->db->_error_message();   
-        $data = [];             
-        if ($e == '') {
-            $data['priorityData'] = $query->result_array();          
-                                 
-        }       
+        $this->db->limit($limit, $start);
+        $query = $this->db->query("SELECT  * FROM     FirmMaster ORDER BY FirmID desc 
+                                    OFFSET  $start ROWS 
+                                    FETCH NEXT $limit ROWS ONLY ");
+
+        $data['priorityData'] = $query->result_array();       
         return $data;
     }
     public function getOrderAndCollectionReport($startDate,$endDate,$business,$report_status,$userid){                 
