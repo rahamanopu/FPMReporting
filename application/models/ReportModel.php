@@ -41,6 +41,14 @@ class ReportModel extends CI_Model {
         return $this->db->count_all('AhDoctor');
     }
 
+    public function getAhDoctorReportAll()
+    {
+        $query = $this->db->query("SELECT  * FROM     AhDoctor");
+
+        $data['priorityData'] = $query->result_array();       
+        return $data;
+    }
+
     public function getAhDoctorReport($limit, $start){ 
         
         $this->db->limit($limit, $start);
@@ -54,6 +62,14 @@ class ReportModel extends CI_Model {
     
     public function get_farm_count() {
         return $this->db->count_all('FirmMaster');
+    }
+    
+    public function getFarmReportAll()
+    {
+        $query = $this->db->query("SELECT  * FROM     FirmMaster");
+
+        $data['priorityData'] = $query->result_array();       
+        return $data;
     }
 
     public function getFarmReport($limit, $start)

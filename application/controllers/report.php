@@ -140,7 +140,7 @@ CLASS Report extends MY_Controller {
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getAhDoctorReport();
+                $datas = $reportModel->getAhDoctorReportAll();
                 exportexcel($datas['priorityData'],$filename = "ah_doctor_report".time());
             } else {
                 $config = array();
@@ -203,7 +203,7 @@ CLASS Report extends MY_Controller {
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getFarmReport();
+                $datas = $reportModel->getFarmReportAll();
                 exportexcel($datas['priorityData'],$filename = "farm_report".time());
             } else {
                 $config = array();
