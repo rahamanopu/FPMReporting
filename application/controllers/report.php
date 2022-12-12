@@ -10,6 +10,7 @@ CLASS Report extends MY_Controller {
         $this->load->helper('ri');
         $this->load->model('common_data');
         $this->load->model('ReportModel');
+        $this->load->helper('url');
         $this->load->library("pagination");
     }
 
@@ -123,7 +124,7 @@ CLASS Report extends MY_Controller {
         // echo '<pre>',print_r($data['userBusinesses']);die();
         // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
-        if (!empty($_POST) OR ! empty($_GET)) {             
+        // if (!empty($_POST) OR ! empty($_GET)) {             
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
             $data['period'] = '';
@@ -139,16 +140,29 @@ CLASS Report extends MY_Controller {
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getAhDoctorReport();
+                $datas = $reportModel->getAhDoctorReportAll();
                 exportexcel($datas['priorityData'],$filename = "ah_doctor_report".time());
             } else {
-                $datas = $reportModel->getAhDoctorReport();
+                $config = array();
+                $config["base_url"] = base_url() . "report/ahDoctorReport";
+                $config["total_rows"] = $reportModel->get_doctor_count();
+                $config["per_page"] = 10;
+                $config["uri_segment"] = 3;
+                
+                $this->pagination->initialize($config);
+
+                $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+                // echo "<pre/>";print_r($page);exit();
+                $data["links"] = $this->pagination->create_links();
+               
+                $datas = $reportModel->getAhDoctorReport($config["per_page"], $page);
+
                 $data['priorityData'] = $datas['priorityData'];
             }
             // echo '<pre>',print_r($data['priorityData']);die();
             
                                   
-        }
+        // }
 
         // $this->loadView('report/common_report',$data);
         $this->loadView('report/ah_doctor_report',$data);
@@ -189,15 +203,15 @@ CLASS Report extends MY_Controller {
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getFarmReport();
+                $datas = $reportModel->getFarmReportAll();
                 exportexcel($datas['priorityData'],$filename = "farm_report".time());
             } else {
                 $config = array();
                 $config["base_url"] = base_url() . "report/farmReport";
-                $config["total_rows"] = $reportModel->getFarmCount();
-                $config["per_page"] = 2;
+                $config["total_rows"] = $reportModel->get_farm_count();
+                $config["per_page"] = 10;
                 $config["uri_segment"] = 3;
-
+                
                 $this->pagination->initialize($config);
 
                 $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
