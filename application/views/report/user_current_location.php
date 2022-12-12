@@ -9,7 +9,7 @@
 }
 </style>
 <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
+  src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('google_paid_app_key');?>">
 </script>
 <script defer
   src="http://maps.mis.digital/leaflet/leaflet-routing-machine.js">

@@ -69,14 +69,14 @@ class MY_Controller extends CI_Controller
         //print "check access";  
     }
 
-    public function loadView($page, $data = [], $template = 'dasboard')
+    public function loadView($page, $data = [], $template = 'dashboard')
     {
         $templateData['head'] = $this->load->view('template/head', $data, true);
         $templateData['header'] = $this->load->view('template/header', $data, true);
         $templateData['menu'] = $this->load->view('template/menu', $data, true);
         $templateData['content'] = $this->load->view($page, $data, true);
         $templateData['footer'] = $this->load->view('template/footer', $data, true);
-        $this->load->view('dashboard', $templateData);
+        $this->load->view($template, $templateData);
     }
 
 

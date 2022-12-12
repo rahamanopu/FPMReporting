@@ -20,7 +20,7 @@
 
 <script src="<?php echo base_url(); ?>assets/js/levelManagement.js"></script>
 <script defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsuzNnJrvwFhot_ciZ7wkArQmHCj38ZaI">
+    src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('google_paid_app_key');?>">
 </script>
 
 
@@ -113,7 +113,7 @@ if (!empty($periodformat)) {
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default" href="<?php echo base_url().$action.'?fmecode='.$fmecode.'&period='.$period.'&excel=yes'; ?>">
+                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
@@ -168,9 +168,10 @@ if (!empty($periodformat)) {
                                         }else{ 
                                             if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
                                                 ?>
-                                                <td><img src="<?php echo 'https://s3.amazonaws.com/acifpmattendance/'.$value; ?>" alt="" style="height:200px;height:100px">
-                                                    <br>
-                                                    <a href="<?php echo base_url().'download-image/'.$value?>" class="">Download</a>
+                                                <td>
+                                                    <img class="imageUrlPopupButton" data-imageName="<?php echo $this->config->item('acifpm_attendance_image_url').$value;?>"
+                                                            src="<?php echo $this->config->item('acifpm_attendance_image_url').$value; ?>" alt="" style="height:200px;height:100px;cursor: zoom-in;">
+                                                    
                                                 </td>
                                                 <?php
                                             } else {

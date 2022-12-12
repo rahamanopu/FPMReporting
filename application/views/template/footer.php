@@ -177,6 +177,13 @@ $(document).ready(function(){
                 $(this).closest('.sarah-has-menu').addClass('active');
             }
         });
+
+        $(document).on('click','.imageUrlPopupButton',function() {       
+        $('#imagePopupButtonModal').modal('toggle');
+        var rxeName = $(this).attr('data-imageName');
+        $("#imageShow").attr("src",rxeName);       
+
+    });
             
         
                

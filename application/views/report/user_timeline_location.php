@@ -2,7 +2,7 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA314FGZVFCCGwhCRx90rlB0WZHsH-kJDY">
 </script> -->
 <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsuzNnJrvwFhot_ciZ7wkArQmHCj38ZaI">
+  src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('google_paid_app_key');?>">
 </script>
       
 
