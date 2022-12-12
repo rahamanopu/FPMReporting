@@ -85,7 +85,7 @@ if (!empty($periodformat)) {
 
                         <?php if(isset($showDateToField)){?>
                             <div class="col-md-1"  style="margin-top:5px;">
-                                Date TO
+                                Date To
                             </div>
                             <div class="col-md-3"  style="margin-top:5px;">
                                 <input type="text" name="endDate" autocomplete="off"
