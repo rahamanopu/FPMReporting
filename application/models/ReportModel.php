@@ -43,7 +43,10 @@ class ReportModel extends CI_Model {
 
     public function getAhDoctorReportAll()
     {
-        $query = $this->db->query("SELECT  * FROM     AhDoctor");
+        $query = $this->db->query("SELECT  ah.*,convert(varchar, acr.DoctorBirthday, 23) as DoctorBirthday, 
+                                    convert(varchar, acr.SpouseBirthday, 23) as SpouseBirthday  
+                                    FROM AhDoctor as ah
+                                    left join AHDoctorCRMData as acr on ah.DoctorID=acr.DoctorID");
 
         $data['priorityData'] = $query->result_array();       
         return $data;
@@ -52,7 +55,11 @@ class ReportModel extends CI_Model {
     public function getAhDoctorReport($limit, $start){ 
         
         $this->db->limit($limit, $start);
-        $query = $this->db->query("SELECT  * FROM     AhDoctor ORDER BY DoctorID desc 
+        $query = $this->db->query("SELECT  ah.*,convert(varchar, acr.DoctorBirthday, 23) as DoctorBirthday, 
+                                    convert(varchar, acr.SpouseBirthday, 23) as SpouseBirthday  
+                                    FROM AhDoctor as ah
+                                    left join AHDoctorCRMData as acr on ah.DoctorID=acr.DoctorID
+                                    ORDER BY DoctorID desc 
                                     OFFSET  $start ROWS 
                                     FETCH NEXT $limit ROWS ONLY ");
 
