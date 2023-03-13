@@ -379,5 +379,6 @@ $config['img'] =  $config['base_url'].APPPATH.'assets/images';
 $config['softwarename'] = 'FPM Reporting';
 
 $config['app_image_base_url'] ='http://apps.acibd.com/apps/gti/';
+$config['app_image_base_url_s3'] ='https://gti-app.s3.ap-southeast-1.amazonaws.com/';
 $config['acifpm_attendance_image_url'] ='https://acifpmattendance.s3.amazonaws.com/';
 $config['google_paid_app_key'] ='AIzaSyBXPyPiAG0udShNZtQnRDswNHclnFXDszQ';

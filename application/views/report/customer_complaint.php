@@ -126,6 +126,8 @@
                                     else if($item['ComplaintCategory'] == 'red') {
                                         $selectBoxStyle = "background-color:#FF0000;color:#fff";
                                     }
+
+                                    $imageUrl =  (file_exists($this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image'])) ? $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image'] : $this->config->item('app_image_base_url_s3').'uploads/PaintComplaint/'.$item['Image'];
                                     
                                     ?>
                                     <tr>
@@ -152,7 +154,9 @@
                                         <td><?php echo $item['CustomerType']?></td>
                                         <td><?php echo $item['Date']?></td>
                                         <td><?php echo $item['ComplaintDetails']?></td>
-                                        <td><img src="<?php echo $this->config->item('app_image_base_url').'uploads/PaintComplaint/'.$item['Image']; ?>" alt="" style="height:200px;height:100px"></td>
+                                        <td><img class="imageUrlPopupButton" data-imageName="<?php echo $imageUrl;?>"
+                                            src="<?php echo $imageUrl;?>"
+                                            alt="" style="height:200px;height:100px;cursor: zoom-in;"></td>
                                         <td><?php echo $item['Business']?></td>
                                         <td><?php echo $item['UserName']?></td>
                                         <td><?php echo $item['Designation']?></td>
