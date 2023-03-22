@@ -55,9 +55,11 @@ class ReportModel extends CI_Model {
     public function getAhDoctorReport($limit, $start){ 
         
         $this->db->limit($limit, $start);
-        $query = $this->db->query("SELECT  ah.DoctorID,CategoryID,DoctorLocation,DoctorLocationLat,DoctorLocationLon,DoctorName,Qualification,Institute,Designation,SpecialityID,Address,MobileNo,EmailAddress,FacebookID,NoOfPatient,WorkingDays,DepotCode,TTYCode,CustomerCode,CustomerName,DoctorClassID,Active,EntryBy,EntryDate,EditedBy,EditedDate,Remarks,
+        $query = $this->db->query("SELECT  ah.DoctorID,CategoryID,DoctorLocation,DoctorLocationLat,DoctorLocationLon,DoctorName,Qualification,Institute,Designation,SpecialityID,Address,MobileNo,EmailAddress,FacebookID,NoOfPatient,WorkingDays,DepotCode,TTYCode,CustomerCode,CustomerName,DoctorClassID,
+                                        Active,EntryBy,EntryDate,EditedBy,EditedDate,Remarks,
                                             convert(varchar, acr.DoctorBirthday, 23) as DoctorBirthday, 
                                             convert(varchar, acr.SpouseBirthday, 23) as SpouseBirthday ,
+                                            convert(varchar, acr.MarriageAnniversrryDay, 23) as MarriageAnniversrryDay,
                                             MAX(case when acd.ChildSL = 1 THEN convert(varchar, ChildBirthday, 23) ELSE NULL END) Child_1,
                                             MAX(case when acd.ChildSL = 2 THEN convert(varchar, ChildBirthday, 23) ELSE NULL END) Child_2,
                                             MAX(case when acd.ChildSL = 3 THEN convert(varchar, ChildBirthday, 23) ELSE NULL END) Child_3,
@@ -67,7 +69,7 @@ class ReportModel extends CI_Model {
                                     left join AHDoctorCRMData as acr on ah.DoctorID=acr.DoctorID
                                     left join AHDoctorChildInfo as acd on ah.DoctorID=acd.DoctorID
                                     GROUP BY ah.DoctorID,CategoryID,DoctorLocation,DoctorLocationLat,DoctorLocationLon,DoctorName,Qualification,Institute,Designation,SpecialityID,Address,MobileNo,EmailAddress,FacebookID,NoOfPatient,WorkingDays,DepotCode,TTYCode,CustomerCode,CustomerName,DoctorClassID,Active,EntryBy,EntryDate,EditedBy,EditedDate,Remarks,
-                                            acr.DoctorBirthday, acr.SpouseBirthday
+                                            acr.DoctorBirthday, acr.SpouseBirthday,acr.MarriageAnniversrryDay
                                     ORDER BY ah.DoctorID desc 
                                     OFFSET  $start ROWS 
                                     FETCH NEXT $limit ROWS ONLY ");
