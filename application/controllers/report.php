@@ -141,6 +141,7 @@ CLASS Report extends MY_Controller {
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
                 $datas = $reportModel->getAhDoctorReportAll();
+				//echo "<pre />"; print_r($datas['priorityData']); exit();
                 exportexcel($datas['priorityData'],$filename = "ah_doctor_report".time());
             } else {
                 $config = array();
