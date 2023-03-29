@@ -44,7 +44,8 @@ class ReportModel extends CI_Model {
     public function getAhDoctorReportAll()
     {
         $query = $this->db->query("SELECT  ah.*,convert(varchar, acr.DoctorBirthday, 23) as DoctorBirthday, 
-                                    convert(varchar, acr.SpouseBirthday, 23) as SpouseBirthday  
+                                    convert(varchar, acr.SpouseBirthday, 23) as SpouseBirthday,
+                                    convert(varchar, acr.MarriageAnniversrryDay, 23) as MarriageAnniversrryDay  
                                     FROM AhDoctor as ah
                                     left join AHDoctorCRMData as acr on ah.DoctorID=acr.DoctorID");
 
