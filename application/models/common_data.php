@@ -154,6 +154,21 @@ class Common_data extends CI_Model {
         }
         return [];
     }
+
+    public function getLevel2($business) {
+        $sql = "select Level2,Level2Name,Designation,Business
+                from [192.168.100.20].SDMSMIRROR.dbo.Level2 
+                where Level2 !='' and Business='$business'
+                group by Level2,Level2Name,Designation,Business";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('default',true);
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
 	
 	
 }

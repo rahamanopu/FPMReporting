@@ -105,6 +105,57 @@ CLASS Report extends MY_Controller {
         $this->loadView('report/daily_attendancereport',$data);
     }
 
+    public function dailyActivityReport() {
+        $data['action'] = 'report/dailyActivityReport';
+        $data['pageTitel'] = 'Daily Activity Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        // $userlevel = $this->session->userdata('userLevel');
+        $userlevel = '';
+
+        $data['showDateToField'] = true;       
+        $data['showDateFromField'] = true;
+       
+        $business = 'C';
+        $commonData = new Common_data();
+        // $data['userBusinesses'] = $commonData->getUserBusiness($data['userid']);
+        $data['level2s'] = $commonData->getLevel2($business);
+        // echo '<pre>',print_r($data['userBusinesses']);die();
+        // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
+
+        if (!empty($_POST) OR ! empty($_GET)) {             
+            $data['startDate'] = $this->input->get_post('startDate');
+            $data['endDate'] = $this->input->get_post('endDate');
+            $data['level2'] = $this->input->get_post('level2');
+
+            $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+            $data['areacode'] = $this->input->get_post("areacode", TRUE);
+            $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
+
+            $data['business'] = $business;           
+
+            // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
+            // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
+            
+            $reportModel = new ReportModel();
+            if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+                $datas = $reportModel->getDailyActivityData($business, $data['level2'],$data['startDate'],$data['endDate']);
+                exportexcel($datas['priorityData'], str_replace(" ", "_",$data['pageTitel']).'_'.time());
+            } else {
+                $datas = $reportModel->getDailyActivityData($business, $data['level2'], $data['startDate'],$data['endDate']);
+                $data['priorityData'] = $datas['priorityData'];
+            }
+            // echo '<pre>',print_r($data['priorityData']);die();
+            
+                                  
+        }
+
+        // $this->loadView('report/common_report',$data);
+        $this->loadView('report/daily_activity',$data);
+    }
+
     public function ahDoctorReport() {
         $data['action'] = 'report/ahDoctorReport';
         $data['pageTitel'] = 'AH Doctor Report';

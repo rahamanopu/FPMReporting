@@ -37,6 +37,23 @@ class ReportModel extends CI_Model {
         return $data;
     }
     
+    public function getDailyActivityData($business,$level2,$startDate, $endDate){
+                         
+        $sql = " EXEC usp_getDailyActivity  '$business','$level2','$startDate', '$endDate' "; 
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('default',true);
+        
+        $query = $this->db->query($sql); 
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();          
+                                 
+        }       
+        return $data;
+    }
+    
     public function get_doctor_count() {
         return $this->db->count_all('AhDoctor');
     }
