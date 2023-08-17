@@ -18,11 +18,11 @@ if (!empty($periodformat)) {
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard">
         <!-- BOXES -->
 
         <div class="row">
-            <div id="panel-1" class="panel panel-default">
+            <div id="panel-1" class="panel panel-default padding-20">
 
                 <div class="panel-body">
                     <fieldset>
@@ -32,7 +32,7 @@ if (!empty($periodformat)) {
                         <div class="col-md-1">
                             ASM
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select name="level2" id="level2" class="form-control select2">
                                 <option value="">-- Select --</option>
                                 <?php foreach($level2s as $item) {
@@ -50,7 +50,7 @@ if (!empty($periodformat)) {
                             <div class="col-md-1"  style="margin-top:5px;">
                                 Date From
                             </div>
-                            <div class="col-md-3"  style="margin-top:5px;">
+                            <div class="col-md-2"  style="margin-top:5px;">
                                 <input type="text" name="startDate" autocomplete="off"
                                     id="" class="form-control datePicker" 
                                     required="required"
@@ -64,7 +64,7 @@ if (!empty($periodformat)) {
                             <div class="col-md-1"  style="margin-top:5px;">
                                 Date To
                             </div>
-                            <div class="col-md-3"  style="margin-top:5px;">
+                            <div class="col-md-2"  style="margin-top:5px;">
                                 <input type="text" name="endDate" autocomplete="off"
                                     id="" class="form-control datePicker" 
                                     required="required"
@@ -73,11 +73,13 @@ if (!empty($periodformat)) {
                                     } ?>">
                             </div>
                         <?php }?>
-                    </div>
+
                     <div class="col-md-2">
                         <input type="submit" value="Submit"
-                            name="submit" class="btn btn-primary">
-                    </div> 
+                        name="submit" class="btn btn-primary margin-top-3">
+                    </div>
+                    </div>
+                     
                 </div>
                 </form>
                 </fieldset>
@@ -86,24 +88,23 @@ if (!empty($periodformat)) {
     </div>
     <!-- /BOXES --> 
     <div class="row">
-        <div id="panel-1" class="panel panel-default">
+        <div id="panel-1" class="panel panel-default padding-20">
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&excel=yes'; ?>">
+                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&level2='.$level2.'&startDate='.$startDate.'&endDate='.$endDate.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
                         <table class="table table-bordered table-hover  table-striped" id="commontable">
                             <thead>                            
-                                <tr>         
-                                    <?php
-                                    $index = array_keys($priorityData[0]);
-                                    $count = 0;
-                                    for($i = 0; $i < count($index); $i++){
-                                        ?><th <?php if($i < 12){ ?> class="brackgroundwhtie" <?php } ?>><?php echo str_replace(array('_','Per','Prac'), array(' ',' / ','Prac.'), $index[$i]); ?></th><?php
-                                    }
-                                    ?>
+                                <tr>
+                                    <td>User Name</td>
+                                    <td>Visit Purpose</td>
+                                    <td>Customer Code</td>
+                                    <td>Customer Name</td>
+                                    <td>Image</td>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,45 +112,18 @@ if (!empty($periodformat)) {
                             
 
                             $count = 0;
-                            for ($i = 0; $i < count($priorityData); $i++) { $count++;
-                                $arrayvalue = array_values($priorityData[$i]);
+                            foreach ($priorityData as $key=> $item) {
+                                 
                                 ?>
                                 <tr>
-                                    <?php
-                                    $date = '';
-                                    $level = '';
-                                    // echo '<pre>',print_r($index);die();
-                                    for ($j = 0; $j < count($index); $j++) {
-                                        $value = $arrayvalue[$j];   
-                                        if($date=='' && $index[$j] == 'WorkingDate') {
-                                            $date =$arrayvalue[$j];                                   
-                                        }
-                                        if($level=='' && $index[$j] == 'UserId') {
-                                            $level =$arrayvalue[$j];                                   
-                                        }
-                                        if (is_numeric($value)) { 
-                                            if($j > 11){
-                                                echo "<td style='text-align: right;'>" . number_format($value,1)."</td>"; 
-                                            }else{
-                                                echo "<td style='text-align: right;'>" . $value."</td>"; 
-                                            }
-
-                                        }else{ 
-                                            if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
-                                                ?>
-                                                <td>
-                                                    <img class="imageUrlPopupButton" data-imageName="<?php echo $this->config->item('acifpm_attendance_image_url').$value;?>"
-                                                            src="<?php echo $this->config->item('acifpm_attendance_image_url').$value; ?>" alt="" style="height:200px;height:100px;cursor: zoom-in;">
-                                                    
-                                                </td>
-                                                <?php
-                                            } else {
-                                                echo "<td>" . $value."</td>"; 
-                                            }
-
-                                        }
-                                    } 
-                                    ?>
+                                    <td><?php echo $item['UserName'];?></td>
+                                    <td><?php echo $item['VisitPurpose'];?></td>
+                                    <td><?php echo $item['CustomerCode'];?></td>
+                                    <td><?php echo $item['Customer_Address'];?></td>
+                                    <td>
+                                        <img class="imageUrlPopupButton" data-imageName="<?php echo $this->config->item('app_image_base_url').'uploads/daily_activity/'.$item['Image'];?>" 
+                                             src="<?php echo $this->config->item('app_image_base_url').'uploads/daily_activity/'. $item['Image'];?>"
+                                             width="50" height="auto"></td>                                    
                                     
                                 </tr>
 

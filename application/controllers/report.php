@@ -146,8 +146,9 @@ CLASS Report extends MY_Controller {
             } else {
                 $datas = $reportModel->getDailyActivityData($business, $data['level2'], $data['startDate'],$data['endDate']);
                 $data['priorityData'] = $datas['priorityData'];
+                // echo '<pre>',print_r($data['priorityData']);die();
+
             }
-            // echo '<pre>',print_r($data['priorityData']);die();
             
                                   
         }

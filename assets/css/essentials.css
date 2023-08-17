@@ -9867,3 +9867,8 @@ li > a{
 ul{
 	padding-left: 5px;
 }
+
+.imageUrlPopupButton {
+	cursor: -webkit-zoom-in;
+	cursor: zoom-in;
+}
