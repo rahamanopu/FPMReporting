@@ -41,11 +41,11 @@ if (!empty($periodformat)) {
     </div> 
 
 
-    <div id="content" class="dashboard padding-20">
+    <div id="content" class="dashboard">
         <!-- BOXES -->
 
         <div class="row">
-            <div id="panel-1" class="panel panel-default">
+            <div id="" class="panel panel-default padding-20">
 
                 <div class="panel-body">
                     <fieldset>
@@ -56,7 +56,7 @@ if (!empty($periodformat)) {
                             Business
                         </div>
                         <div class="col-md-3">
-                            <select name="business" id="business" class="form-control">
+                            <select name="business" id="business" class="form-control select2">
                                 <option value="">-- Select --</option>
                                 <?php foreach($userBusinesses as $userBusiness) {
                                     ?>
@@ -109,7 +109,7 @@ if (!empty($periodformat)) {
     </div>
     <!-- /BOXES --> 
     <div class="row">
-        <div id="panel-1" class="panel panel-default">
+        <div id="panel-1" class="panel panel-default padding-20">
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
