@@ -24,7 +24,7 @@
                             Business
                         </div>
                         <div class="col-md-2 margin-top-5">
-                            <select name="business" id="business" class="form-control">
+                            <select name="business" id="business" class="form-control select2">
                                 <option value="">-- Select --</option>
                                 <?php foreach($userBusinesses as $userBusiness) {
                                     ?>
@@ -131,8 +131,24 @@
                                         if (is_numeric($value)) { 
                                             echo "<td style='text-align: right;'>" . $value."</td>";
 
-                                        }else{                                             
-                                            echo "<td>" . $value."</td>";                                           
+                                        }else{ 
+                                            // TODO:: need to check where the order(PO Image) image is Uploaded by App then fix the source
+                                            if(strpos($value,'.jpg') || strpos($value,'.jpeg') || strpos($value,'.png')) {
+                                                $imageUrl = $this->config->item('app_image_base_url').'uploads/orderimage/'.$value;
+                                                //echo does_url_exists($imageUrl); exit();
+                                                if(! @getimagesize($imageUrl)){
+                                                    $imageUrl = $this->config->item('app_image_base_url_s3').'uploads/orderimage/'.$value;
+                                                }
+                                                ?>
+                                                <td>
+                                                    <img width="100" title="Click for Large Image" class="imageUrlPopupButton" data-imageName="<?php echo $imageUrl; ?>" 
+                                                        src="<?php echo $imageUrl;  ?>" alt="<?php echo $value?>">                                                   
+                                                </td>
+                                                <?php
+                                            } else {
+                                                echo "<td>" . $value."</td>";                                           
+                                            }                                           
+                                                                                   
 
                                         }
                                     } 

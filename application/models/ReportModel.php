@@ -131,7 +131,7 @@ class ReportModel extends CI_Model {
     }
     public function getOrderAndCollectionReport($startDate,$endDate,$business,$report_status,$userid){                 
         $sql = "EXEC usp_doLoadOrderAndCollectionReport  '$startDate','$endDate','$business','$report_status','$userid' "; 
-        if ($business == 'D') {
+        if (in_array($business,$this->config->item('cb_core_business_codes'))) {
             $CI = & get_instance();
             $CI->db = $this->load->database('cbsdms', true);
         }else{
