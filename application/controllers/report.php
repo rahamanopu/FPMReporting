@@ -414,7 +414,7 @@ CLASS Report extends MY_Controller {
     public function resolveCustomerComplaint() {
         $userId= $this->session->userdata('userid');
         $complaintId = $this->input->get_post('complaintId',true);
-        $complaintText = $this->input->get_post('complaintText',true);
+        $complaintText = mssql_escape($this->input->get_post('complaintText',true));
 
         $sql = "update CustomerComplaint set Solved='1',SolvedComments='$complaintText', SolvedBy='$userId'
                 where ComplaintId='$complaintId'";
