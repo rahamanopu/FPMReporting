@@ -146,8 +146,11 @@
 </div>
 <script>
     $(document).ready(function() {
+        let currentTr = '';
         $(".resolveCustomerComplaintModalBtn").on('click',function() {
             let complaintId = $(this).attr('data-complaint-id');
+            currentTr = $(this).closest('tr');
+            console.log("=============",currentTr);
             $("#complaintId").val(complaintId);
             console.log(complaintId);
             $("#resolveCustomerComplaintModal").modal('toggle');
@@ -169,6 +172,8 @@
                     $("#resolveCustomerComplaintModal").modal('toggle');
                     $("#complaintText").val('');
                     $("#complaintId").val('');
+                    alert("Resolved Successfully");
+                    $(currentTr).remove();
 
                 }
             
