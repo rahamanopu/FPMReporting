@@ -50,12 +50,8 @@ if (!empty($periodformat)) {
                 <div class="panel-body">
                     <fieldset>
                     <form action="<?php echo base_url().$action; ?>" method="post" >
-                    <div class="col-md-12">                       
-
-                        <div class="col-md-1">
-                            Business
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-4">
+                            <label for="business">Business:</label>
                             <select name="business" id="business" class="form-control select2">
                                 <option value="">-- Select --</option>
                                 <?php foreach($userBusinesses as $userBusiness) {
@@ -66,14 +62,11 @@ if (!empty($periodformat)) {
                                 }?>
                                 
                             </select>
-                            
                         </div>
                 
                         <?php if(isset($showDateFromField)){?>
-                            <div class="col-md-1"  style="margin-top:5px;">
-                                Date From
-                            </div>
-                            <div class="col-md-3"  style="margin-top:5px;">
+                            <div class="col-md-3 mt-4">
+                                <label for="startDate">Date From:</label>
                                 <input type="text" name="startDate" autocomplete="off"
                                     id="" class="form-control datePicker" 
                                     required="required"
@@ -84,10 +77,8 @@ if (!empty($periodformat)) {
                         <?php }?>
 
                         <?php if(isset($showDateToField)){?>
-                            <div class="col-md-1"  style="margin-top:5px;">
-                                Date To
-                            </div>
-                            <div class="col-md-3"  style="margin-top:5px;">
+                            <div class="col-md-3 mt-4">
+                                <label for="endDate">Date To:</label>
                                 <input type="text" name="endDate" autocomplete="off"
                                     id="" class="form-control datePicker" 
                                     required="required"
@@ -96,8 +87,20 @@ if (!empty($periodformat)) {
                                     } ?>">
                             </div>
                         <?php }?>
-                    </div>
-                    <div class="col-md-2">
+
+                        <div class="col-md-3 mt-4">
+                            <label for="userLevel">Level:</label>
+                            <select name="userLevel" id="userLevel" class="form-control select2">
+                                <option value="">-- Select --</option>
+                                <?php foreach($userLevels as $userLevel) {
+                                    ?>
+                                    <option value="<?php echo $userLevel?>" 
+                                    <?php echo (isset($selectedUserLevel) && $selectedUserLevel==$userLevel) ? 'selected':''  ?>><?php echo $userLevel?></option>
+                                    <?php
+                                }?>
+                            </select>
+                        </div>
+                    <div class="col-md-2 mt-4">
                         <input type="submit" value="Submit"
                             name="submit" class="btn btn-primary">
                     </div> 

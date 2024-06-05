@@ -74,6 +74,8 @@ CLASS Report extends MY_Controller {
         // echo '<pre>',print_r($data['userBusinesses']);die();
         // $data['regions'] = $commonData->getUserRegion($userlevel, $data['levelCode']);
 
+        $data['userLevels'] = ['Level0', 'Level1', 'Level2', 'Level3', 'Level4', 'Level5'];
+
         if (!empty($_POST) OR ! empty($_GET)) {             
             $data['startDate'] = $this->input->get_post('startDate');
             $data['endDate'] = $this->input->get_post('endDate');
@@ -83,17 +85,18 @@ CLASS Report extends MY_Controller {
             $data['areacode'] = $this->input->get_post("areacode", TRUE);
             $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
 
-            $data['business'] = $this->input->get_post("business", TRUE);           
+            $data['business'] = $this->input->get_post("business", TRUE);
+            $data['selectedUserLevel'] = $this->input->get_post("userLevel", TRUE);           
 
             // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
                 exportexcel($datas['priorityData'],$filename = "Distributor_Stock_".time());
             } else {
-                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
                 $data['priorityData'] = $datas['priorityData'];
             }
             // echo '<pre>',print_r($data['priorityData']);die();
