@@ -97,5 +97,9 @@ $route['cash-cutomer-price-add'] = "CashCustomerProduct/importCashPrice";
 $route["setup/product-SMS-order"] = "Setup/productSMSOrder";
 $route["setup/product-SMS-order-data"] = "Setup/productSMSOrderData";
 
+// dealer stock 
+$route['dealer-stock-report'] = 'report/dealerStockReport';
+$route['dealer-cdp-stock-report'] = 'report/dealerCdpStockReport';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

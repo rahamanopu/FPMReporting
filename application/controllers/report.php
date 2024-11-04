@@ -1286,6 +1286,77 @@ CLASS Report extends MY_Controller {
 
     }
 
+    public function dealerStockReport() {
+        $data['action'] = 'dealer-stock-report';
+        $data['pageTitel'] = 'Dealer Stock Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        // $userlevel = $this->session->userdata('userLevel');
+        $data['period'] = date('Y-m-d');
+
+        $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+        $data['areacode'] = $this->input->get_post("areacode", TRUE);
+        $data['fmecode'] = $this->input->get_post("fmecode", TRUE);          
+
+       
+        if(!empty($_REQUEST['period'])) {
+            $data['period'] = $this->input->get_post("period", TRUE);        
+        }
+        $data['periodformat'] = date('Ym', strtotime($data['period']));
+
+        $reportModel = new ReportModel();
+        if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+            $datas = $reportModel->dealerStockReport($data['periodformat']);
+            //echo "<pre />"; print_r($datas['priorityData']); exit();
+            exportexcel($datas['priorityData'],str_replace(' ','_',$data['pageTitel']) .time());
+        } else {
+            
+
+            $datas = $reportModel->dealerStockReport($data['periodformat']);
+
+            $data['priorityData'] = $datas['priorityData'];
+        }
+        $this->loadView('report/dealer_stock_report',$data);
+    }
+
+    public function dealerCdpStockReport() {
+        $data['action'] = 'dealer-stock-report';
+        $data['pageTitel'] = 'Dealer CDP Stock Report';
+        $data['userid'] = $this->session->userdata('userid');
+        $data['emp_name'] = $this->session->userdata('emp_name');
+        $data['designation'] = $this->session->userdata('designation');
+        $data['levelCode'] = $this->session->userdata('levelCode');       
+        // $userlevel = $this->session->userdata('userLevel');
+        $data['period'] = date('Y-m-d');
+
+        $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
+        $data['areacode'] = $this->input->get_post("areacode", TRUE);
+        $data['fmecode'] = $this->input->get_post("fmecode", TRUE);          
+
+       
+        if(!empty($_REQUEST['period'])) {
+            $data['period'] = $this->input->get_post("period", TRUE);        
+        }
+        $data['periodformat'] = date('Ym', strtotime($data['period']));
+
+        $reportModel = new ReportModel();
+        if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
+            $datas = $reportModel->dealerCdpStockReport($data['periodformat']);
+            //echo "<pre />"; print_r($datas['priorityData']); exit();
+            exportexcel($datas['priorityData'],str_replace(' ','_',$data['pageTitel']) .time());
+        } else {
+            
+
+            $datas = $reportModel->dealerCdpStockReport($data['periodformat']);
+
+            $data['priorityData'] = $datas['priorityData'];
+        }
+        $this->loadView('report/dealer_stock_report',$data);
+    }
+
+
     function downloadImage($img,$url = '')
     {       
         if($url =='') {

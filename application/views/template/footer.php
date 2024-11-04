@@ -166,6 +166,25 @@ $(document).ready(function(){
             dateFormat: 'yy-mm-dd'
         });
 
+        $(".monthPicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            // onClose: function(dateText, inst) { 
+            //     $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            // }
+            }).focus(function() {
+            var thisCalendar = jQuery(this);
+            jQuery('.ui-datepicker-calendar').detach();
+            jQuery('.ui-datepicker-close').click(function() {
+                var month = jQuery("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = jQuery("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            });
+        });
+        
+
         var currentPageLink = document.location.href;
         //Search your menu for a linkURL that is similar to the active pageURL
         $(".sarah-sub-menu li a").each(function(){

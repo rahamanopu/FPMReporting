@@ -392,5 +392,36 @@ class ReportModel extends CI_Model {
         }       
         return $data;
     }
+    
+    public function dealerStockReport($period){                 
+        $sql = " EXEC usp_getDealerProductStock '$period'";   
+        
+        $CI = & get_instance();
+        $CI->db = $this->load->database('cbsdms',true);
+             
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();
+                                 
+        }       
+        return $data;
+    }
+
+    public function dealerCdpStockReport($period){                 
+        $sql = " EXEC usp_getDealerCdpProductStock '$period'";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('cbsdms',true);
+        $query = $this->db->query($sql);           
+        $e = $this->db->_error_message();   
+        $data = [];             
+        if ($e == '') {
+            $data['priorityData'] = $query->result_array();
+                                 
+        }       
+        return $data;
+    }
       
 }
