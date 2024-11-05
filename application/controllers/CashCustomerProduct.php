@@ -13,8 +13,9 @@ class CashCustomerProduct extends MY_Controller
 	public function importCashPrice()
 	{
 		if(!empty($_POST)) {
-			$period = $this->input->post('period');
-			$period = preg_replace("/[^0-9]/", "", $period);
+
+			$period = $this->input->post('period'); 
+			$period = date('Ym',strtotime($period));
 			$fileName = 'cash_price_file';
 			$cash_price = $this->importDataFromExcelFile($fileName);
 			$CI = & get_instance();

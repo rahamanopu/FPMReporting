@@ -19,8 +19,8 @@
                             <div class="col-md-8">
                                 <div class="col-md-12 margin-top-3">
                                     <label class="control-label col-md-4">Period for Price</label>
-                                    <div class="col-md-8">
-                                        <input type="month" name="period" class="form-control">
+                                    <div class="col-md-8">                                        
+                                        <input type="text" name="period" class="monthPicker form-control">
 
                                     </div>
 
