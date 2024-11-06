@@ -1294,7 +1294,7 @@ CLASS Report extends MY_Controller {
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         // $userlevel = $this->session->userdata('userLevel');
-        $data['period'] = date('Y-m-d');
+        $data['period'] = date('F Y');
 
         $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
         $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -1322,14 +1322,14 @@ CLASS Report extends MY_Controller {
     }
 
     public function dealerCdpStockReport() {
-        $data['action'] = 'dealer-stock-report';
+        $data['action'] = 'dealer-cdp-stock-report';
         $data['pageTitel'] = 'Dealer CDP Stock Report';
         $data['userid'] = $this->session->userdata('userid');
         $data['emp_name'] = $this->session->userdata('emp_name');
         $data['designation'] = $this->session->userdata('designation');
         $data['levelCode'] = $this->session->userdata('levelCode');       
         // $userlevel = $this->session->userdata('userLevel');
-        $data['period'] = date('Y-m-d');
+        $data['period'] = date('F Y');
 
         $data['regioncode'] = $this->input->get_post("regioncode", TRUE);
         $data['areacode'] = $this->input->get_post("areacode", TRUE);
@@ -1353,7 +1353,7 @@ CLASS Report extends MY_Controller {
 
             $data['priorityData'] = $datas['priorityData'];
         }
-        $this->loadView('report/dealer_stock_report',$data);
+        $this->loadView('report/dealer_cdp_report',$data);
     }
 
 
