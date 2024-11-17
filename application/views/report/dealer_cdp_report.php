@@ -49,7 +49,7 @@
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
-                        <table class="table table-bordered table-hover  table-striped" id="commontable">
+                        <table class="table table-bordered table-hover table-striped dataTable">
                             <thead>                            
                                 <tr>         
                                     <?php
