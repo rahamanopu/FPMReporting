@@ -405,7 +405,8 @@ class ReportModel extends CI_Model {
         if ($e == '') {
             $data['priorityData'] = $query->result_array();
                                  
-        }       
+        }
+          
         return $data;
     }
 

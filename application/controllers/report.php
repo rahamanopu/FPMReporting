@@ -94,7 +94,7 @@ CLASS Report extends MY_Controller {
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
                 $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
-                exportexcel($datas['priorityData'],$filename = "Distributor_Stock_".time());
+                exportexcel($datas['priorityData'], str_replace(" ","_",$data['pageTitel'])."_".time());
             } else {
                 $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
                 $data['priorityData'] = $datas['priorityData'];

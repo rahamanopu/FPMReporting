@@ -51,7 +51,7 @@ if (!empty($periodformat)) {
                     <fieldset>
                     <form action="<?php echo base_url().$action; ?>" method="post" >
                         <div class="col-md-3 mt-4">
-                            <label for="business">Business:</label>
+                            <label for="business">Business</label>
                             <select name="business" id="business" class="form-control select2">
                                 <option value="">-- Select --</option>
                                 <?php foreach($userBusinesses as $userBusiness) {
@@ -116,7 +116,7 @@ if (!empty($periodformat)) {
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&excel=yes'; ?>">
+                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&userLevel='.$selectedUserLevel.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
