@@ -63,6 +63,34 @@ if (!empty($periodformat)) {
                                 
                             </select>
                         </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level4">Level 4</label>
+                            <select name="level4" id="level4" class="form-control select2">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level3">Level 3</label>
+                            <select name="level3" id="level3" class="form-control select2">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level2">Level 2</label>
+                            <select name="level2" id="level2" class="form-control select2">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level1">Level 1</label>
+                            <select name="level1" id="level1" class="form-control select2">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
                 
                         <?php if(isset($showDateFromField)){?>
                             <div class="col-md-3 mt-4">
@@ -88,7 +116,7 @@ if (!empty($periodformat)) {
                             </div>
                         <?php }?>
 
-                        <div class="col-md-3 mt-4">
+                        <!-- <div class="col-md-3 mt-4">
                             <label for="userLevel">Level:</label>
                             <select name="userLevel" id="userLevel" class="form-control select2">
                                 <option value="">-- Select --</option>
@@ -99,8 +127,9 @@ if (!empty($periodformat)) {
                                     <?php
                                 }?>
                             </select>
-                        </div>
-                    <div class="col-md-2 mt-4">
+                        </div> -->
+
+                    <div class="col-md-2" style="margin-top: 40px;">
                         <input type="submit" value="Submit"
                             name="submit" class="btn btn-primary">
                     </div> 
@@ -116,7 +145,10 @@ if (!empty($periodformat)) {
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&userLevel='.$selectedUserLevel.'&excel=yes'; ?>">
+                    <!-- <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&userLevel='.$selectedUserLevel.'&excel=yes'; ?>">
+                        Export To Excel
+                    </a> -->
+                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="#">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
@@ -174,7 +206,7 @@ if (!empty($periodformat)) {
                                                 <td>
                                                     <img class="imageUrlPopupButton" data-imageName="<?php echo $this->config->item('acifpm_attendance_image_url').$value;?>"
                                                             src="<?php echo $this->config->item('acifpm_attendance_image_url').$value; ?>" alt="" style="height:200px;height:100px;cursor: zoom-in;">
-                                                    
+                                                            <!-- <button>View Photo</button> -->
                                                 </td>
                                                 <?php
                                             } else {
@@ -235,6 +267,85 @@ if (!empty($periodformat)) {
         var InforObj = [];
         var directionDisplay;
         var directionsService = new google.maps.DirectionsService(); 
+
+        // var selectedBusiness = "<?= isset($business) ? $business : '' ?>";
+        var selectedLevel4 = "<?= isset($level4) ? $level4 : '' ?>";
+        var selectedLevel3 = "<?= isset($level3) ? $level3 : '' ?>";
+        var selectedLevel2 = "<?= isset($level2) ? $level2 : '' ?>";
+        var selectedLevel1 = "<?= isset($level1) ? $level1 : '' ?>";
+
+        $('#business').on('change', function () {
+            const businessId = $(this).val();
+            $('#level4').empty().append('<option value="">-- Select Level 4 --</option>');
+
+            if (businessId) {
+                $.ajax({
+                    url: base_url + 'report/getLevel4ByBusiness/' + businessId,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            // $('#level4').append(`<option value="${item.Level4}">${item.Level4Name}</option>`);
+                            $('#level4').append(`<option value="${item.Level4}" ${item.Level4 === selectedLevel4 ? 'selected' : ''}>${item.Level4Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#level4').on('change', function () {
+            const level4 = $(this).val();
+            $('#level3').empty().append('<option value="">-- Select Level 3 --</option>');
+
+            if (level4) {
+                $.ajax({
+                    url: base_url + 'report/getLevel3ByLevel4/' + level4,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            $('#level3').append(`<option value="${item.Level3}">${item.Level3Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#level3').on('change', function () {
+            const level3 = $(this).val();
+            $('#level2').empty().append('<option value="">-- Select Level 2 --</option>');
+
+            if (level3) {
+                $.ajax({
+                    url: base_url + 'report/getLevel2ByLevel3/' + level3,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            $('#level2').append(`<option value="${item.Level2}">${item.Level2Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#level2').on('change', function () {
+            const level2 = $(this).val();
+            $('#level1').empty().append('<option value="">-- Select Level 1 --</option>');
+
+            if (level2) {
+                $.ajax({
+                    url: base_url + 'report/getLevel1ByLevel2/' + level2,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            $('#level1').append(`<option value="${item.Level1}">${item.Level1Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
 
         $(".googleMapLocation").on('click',function() {
             var date = $(this).attr('data-date');
