@@ -151,6 +151,16 @@ CLASS UserManager extends MY_Controller {
         return $agent;
     }
 
+    /**
+     * Update Device
+     *
+     * @return void
+     */
+    public function updateDevice() {
+        // code goes herre
+        die("Device Update goes here");
+    }
+
 }
 
 ?>
