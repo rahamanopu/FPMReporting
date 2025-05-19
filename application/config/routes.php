@@ -100,6 +100,8 @@ $route["setup/product-SMS-order-data"] = "Setup/productSMSOrderData";
 // dealer stock 
 $route['dealer-stock-report'] = 'report/dealerStockReport';
 $route['dealer-cdp-stock-report'] = 'report/dealerCdpStockReport';
+
+//user device update
 $route['usermanager/update-device'] = 'UserManager/updateDevice';
 
 /* End of file routes.php */

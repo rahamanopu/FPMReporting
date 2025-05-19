@@ -2,6 +2,7 @@
     //var base_url = '<?php //echo base_url(); ?>//';
 </script>
 <link href="<?php echo base_url(); ?>assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 
 <!-- Section  -->
 <section id="main-content">
@@ -22,16 +23,20 @@
 
                 <div class="panel-body table-responsive">
                     <fieldset>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-4 col-md-offset-8 text-right">
+                                <input type="text" id="userSearchInput" class="form-control" placeholder="Search by User ID, Name, or Designation">
+                            </div>
+                        </div>
                         <table class="table table-bordered table-hover table-striped">
                             <thead>
                             <tr>
                                 <th>SL</th>
                                 <th>User Id</th>
-                                <th>Staff Id</th>
                                 <th>User Name</th>
                                 <th>Designation</th>
-                                <th>Active Status</th>
-                                <th>Edit</th>
+                                <th>UUID</th>
+                                <th>Update</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -44,19 +49,15 @@
                                     <tr>
                                         <td><?php echo $count; ?></td>
                                         <td><?php echo $row['UserId']; ?></td>
-                                        <td><?php echo $row['StaffId']; ?></td>
                                         <td><?php echo $row['UserName']; ?></td>
                                         <td><?php echo $row['Designation']; ?></td>
-                                        <td><?php echo $row['ActiveStatus']; ?></td>
                                         <td>
-                                            <a href="<?php echo base_url(); ?>usermanager/index/<?php echo $row['UserId']; ?>"
-                                               title="Edit" data-toggle="tooltip">
-                                                <button class="btn btn-xs btn-info">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                            </a>
+                                            <input type="text" class="form-control uuid-input" id="uuid_<?php echo $row['UserId']; ?>" value="<?php echo $row['uuID']; ?>" />
                                         </td>
-
+                                        <td>
+                                            <button class="btn btn-sm btn-success update-uuid-btn" 
+                                                    data-userid="<?php echo $row['UserId']; ?>">Update</button>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -74,21 +75,43 @@
 
 <script src="<?php echo base_url(); ?>assets/js/usermanager.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bootstrap-multiselect.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        // Form validation
-        $("form").validate({
-            // Specify validation rules
-            rules: {
-            },
-            // Specify validation error messages
-            messages: {
-            },
-            // Make sure the form is submitted to the destination defined
-            // in the "action" attribute of the form when valid
-            submitHandler: function(form) {
-                form.submit();
-            }
+        $('.update-uuid-btn').click(function () {
+            var userId = $(this).data('userid');
+            var uuid = $('#uuid_' + userId).val();
+
+            $.ajax({
+                url: '<?php echo base_url("usermanager/update_uuid"); ?>',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user_id: userId,
+                    uuid: uuid
+                },
+                success: function (response) {
+                    if (response.status) {
+                        toastr.success(response.message || "UUID updated successfully!");
+                    } else {
+                        toastr.error(response.message || "Failed to update UUID.");
+                    }
+                },
+                error: function () {
+                    toastr.error("An error occurred while updating the UUID.");
+                }
+            });
+        });
+
+        $('#userSearchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('table tbody tr').filter(function () {
+                $(this).toggle(
+                    $(this).find('td:eq(1)').text().toLowerCase().indexOf(value) > -1 || // UserId
+                    $(this).find('td:eq(2)').text().toLowerCase().indexOf(value) > -1 || // UserName
+                    $(this).find('td:eq(3)').text().toLowerCase().indexOf(value) > -1    // Designation
+                );
+            });
         });
     });
 </script>

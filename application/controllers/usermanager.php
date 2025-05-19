@@ -31,6 +31,45 @@ CLASS UserManager extends MY_Controller {
         $this->loadView('usermanager/index',$data);
     }
 
+    public function updateDevice() {
+        $data = [];
+        $data['titel'] = 'User manager';
+        $data['subtitel'] = 'Add user manager';
+        $data['action'] = 'usermanager/update-device';
+        
+
+        $commonData = new Common_data();
+        $data['userBusinessCodes'] = [];
+
+        $data['businessList'] = $commonData->getBusiness();
+        $data['userTypeList'] = $commonData->getUserType();
+        $data['userlist'] = $this->usermanager->doLoadUserListOfBusinessU();        
+        $this->loadView('usermanager/update_device',$data);
+    }
+
+    public function update_uuid()
+    {
+        $userId = $this->input->post('user_id');
+        $uuid = $this->input->post('uuid');
+
+        if ($userId && $uuid !== null) {
+            // $this->load->database();
+            // $this->db->where('UserId', $userId);
+            // $updated = $this->db->update('USERMANAGER', ['UUID' => $uuid]);
+
+            $userManagerData = new usermanager_data();
+            $updateUUID = $userManagerData->doUpdateUserUUID($userId, $uuid);
+
+            if ($updateUUID) {
+                echo json_encode(['status' => true, 'message' => 'UUID updated successfully.']);
+            } else {
+                echo json_encode(['status' => false, 'message' => 'Update failed.']);
+            }
+        } else {
+            echo json_encode(['status' => false, 'message' => 'Invalid input.']);
+        }
+    }
+
     /**
      * Save user manager
      */
@@ -156,10 +195,7 @@ CLASS UserManager extends MY_Controller {
      *
      * @return void
      */
-    public function updateDevice() {
-        // code goes herre
-        die("Device Update goes here");
-    }
+    
 
 }
 

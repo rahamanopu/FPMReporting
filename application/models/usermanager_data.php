@@ -38,6 +38,20 @@ class usermanager_data extends CI_Model {
         } 
     }
 
+    public function doUpdateUserUUID($userID, $uuID)
+    {
+        $sql = "update [192.168.100.21].SDMSMirror.dbo.USERMANAGER set uuID = '$uuID' where UserId = '$userID'";
+
+        $result['success'] = false;
+        $query = $this->db->query($sql);
+        $data = array();
+        if ($query) {
+            return true;
+        }else{
+            return false;
+        } 
+    }
+
     public function doInsertUserBusiness($userid, $business){
         $sql = "INSERT INTO UserBusiness VALUES ('$userid','$business', 1)";              //    exit();
         $result['success'] = false;
@@ -119,6 +133,19 @@ class usermanager_data extends CI_Model {
                             WHEN 'N' THEN 'InActive' END ActiveStatus 	 
                 FROM UserManager
                 WHERE UserId != '11936'	";              //    exit();
+        $result['success'] = false;
+        $query = $this->db->query($sql);
+        $data = array();
+        if ($query) {
+            return $query->result_array();
+        }else{
+            return false;
+        } 
+    }
+
+    public function doLoadUserListOfBusinessU(){
+        $sql = "SELECT UserId, UserName, Designation, uuID
+                FROM [192.168.100.21].SDMSMirror.dbo.USERMANAGER WHERE DEFAULTBUSINESS = 'U'";
         $result['success'] = false;
         $query = $this->db->query($sql);
         $data = array();
