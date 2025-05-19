@@ -86,17 +86,22 @@ CLASS Report extends MY_Controller {
             $data['fmecode'] = $this->input->get_post("fmecode", TRUE);   
 
             $data['business'] = $this->input->get_post("business", TRUE);
-            $data['selectedUserLevel'] = $this->input->get_post("userLevel", TRUE);           
+            $data['level4'] = $this->input->get_post("level4", TRUE);
+            $data['level3'] = $this->input->get_post("level3", TRUE);
+            $data['level2'] = $this->input->get_post("level2", TRUE);
+            $data['level1'] = $this->input->get_post("level1", TRUE);
+
+            // $data['selectedUserLevel'] = $this->input->get_post("userLevel", TRUE);           
 
             // $data['areainfo'] = $this->common_data->getUserArea($data['regioncode'], $userlevel, $data['levelCode']);
             // $data['fmelist'] = $this->common_data->getUserTerritory($data['areacode'], $userlevel, $data['levelCode']);
             
             $reportModel = new ReportModel();
             if(isset($_REQUEST['excel']) && $_REQUEST['excel'] == 'yes'){
-                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['level4'], $data['level3'], $data['level2'], $data['level1']);
                 exportexcel($datas['priorityData'], str_replace(" ","_",$data['pageTitel'])."_".time());
             } else {
-                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['selectedUserLevel']);
+                $datas = $reportModel->getDailyAttendanceReport($data['business'], $data['startDate'],$data['endDate'], $data['level4'], $data['level3'], $data['level2'], $data['level1']);
                 $data['priorityData'] = $datas['priorityData'];
             }
             // echo '<pre>',print_r($data['priorityData']);die();
@@ -106,6 +111,30 @@ CLASS Report extends MY_Controller {
 
         // $this->loadView('report/common_report',$data);
         $this->loadView('report/daily_attendancereport',$data);
+    }
+
+    public function getLevel4ByBusiness($businessId){
+        $commonData = new Common_data();
+        $level4s = $commonData->getLevel4ByBusiness($businessId);
+        echo json_encode($level4s);
+    }
+
+    public function getLevel3ByLevel4($level4){
+        $commonData = new Common_data();
+        $level3s = $commonData->getLevel3ByLevel4($level4);
+        echo json_encode($level3s);
+    }
+
+    public function getLevel2ByLevel3($level3){
+        $commonData = new Common_data();
+        $level2s = $commonData->getLevel2ByLevel3($level3);
+        echo json_encode($level2s);
+    }
+
+    public function getLevel1ByLevel2($level2){
+        $commonData = new Common_data();
+        $level1s = $commonData->getLevel1ByLevel2($level2);
+        echo json_encode($level1s);
     }
 
     public function dailyActivityReport() {

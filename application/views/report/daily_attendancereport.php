@@ -63,6 +63,42 @@ if (!empty($periodformat)) {
                                 
                             </select>
                         </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level4">Level 4</label>
+                            <div id="level4DIV">
+                                <select name="level4" id="level4" class="form-control select2">
+                                    <option value="">-- Select --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level3">Level 3</label>
+                            <div id="level3DIV">
+                                <select name="level3" id="level3" class="form-control select2">
+                                    <option value="">-- Select --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level2">Level 2</label>
+                            <div id="level2DIV">
+                                <select name="level2" id="level2" class="form-control select2">
+                                    <option value="">-- Select --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mt-4">
+                            <label for="level1">Level 1</label>
+                            <div id="level1DIV">
+                                <select name="level1" id="level1" class="form-control select2">
+                                    <option value="">-- Select --</option>
+                                </select>
+                            </div>
+                        </div>
                 
                         <?php if(isset($showDateFromField)){?>
                             <div class="col-md-3 mt-4">
@@ -88,19 +124,7 @@ if (!empty($periodformat)) {
                             </div>
                         <?php }?>
 
-                        <div class="col-md-3 mt-4">
-                            <label for="userLevel">Level:</label>
-                            <select name="userLevel" id="userLevel" class="form-control select2">
-                                <option value="">-- Select --</option>
-                                <?php foreach($userLevels as $userLevel) {
-                                    ?>
-                                    <option value="<?php echo $userLevel?>" 
-                                    <?php echo (isset($selectedUserLevel) && $selectedUserLevel==$userLevel) ? 'selected':''  ?>><?php echo $userLevel?></option>
-                                    <?php
-                                }?>
-                            </select>
-                        </div>
-                    <div class="col-md-2 mt-4">
+                    <div class="col-md-2" style="margin-top: 40px;">
                         <input type="submit" value="Submit"
                             name="submit" class="btn btn-primary">
                     </div> 
@@ -116,7 +140,7 @@ if (!empty($periodformat)) {
             <div class="panel-body">
 
                 <?php if(!empty($priorityData)){ ?>
-                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&userLevel='.$selectedUserLevel.'&excel=yes'; ?>">
+                    <a style="margin-bottom:5px;" class="btn btn-default btn-sm" href="<?php echo base_url().$action.'?business='.$business.'&startDate='.$startDate.'&endDate='.$endDate.'&level4='.$level4.'&level3='.$level3.'&level2='.$level2.'&level1='.$level1.'&excel=yes'; ?>">
                         Export To Excel
                     </a>
                     <div class="exportallplantable">    
@@ -174,7 +198,7 @@ if (!empty($periodformat)) {
                                                 <td>
                                                     <img class="imageUrlPopupButton" data-imageName="<?php echo $this->config->item('acifpm_attendance_image_url').$value;?>"
                                                             src="<?php echo $this->config->item('acifpm_attendance_image_url').$value; ?>" alt="" style="height:200px;height:100px;cursor: zoom-in;">
-                                                    
+                                                            <!-- <button>View Photo</button> -->
                                                 </td>
                                                 <?php
                                             } else {
@@ -228,6 +252,137 @@ if (!empty($periodformat)) {
 
 
 <script type="text/javascript">
+
+    var selectedLevel4 = "<?= isset($level4) ? $level4 : '' ?>";
+    var selectedLevel3 = "<?= isset($level3) ? $level3 : '' ?>";
+    var selectedLevel2 = "<?= isset($level2) ? $level2 : '' ?>";
+    var selectedLevel1 = "<?= isset($level1) ? $level1 : '' ?>";
+
+    function loadLevel4(businessId) {
+        $('#level4DIV').empty();
+        // $('#level4').empty().append('<option value="">-- Select Level 4 --</option>');
+        if (businessId) {
+            $.ajax({
+                url: base_url + 'report/getLevel4ByBusiness/' + businessId,
+                type: 'GET',
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    $('#level4DIV').append(`<select name="level4" id="level4" class="form-control select2">
+                                    <option value="">-- Select Level 4 --</option>
+                                </select>`)
+
+                    data.forEach(item => {
+                        $('#level4').append(`<option value="${item.Level4}" ${item.Level4 == selectedLevel4 ? 'selected' : ''}>${item.Level4Name}</option>`);
+                    });
+
+                    if (selectedLevel4) {
+                        $('#level4').val(selectedLevel4).trigger('change');
+                    }
+
+                    $('#level4').select2();
+                }
+            });
+        }
+    }
+
+    function loadLevel3(level4) {
+        $('#level3DIV').empty();
+
+        if (level4) {
+            $.ajax({
+                url: base_url + 'report/getLevel3ByLevel4/' + level4,
+                type: 'GET',
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    $('#level3DIV').append(`<select name="level3" id="level3" class="form-control select2">
+                                        <option value="">-- Select Level 3 --</option>
+                                    </select>`)
+                    data.forEach(item => {
+                        $('#level3').append(`<option value="${item.Level3}" ${item.Level3 == selectedLevel3 ? 'selected' : ''}>${item.Level3Name}</option>`);
+                    });
+
+                    if (selectedLevel3) {
+                        $('#level3').val(selectedLevel3).trigger('change');
+                    }
+
+                    $('#level3').select2();
+                }
+            });
+        }
+    }
+
+    function loadLevel2(level3) {
+        $('#level2DIV').empty();
+
+        if (level3) {
+            $.ajax({
+                url: base_url + 'report/getLevel2ByLevel3/' + level3,
+                type: 'GET',
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    $('#level2DIV').append(`<select name="level2" id="level2" class="form-control select2">
+                                        <option value="">-- Select Level 2 --</option>
+                                    </select>`)
+                    data.forEach(item => {
+                        $('#level2').append(`<option value="${item.Level2}" ${item.Level2 == selectedLevel2 ? 'selected' : ''}>${item.Level2Name}</option>`);
+                    });
+
+                    if (selectedLevel2) {
+                        $('#level2').val(selectedLevel2).trigger('change');
+                    }
+
+                    $('#level2').select2();
+                }
+            });
+        }
+    }
+
+    function loadLevel1(level2) {
+        $('#level1DIV').empty();
+
+        if (level2) {
+            $.ajax({
+                url: base_url + 'report/getLevel1ByLevel2/' + level2,
+                type: 'GET',
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    $('#level1DIV').append(`<select name="level1" id="level1" class="form-control select2">
+                                        <option value="">-- Select Level 1 --</option>
+                                    </select>`)
+                    data.forEach(item => {
+                        $('#level1').append(`<option value="${item.Level1}" ${item.Level1 == selectedLevel1 ? 'selected' : ''}>${item.Level1Name}</option>`);
+                    });
+
+                    if (selectedLevel1) {
+                        $('#level1').val(selectedLevel1).trigger('change');
+                    }
+
+                    $('#level1').select2();
+                }
+            });
+        }
+    }
+
+    $('#business').on('change', function () {
+        const businessId = $(this).val();
+        loadLevel4(businessId);
+    });
+
+    $('#level4DIV').on('change', '#level4', function () {
+        const level4 = $(this).val();
+        loadLevel3(level4);
+    });
+
+    $('#level3DIV').on('change', '#level3', function () {
+        const level3 = $(this).val();
+        loadLevel2(level3);
+    });
+
+    $('#level2DIV').on('change', '#level2', function () {
+        const level2 = $(this).val();
+        loadLevel1(level2);
+    });
+    
     $(document).ready(function() {
         var markersOnMap = '';
         var centerCords = '';
@@ -235,6 +390,80 @@ if (!empty($periodformat)) {
         var InforObj = [];
         var directionDisplay;
         var directionsService = new google.maps.DirectionsService(); 
+
+        const preselectedBusiness = $('#business').val();
+        if (preselectedBusiness) {
+            loadLevel4(preselectedBusiness);
+        }
+
+        const preselectedlevel4 = $('#level4').val();
+        if (preselectedlevel4) {
+            loadLevel3(preselectedlevel4);
+        }
+
+        const preselectedlevel3 = $('#level3').val();
+        if (preselectedlevel3) {
+            loadLevel2(preselectedlevel3);
+        }
+
+        const preselectedlevel2 = $('#level2').val();
+        if (preselectedlevel2) {
+            loadLevel1(preselectedlevel2);
+        }
+
+        // $('#level4').on('change', function () {
+        //     const level4 = $(this).val();
+        //     $('#level3').empty().append('<option value="">-- Select Level 3 --</option>');
+
+        //     if (level4) {
+        //         $.ajax({
+        //             url: base_url + 'report/getLevel3ByLevel4/' + level4,
+        //             type: 'GET',
+        //             success: function (response) {
+        //                 const data = JSON.parse(response);
+        //                 data.forEach(item => {
+        //                     $('#level3').append(`<option value="${item.Level3}">${item.Level3Name}</option>`);
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
+
+        $('#level3').on('change', function () {
+            const level3 = $(this).val();
+            $('#level2').empty().append('<option value="">-- Select Level 2 --</option>');
+
+            if (level3) {
+                $.ajax({
+                    url: base_url + 'report/getLevel2ByLevel3/' + level3,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            $('#level2').append(`<option value="${item.Level2}">${item.Level2Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#level2').on('change', function () {
+            const level2 = $(this).val();
+            $('#level1').empty().append('<option value="">-- Select Level 1 --</option>');
+
+            if (level2) {
+                $.ajax({
+                    url: base_url + 'report/getLevel1ByLevel2/' + level2,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = JSON.parse(response);
+                        data.forEach(item => {
+                            $('#level1').append(`<option value="${item.Level1}">${item.Level1Name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
 
         $(".googleMapLocation").on('click',function() {
             var date = $(this).attr('data-date');

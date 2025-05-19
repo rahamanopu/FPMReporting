@@ -132,6 +132,62 @@ class Common_data extends CI_Model {
         return [];
     }
 
+    public function getLevel4ByBusiness($business) {
+        $sql = "select Level4, Level4Name 
+            from Level4 where Business = '$business' order by Level4";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('sdms',true);
+             
+        $query = $this->db->query($sql);       
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
+    public function getLevel3ByLevel4($level4) {
+        $sql = "select Level3, Level3Name 
+            from Level3 where Level4 = '$level4' order by Level3";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('sdms',true);
+             
+        $query = $this->db->query($sql);       
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
+    public function getLevel2ByLevel3($level3) {
+        $sql = "select Level2, Level2Name 
+            from Level2 where Level3 = '$level3' order by Level2";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('sdms',true);
+             
+        $query = $this->db->query($sql);       
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
+    public function getLevel1ByLevel2($level2) {
+        $sql = "select Level1, Level1Name 
+            from Level1 where Level2 = '$level2' order by Level1";
+
+        $CI = & get_instance();
+        $CI->db = $this->load->database('sdms',true);
+             
+        $query = $this->db->query($sql);       
+        if($query) {
+            return $query->result_array();
+        }
+        return [];
+    }
+
     public function getUserBusiness($userId) {
         $sql = "select UB.UserId,UB.Business,BV.BusinessName from UserBusiness UB
         left join BusinessView BV on BV.Business= UB.Business   

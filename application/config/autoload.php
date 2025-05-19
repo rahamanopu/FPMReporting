@@ -37,7 +37,7 @@
 |
 */
 
-$autoload['packages'] = array();
+$autoload['packages'] = [];
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'form','ri');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = [];
 
 
 /*
@@ -96,7 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = [];
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = [];
 
 
 /* End of file autoload.php */
