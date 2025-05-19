@@ -158,6 +158,7 @@ CLASS UserManager extends MY_Controller {
      */
     public function updateDevice() {
         // code goes herre
+        die("Device Update goes here");
     }
 
 }
